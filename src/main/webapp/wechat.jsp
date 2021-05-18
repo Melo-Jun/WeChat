@@ -1,0 +1,1714 @@
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="host" value="localhost:8088/melo"/>
+<c:set var="userId" value="${sessionScope.login.id}"/>
+<html >
+<head>
+    <%--<meta charset="UTF-8">--%>
+    <%--<meta name="viewport" content="width=device-width, initial-scale=1">--%>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>网页版微信</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/reset.min.css">
+    <%--<link rel="stylesheet" href="css/style.css">--%>
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="static/js/jquery-3.4.1.min.js" ></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="static/js/bootstrap.min.js" ></script>
+    <%--    <script  src="js/mywechat.js"></script>--%>
+
+
+</head>
+<body>
+
+<!-- 弹框部分(默认隐藏起来) -->
+<div id="simpleModal" class="modal">
+    <%--    <div id="myInform" style="display: none">--%>
+    <%--        <div class="main">--%>
+    <%--            <span class="icon" onclick="hide('myInform')"></span>--%>
+    <%--            <div class="avatar"  style="background: url('img/thomas.jpg');background-size: cover ">--%>
+    <%--            </div>--%>
+    <%--            <form id="updateUserForm" method="post" enctype="multipart/form-data">--%>
+    <%--                <div class="account">--%>
+    <%--                    <div style="text-decoration: underline;margin-bottom: 5px;">修改头像</div>--%>
+    <%--                    <input oninput="uploadPhoto('updatePhoto','upload?method=updateAvatar&path=TempUpload')" type="file" name="photo" id="updatePhoto" style="margin-left: 5px" />--%>
+    <%--                    <div class="input-box">--%>
+    <%--                        <label for="wechatId"></label><input type="text" placeholder="请输入新微信号" name="wechatId" id="wechatId" >--%>
+    <%--                    </div>--%>
+    <%--                    <div class="input-box">--%>
+    <%--                        <label for="username"></label><input type="text" placeholder="请输入新用户名" name="userName" id="username">--%>
+    <%--                    </div>--%>
+    <%--                    <div class="input-box">--%>
+    <%--                        <label for="oldPass"></label><input type="password" placeholder="请输入原密码" name="oldPass" id="oldPass">--%>
+    <%--                    </div>--%>
+    <%--                    <div class="input-box">--%>
+    <%--                        <label for="newPass"></label><input type="password" placeholder="请输入新密码" name="password" id="newPass">--%>
+    <%--                    </div>--%>
+    <%--                </div>--%>
+    <%--            </form>--%>
+    <%--            <button class="register-btn" type="submit" value="确定修改" onclick="updateUser()">修改</button>--%>
+    <%--        </div>--%>
+    <%--    </div>--%>
+    <%--    <div id="friendInform" style="display: none">--%>
+    <%--        <div class="main">--%>
+    <%--            <span class="icon" onclick="hide('friendInform')"></span>--%>
+    <%--            <div class="avatar"  style="background: url('img/thomas.jpg');background-size: cover ">--%>
+    <%--            </div>--%>
+    <%--                <div class="account">--%>
+    <%--                    <div class="input-box">--%>
+    <%--                        <p> "微信号:"+ </p>--%>
+    <%--                    </div>--%>
+    <%--                    <div class="input-box">--%>
+    <%--                        <label for="username"></label><input type="text" placeholder="请输入新用户名" name="userName" id="username">--%>
+    <%--                    </div>--%>
+    <%--                    <div class="input-box">--%>
+    <%--                        <label for="oldPass"></label><input type="password" placeholder="请输入原密码" name="oldPass" id="oldPass">--%>
+    <%--                    </div>--%>
+    <%--                    <div class="input-box">--%>
+    <%--                        <label for="newPass"></label><input type="password" placeholder="请输入新密码" name="password" id="newPass">--%>
+    <%--                    </div>--%>
+    <%--                </div>--%>
+    <%--            <button class="register-btn" type="submit" value="确定修改" onclick="updateUser()">修改</button>--%>
+    <%--        </div>--%>
+    <%--    </div>--%>
+
+</div>
+
+<div class="wrapper" id="wrapper">
+    <ul class="nav nav-pills" style="padding-left: 42px" >
+        <li role="presentation" ><a id="notice"><p onclick="initNotice()">通知</p></a></li>
+        <li role="presentation" ><a ><p onclick="loadFriend()">好友</p></a></li>
+        <li role="presentation" ><a ><p onclick="initGroup()" >群聊</p> </a></li>
+        <li role="presentation" ><a ><p onclick="loadAllMoment(${userId})" >朋友圈</p></a></li>
+        <li role="presentation" ><a ><p onclick="loadMyInform()">我的</p></a></li>
+    </ul>
+    <div class="contain">
+        <div class="left" style="overflow-y: auto;overflow-x: hidden" >
+            <div class="top" id="searchBox">
+                <input id="searchText" type="text" style="width: 192px" placeholder="请输入用户名或微信号"/>
+                <a class="search" id="searchUser" ><p onclick="searchUser()"><br>-搜索</p></a>
+            </div>
+            <ul class="people" id="left" >
+                <%--                <li class="person" data-chat="person1" id="chat1" onclick="loadChatMessage()" >--%>
+                <%--                    <img src="img/thomas.jpg" alt="" />--%>
+                <%--                    <span class="name" >新的朋友</span>--%>
+                <%--                    <span class="time">2:09 PM</span>--%>
+                <%--                    <span class="preview">I was wondering...</span>--%>
+                <%--                </li>--%>
+                <%--                <li class="person" data-chat="person2">--%>
+                <%--                    <img src="img/dog.png" alt="" />--%>
+                <%--                    <span class="name">Dog Woofson</span>--%>
+                <%--                    <span class="time">1:44 PM</span>--%>
+                <%--                    <span class="preview">I've forgotten how it felt before</span>--%>
+                <%--                </li>--%>
+                <%--                <li class="person" data-chat="person3">--%>
+                <%--                    <img src="img/background.jpg" >--%>
+                <%--                    <span class="name">Louis CK</span>--%>
+                <%--                    <span class="time">2:09 PM</span>--%>
+                <%--                    <span class="preview">But we’re probably gonna need a new carpet.</span>--%>
+                <%--                </li>--%>
+                <%--                <li class="person" data-chat="person4">--%>
+                <%--                    <img src="img/bo-jackson.jpg" alt="" />--%>
+                <%--                    <span class="name">Bo Jackson</span>--%>
+                <%--                    <span class="time">2:09 PM</span>--%>
+                <%--                    <span class="preview">It’s not that bad...</span>--%>
+                <%--                </li>--%>
+                <%--                <li class="person" data-chat="person5">--%>
+                <%--                    <img src="img/michael-jordan.jpg" alt="" />--%>
+                <%--                    <span class="name">Michael Jordan</span>--%>
+                <%--                    <span class="time">2:09 PM</span>--%>
+                <%--                    <span class="preview">Wasup for the third time likeList is --%>
+                <%--you blind bitch</span>--%>
+                <%--                </li>--%>
+                <%--                <li class="person" data-chat="person6">--%>
+                <%--                    <img src="img/drake.jpg" alt="" />--%>
+                <%--                    <span class="name">Drake</span>--%>
+                <%--                    <span class="time">2:09 PM</span>--%>
+                <%--                    <span class="preview">howdoyoudoaspace</span>--%>
+                <%--                </li>--%>
+                <%--            </ul>--%>
+        </div>
+        <div class="right" id="rightBox" >
+
+            <%--            <div class="top" style="top:0"><span><span class="name"></span></span></div>--%>
+            <%--            <div class="chat" data-chat="person1" id="right" style="display: block;overflow-y:auto">--%>
+            <%--            </div>--%>
+            <%--            <div class="chat" data-chat="person2">--%>
+            <%--                <div class="conversation-start">--%>
+            <%--                    <span>Today, 5:38 PM</span>--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble you">--%>
+            <%--                    Hello, can you hear me?--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble you">--%>
+            <%--                    I'm in California dreaming--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble me">--%>
+            <%--                    ... about who we used to be.--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble me">--%>
+            <%--                    Are you serious?--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble you">--%>
+            <%--                    When we were younger and free...--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble you">--%>
+            <%--                    I've forgotten how it felt before--%>
+            <%--                </div>--%>
+            <%--            </div>--%>
+            <%--            <div class="chat" data-chat="person3">--%>
+            <%--                <div class="conversation-start">--%>
+            <%--                    <span>Today, 3:38 AM</span>--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble you">--%>
+            <%--                    Hey human!--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble you">--%>
+            <%--                    Umm... Someone took a shit in the hallway.--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble me">--%>
+            <%--                    ... what.--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble me">--%>
+            <%--                    Are you serious?--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble you">--%>
+            <%--                    I mean...--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble you">--%>
+            <%--                    It’s not that bad...--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble you">--%>
+            <%--                    But we’re probably gonna need a new carpet.--%>
+            <%--                </div>--%>
+            <%--            </div>--%>
+            <%--            <div class="chat" data-chat="person4">--%>
+            <%--                <div class="conversation-start">--%>
+            <%--                    <span>Yesterday, 4:20 PM</span>--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble me">--%>
+            <%--                    Hey human!--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble me">--%>
+            <%--                    Umm... Someone took a shit in the hallway.--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble you">--%>
+            <%--                    ... what.--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble you">--%>
+            <%--                    Are you serious?--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble me">--%>
+            <%--                    I mean...--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble me">--%>
+            <%--                    It’s not that bad...--%>
+            <%--                </div>--%>
+            <%--            </div>--%>
+            <%--            <div class="chat" data-chat="person5">--%>
+            <%--                <div class="conversation-start">--%>
+            <%--                    <span>Today, 6:28 AM</span>--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble you">--%>
+            <%--                    Wasup--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble you">--%>
+            <%--                    Wasup--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble you">--%>
+            <%--                    Wasup for the third time likeList is <br />you blind bitch--%>
+            <%--                </div>--%>
+
+            <%--            </div>--%>
+            <%--            <div class="chat" data-chat="person6">--%>
+            <%--                <div class="conversation-start">--%>
+            <%--                    <span>Monday, 1:27 PM</span>--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble you">--%>
+            <%--                    So, how's your new phone?--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble you">--%>
+            <%--                    You finally have a smartphone :D--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble me">--%>
+            <%--                    Drake?--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble me">--%>
+            <%--                    Why aren't you answering?--%>
+            <%--                </div>--%>
+            <%--                <div class="bubble you">--%>
+            <%--                    howdoyoudoaspace--%>
+            <%--                </div>--%>
+            <%--            </div>--%>
+            <%--            <div class="write" style="bottom: 0">--%>
+            <%--                <a class="write-link attach"></a>--%>
+            <%--                <input type="text" />--%>
+            <%--                <a  class="write-link smiley"></a>--%>
+            <%--                <a  class="write-link send"></a>--%>
+            <%--            </div>--%>
+        </div>
+    </div>
+</div>
+
+</body>
+
+<script>
+
+    /**
+     * @Description: 校验输入
+     * @date: 22:05 2021/5/13
+     */
+    function checkInput(value){
+        var reg = /^[\u4E00-\u9FA5A-Za-z0-9_]+$/;
+        if(!reg.exec(value)){
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @Description: 校验上传是否为图片
+     * @date: 16:45 2021/5/15
+     */
+    function checkPhoto(id){
+        var reg = /\.(png|jpg|gif|jpeg|webp)$/;
+        if(reg.test($("#"+id).val())){
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * @Description: 隐藏弹窗内容
+     * @date: 22:04 2021/5/13
+     */
+    function hide(id){
+        $("#simpleModal").html("");
+        $("#simpleModal").hide();
+    }
+
+    // //上传图片
+    // function updateAvatar() {
+    //
+    //     var formData = new FormData();
+    //     formData.append('photo', $(document.getElementById("uploadAvatar"))[0].files[0]);  //添加图片信息的参数
+    //     $.ajax({
+    //         url: "upload?method=updateAvatar",
+    //         type: 'POST',
+    //         cache: false, //上传文件不需要缓存
+    //         data: formData,
+    //         processData: false, // 告诉jQuery不要去处理发送的数据
+    //         contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+    //         success:function(result){
+    //             $("#avatar").css({"background":"url(TempUpload/"+result.data+")","background-size":"cover"});
+    //         }
+    //         // success: function (data) {
+    //         //     if (data.message != null && data.message !== '') {
+    //         //         alert("系统提示：" + data.message);
+    //         //     }
+    //         // },
+    //         // Error: function (xhr, error, exception) {
+    //         //     alert(exception.toString());
+    //         // }
+    //     })
+    // }
+
+
+    $(function (){
+        connectWebsocket();
+    });
+
+    /**
+     * @Description: 加载个人信息
+     * @date: 16:13 2021/5/13
+     */
+    function loadMyInform(){
+        $.post("user?method=showUserInform",{id:${userId}},function (result) {
+            var user=result.data;
+            var html = '    <div id="myInform" style="display: block">\n' +
+                '        <div class="main">\n' +
+                '            <span class="icon" onclick="hide(\'myInform\')"></span>\n' +
+                '            <br><br><div class="avatar" id="avatar" style="background: url(\'upload/'+user.avatar+'\');background-size: cover ">\n' +
+                '            </div>\n' +
+                '            <form id="updateUserForm" method="post" enctype="multipart/form-data">\n' +
+                '                <div class="account">\n' +
+                '                    <br><div style="text-decoration: underline;margin-bottom: 5px;">修改头像</div>\n' +
+                '                    <br><input oninput="uploadPhoto(\'uploadAvatar\',\'upload?method=updateAvatar&&path=TempUpload\')" type="file" name="photo" id="uploadAvatar" style="margin-left: 5px" />\n' +
+                '                    <div class="input-box">\n' +
+                '                        <label for="wechatId"></label><input type="text" placeholder="原微信号: '+user.wechatId+'" name="wechatId" id="wechatId" >\n' +
+                '                    </div>\n' +
+                '                    <div class="input-box">\n' +
+                '                        <label for="username"></label><input type="text" placeholder="原用户名: '+user.userName+'" name="userName" id="username">\n' +
+                '                    </div>\n' +
+                '                    <div class="input-box">\n' +
+                '                        <label for="oldPass"></label><input type="password" placeholder="请输入原密码" name="oldPass" id="oldPass">\n' +
+                '                    </div>\n' +
+                '                    <div class="input-box">\n' +
+                '                        <label for="newPass"></label><input type="password" placeholder="请输入新密码" name="password" id="newPass">\n' +
+                '                    </div>\n' +
+                '                </div>\n' +
+                '            </form>\n' +
+                '            <button class="register-btn" type="submit" value="确定修改" onclick="updateUser()">修改</button>\n' +
+                '        </div>\n' +
+                '    </div>\n';
+            document.getElementById("simpleModal").innerHTML += html;
+            $("#simpleModal").show();
+        });
+    }
+
+    /**
+     * @Description: 更新用户信息
+     * @date: 21:18 2021/5/11
+     */
+    function updateUser(){
+        //上传到头像储存的文件夹(非临时文件夹)
+        var avatar=$("#avatar").css("background-image").split("(")[1].split(")")[0];
+        avatar=avatar.substring(avatar.lastIndexOf("\/")+1,avatar.length-1);
+        if($("#uploadAvatar").val()!=''){
+            uploadPhoto('uploadAvatar','upload?method=updateAvatar&&name='+avatar+'&&path=upload');
+        }
+
+        var wechatId=$("#wechatId").val()
+        var userName=$("#username").val();
+        var password = $("#newPass").val();
+        var oldPass=$("#oldPass").val();
+
+        if(checkInput(wechatId)&&checkInput(userName)&&checkInput(password)&&checkInput(oldPass)) {
+            $.post("user?method=updateUser", {
+                id: ${userId},
+                wechatId: wechatId,
+                userName: userName,
+                password: password,
+                avatar: avatar,
+                oldPass: oldPass
+            }, function (result) {
+                alert(result.message);
+                hide('myInform');
+                loadMyInform();
+            });
+        }else {
+            alert("输入内容不合法,可能包含非法字符");
+            return;
+        }
+    }
+
+    /**
+     * @Description: 上传图片工具函数
+     * @date: 15:12 2021/5/12
+     */
+    function uploadPhoto(id,url){
+        if(checkPhoto(id)) {
+            var path = url.substring(url.lastIndexOf("path") + 5, url.length);
+            var formData = new FormData();
+            //添加图片信息的参数
+            formData.append('photo', $("#" + id)[0].files[0]);
+            $.ajax({
+                url: url,
+                type: 'POST',
+                //上传文件不需要缓存
+                cache: false,
+                data: formData,
+                // 告诉jQuery不要去处理发送的数据
+                processData: false,
+                // 告诉jQuery不要去设置Content-Type请求头
+                contentType: false,
+                success: function (result) {
+                    if (result.data != null) {
+                        $("#avatar").css({
+                            "background-image": "url(" + path + "/" + result.data + ")",
+                            "background-size": "cover"
+                        });
+                    }
+                }
+            })
+        }else {
+            alert("请确认你上传的是图片类型");
+        }
+    }
+
+    /**
+     * @Description: 加载好友列表
+     * @date: 16:41 2021/5/9
+     */
+    function loadFriend(){
+
+        $("#left").html('');
+        $("#searchBox").html('');
+
+        var html='<input id="searchText" type="text" style="width: 192px" placeholder="请输入用户名或微信号"/>\n' +
+            '        <a class="search" id="searchUser" ><p onclick="searchUser()"><br>-搜索</p></a>';
+        document.getElementById("searchBox").innerHTML+=html;
+
+        $.post("friend?method=loadFriend",{userId:${userId}},function (result){
+            var friends = result.data;
+            var isBlock='';
+            for (var i=0;i<friends.length;i++){
+                if(friends[i].isBlock==1){
+                    isBlock="(已拉黑)";
+                }
+                var html="<div id='friendList'>\n" +
+                    "<li class='person' onclick='showFriendChat("+friends[i].id+")' >\n" +
+                    '                <img src="upload/'+friends[i].avatar+'" alt="" />\n' +
+                    '                <span class="name" >'+friends[i].alias+isBlock+'</span>\n' +
+                    '                <span class="time">状态:'+friends[i].friendId+'</span>\n' +
+                    '                <span class="preview">好友描述:'+friends[i].description+'</span>\n' +
+                    '            </li>\n' +
+                    '</div>';
+                document.getElementById("left").innerHTML+=html;
+            }
+        });
+    }
+
+    /**
+     * @Description: 创建群聊
+     * @date: 8:46 2021/5/18
+     */
+    function newGroup(){
+
+    }
+
+
+    /**
+     * @Description: 加载群聊列表
+     * @date: 16:50 2021/5/15
+     */
+    function loadGroup(){
+        $("#searchBox").html('');
+        var html='<input id="searchText" type="text" style="width: 192px" placeholder="请输入群号(模糊搜索)"/>\n' +
+            '        <a class="search" id="searchUser" ><p onclick="searchUser()"><br>-搜索</p></a>';
+        document.getElementById("searchBox").innerHTML+=html;
+        var userId="${sessionScope.login.id}";
+        $.post("chat?method=loadGroup",{userId:userId},function (result) {
+            document.getElementById("left").innerHTML='';
+            var groups=result.data;
+              for(var i=0;i<groups.length;i++){
+                  var html="<div id='groupList'>\n" +
+                      "<li class='person' onclick='showGroupChat("+groups[i].id+")' >\n" +
+                      '                <img src="upload/'+groups[i].photo+'" alt="" />\n' +
+                      '                <span class="name" >'+groups[i].name+'</span>\n' +
+                      '                <span class="time">群主id:'+groups[i].master+'</span>\n' +
+                      '                <span class="preview">好友描述:'+groups[i].number+'</span>\n' +
+                      '            </li>\n' +
+                      '</div>';
+                  document.getElementById("left").innerHTML+=html;
+              }
+        });
+    }
+
+    /**
+     * @Description: 加载朋友圈
+     * @date: 11:24 2021/5/16
+     */
+    function loadAllMoment(userId){
+        var params = {
+            "type": "all",
+            "userId": userId,
+        };
+        window["filter"] = params;
+        window.open("http://${host}/moment.jsp");
+    }
+
+    /**
+     * @Description: 展示群聊窗口
+     * @date: 22:44 2021/5/15
+     */
+    function showGroupChat(chatId) {
+        $.post("chat?method=showGroupChat", {chatId: chatId}, function (result) {
+            var chat = result.data;
+            $("#rightBox").html('');
+
+            var html = '<div class="top" style="top:0">' +
+                '<span class="name">In: ' + chat.name + '</span>' +
+                "<span onclick='showChatInform(" + chat.id + ")' class='icon' style='background-image: url(img/省略号.png)' ></span>" +
+                '</div>' +
+                '<div id=' + chat.id + '>\n' +
+                '<div class="chat active-chat" data-chat="person2" id="chatBox">' +
+                '</div>' +
+                '<div class="write" style="bottom: 0">\n' +
+                '                <a class="write-link attach"></a>\n' +
+                '                <input type="text" id="content" />\n' +
+                '                <a  class="write-link smiley"></a>\n' +
+                '                <a  class="write-link send" onclick="sendGroupMessage(' + chat.id + ')"></a>\n' +
+                '            </div>' +
+                '            </div>';
+
+            document.getElementById("rightBox").innerHTML += html;
+            //展示最近记录
+            loadMessage(chat.id);
+        });
+    }
+
+    /**
+     * @Description: 加载好友聊天窗口
+     * @date: 23:39 2021/5/10
+     */
+    function showFriendChat(id){
+
+        $.post("friend?method=showFriendChat",{id:id},function (result) {
+
+            var friend=result.data;
+            $("#rightBox").html('');
+
+            var html = '<div class="top" style="top:0">' +
+                '<span class="name">To: ' + friend.alias +'('+friend.status+')'+ '</span>' +
+                "<span onclick='showFriendInform(" + friend.id + ")' class='icon' style='background-image: url(img/省略号.png)' ></span>" +
+                '</div>' +
+                '<div id=' + friend.chatId + '>\n' +
+                '<div class="chat active-chat" data-chat="person2" id="chatBox">' +
+                '</div>' +
+                '<div class="write" style="bottom: 0">\n' +
+                '                <a class="write-link attach"></a>\n' +
+                '                <input type="text" id="content" />\n' +
+                '                <a  class="write-link smiley"></a>\n' +
+                '                <a  class="write-link send" onclick="sendFriendMessage(\''+friend.friendId+'\',\''+friend.chatId+'\',\''+friend.isBlock+'\')"></a>\n' +
+                '            </div>' +
+                '            </div>';
+
+            document.getElementById("rightBox").innerHTML += html;
+            //展示最近记录
+            loadMessage(friend.chatId);
+        });
+
+    }
+
+    /**
+     * @Description: 查看好友个人信息
+     * @date: 10:06 2021/5/15
+     */
+    function showFriendInform(id){
+        $.post("friend?method=showFriendInform",{id:id},function (result){
+            var friendVo=result.data;
+
+            var functionName='';
+            var functionType='';
+            if(friendVo.isBlock==0){
+                functionName='拉黑好友';
+                functionType='blockFriend';
+            }else {
+                functionName='取消拉黑';
+                functionType='unBlockFriend';
+            }
+            var html='    <div id="friendInform" >\n' +
+                '        <div class="main">\n' +
+                '            <span class="icon" onclick="hide(\'friendInform\')"></span>\n' +
+                '            <br><div id="avatar"  class="avatar" style="background: url(\'upload/'+friendVo.avatar+'\');background-size: cover ">\n' +
+                '            </div>\n' +
+                '                <div class="account">\n' +
+                '                    <div class="input-box">\n' +
+                '                        <br><br><p class="friendInfoText"> <font color="#99FF33" > 微信号:</font>  '+ friendVo.wechatId +'</p>\n' +
+                '                    </div>\n' +
+                '                    <div class="input-box">\n' +
+                '                        <br><br><p class="friendInfoText"> <font color="#99FF33" >用户名:</font>  '+ friendVo.userName +'</p>\n' +
+                '                    </div>\n' +
+                '                     <div class="input-box">\n' +
+                '                        <br><br><p class="friendInfoText"> <font color="#99FF33" >备注:</font>  '+ friendVo.alias +'</p>\n' +
+                '                    </div>\n' +
+                '                </div>\n' +
+                '            <br><button class="register-btn" type="submit"  onclick="showMoment(\''+friendVo.id+'\',\''+friendVo.alias+'\')">查看朋友圈</button>\n' +
+                '            <br><button class="register-btn" type="submit"  onclick="updateAlias(\''+friendVo.id+'\',\''+friendVo.alias+'\')">修改备注</button>\n' +
+                '            <br><button class="register-btn" type="submit"  onclick="'+functionType+'('+friendVo.id+')">'+functionName+'</button>\n' +
+                '            <br><button class="register-btn" type="submit"  onclick="deleteFriend('+friendVo.chatId+')">删除好友</button>\n' +
+                '        </div>\n' +
+                '    </div>';
+            $("#simpleModal").html(html);
+            $("#simpleModal").show();
+        });
+    }
+
+    /**
+     * @Description: 查看群聊信息
+     * @date: 23:05 2021/5/15
+     */
+    function showChatInform(chatId) {
+        $.post("chat?method=showChatInform", {chatId: chatId}, function (result) {
+            var chat=result.data;
+            var html='    <div id="chatInform" >\n' +
+                '        <div class="main">\n' +
+                '            <span class="icon" onclick="hide(\'chatInform\')"></span>\n' +
+                '            <br><div id="avatar"  class="avatar" style="background: url(\'upload/'+chat.photo+'\');background-size: cover ">\n' +
+                '            </div>\n' +
+                '                <div class="account">\n' +
+                '                    <div class="input-box">\n' +
+                '                        <br><br><p class="friendInfoText" > <font color="#99FF33" style="margin-bottom: 2px" > 群号:</font><br><br> '+ chat.number +'</p>\n' +
+                '                    </div>\n' +
+                '                    <div class="input-box">\n' +
+                '                        <br><br><p class="friendInfoText"> <font color="#99FF33" style="margin-top: 12px;" >群名称:</font>  '+ chat.name +'</p>\n' +
+                '                    </div>\n' +
+                '                     <div class="input-box">\n' +
+                '                        <br><br><p class="friendInfoText"> <font color="#99FF33" >群主id:</font>  '+ chat.master +'</p>\n' +
+                '            <br><button class="register-btn" type="submit"  onclick="showChatMember('+chatId+')">查看群成员</button>\n' +
+                '            <br><button class="register-btn" type="submit"  onclick="updateMemberName('+chatId +')">修改群昵称</button>\n' +
+                '            <br><button class="register-btn" type="submit"  onclick="exitGroup('+chatId+')">退出群聊</button>\n' +
+                '                    </div>\n' +
+                '                </div>\n' +
+                '        </div>\n' +
+                '    </div>';
+            $("#simpleModal").html(html);
+            $("#simpleModal").show();
+        });
+    }
+
+    /**
+     * @Description: 拉黑好友
+     * @date: 15:32 2021/5/15
+     */
+    function blockFriend(id){
+        $.post("friend?method=blockFriend",{id:id,isBlock:1},function (result){
+            alert(result.message);
+            hide('friendInform');
+            loadFriend();
+            showFriendChat(id);
+        });
+    }
+
+    /**
+     * @Description: 取消拉黑
+     * @date: 15:32 2021/5/15
+     */
+    function unBlockFriend(id){
+        $.post("friend?method=unBlockFriend",{id:id,isBlock:0},function (result){
+            alert(result.message);
+            hide('friendInform');
+            loadFriend();
+            showFriendChat(id);
+        });
+    }
+
+    /**
+     * @Description: 修改备注
+     * @date: 15:33 2021/5/15
+     */
+    function updateAlias(id,alias) {
+        var alias=prompt("请输入好友备注",alias);
+        $.post("friend?method=updateAlias", {id: id,alias:alias}, function (result) {
+            alert(result.message);
+            hide('friendInform');
+            loadFriend();
+            showFriendChat(id);
+        });
+    }
+
+    /**
+     * @Description: 删除好友
+     * @date: 17:25 2021/5/17
+     */
+    function deleteFriend(chatId){
+        if(confirm("确认删除好友吗,好友记录将一同删除")) {
+            $.post("friend?method=deleteFriend",{chatId:chatId},function(result){
+               alert(result.message);
+               loadFriend();
+               hide('friendInform');
+               $("#rightBox").html('');
+            });
+
+        }
+    }
+
+    /**
+     * @Description: 发送好友间聊天消息
+     * @date: 23:39 2021/5/10
+     */
+    function sendFriendMessage(friendId,chatId,isBlock){
+
+        $.post("friend?method=isBlocked",{userId:friendId,chatId:chatId},function(result){
+            if(result.flag){
+                alert(result.message);
+            }else if(isBlock==1){
+                alert("你已拉黑该用户")
+            }
+            else{
+            var content=$("#content").val();
+            if(content==null||content==''){
+                alert("发送消息不能为空");
+            }
+            websocket.send(JSON.stringify({
+                senderId: ${sessionScope.login.id},
+                chatId: chatId,
+                content: content,
+            }));
+            //清空输入框
+                $("#content").val('');
+            }
+        })
+
+    }
+
+    /**
+     * @Description: 发送群聊消息
+     * @date: 23:39 2021/5/10
+     */
+    function sendGroupMessage(chatId){
+
+        $.post("chat?method=isBlocked",{userId:${userId},chatId:chatId},function(result){
+            if(result.flag){
+                alert(result.message);
+            }else{
+                    var content=$("#content").val();
+                    if(content==null||content==''){
+                        alert("发送消息不能为空");
+                    }
+                    websocket.send(JSON.stringify({
+                        senderId: ${sessionScope.login.id},
+                        chatId: chatId,
+                        content: content,
+                    }));
+                    $("#content").val('');
+            }
+    });
+    }
+
+
+    /**
+     * @Description: 初始化通知列表
+     * @date: 19:24 2021/5/8
+     */
+    function initNotice(){
+        //消除有通知未读的红色边框状态
+        $("#notice").css("border","");
+        $("#left").html('');
+        $("#rightBox").html('');
+        var html=
+            '<div id="initNotice">\n'+
+            '<li class="person" onclick="loadFriendNotice()" >\n' +
+            '                <img src="img/wechat.png" alt="" />\n' +
+            '                <span class="name" >好友通知</span>\n' +
+            '                <span class="time"></span>\n' +
+            '                <span class="preview"></span>\n' +
+            '            </li>\n'+
+            '<li class="person" onclick="" >\n' +
+            '                <img src="img/name-type.png" alt="" />\n' +
+            '                <span class="name" >群聊通知</span>\n' +
+            '                <span class="time"></span>\n' +
+            '                <span class="preview"></span>\n' +
+            '            </li>\n'+
+            '<li class="person" onclick="" >\n' +
+            '                <img src="img/name-type.png" alt="" />\n' +
+            '                <span class="name" >系统通知</span>\n' +
+            '                <span class="time"></span>\n' +
+            '                <span class="preview"></span>\n' +
+            '            </li></div>\n';
+        document.getElementById("left").innerHTML+=html;
+    }
+
+    function initGroup() {
+        //消除有通知未读的红色边框状态
+        $("#left").html('');
+        $("#rightBox").html('');
+        var html =
+            '<div id="initGroup">\n' +
+            '<li class="person" onclick="newGroup()" >\n' +
+            '                <img src="img/wechat.png" alt="" />\n' +
+            '                <span class="name" >创建群聊</span>\n' +
+            '                <span class="time"></span>\n' +
+            '                <span class="preview"></span>\n' +
+            '            </li>\n' +
+            '<li class="person" onclick="loadGroup()" >\n' +
+            '                <img src="img/name-type.png" alt="" />\n' +
+            '                <span class="name" >查看群聊</span>\n' +
+            '                <span class="time"></span>\n' +
+            '                <span class="preview"></span>\n' +
+            '            </li>\n';
+        document.getElementById("left").innerHTML += html;
+    }
+
+    /**
+     * @Description: 加载好友通知列表
+     * @date: 21:31 2021/5/6
+     */
+    function loadFriendNotice(){
+        var receiverId="${sessionScope.login.id}"
+        $.post("notice?method=loadFriendNotice",{receiverId:receiverId},function (result){
+                var notices = result.data;
+                document.getElementById("left").innerHTML=' ';
+                for(var i=0;i<notices.length;i++){
+
+                    var html="<li id="+ notices[i].id +" class='person' onclick='showNotice("+notices[i].id+")' >\n" +
+                        '                <img src="img/name-type.png" />\n' +
+                        '                <span class="name" >通知内容:'+notices[i].content.substring(0,10)+'</span>\n' +
+                        '                <span class="time">发送者id:'+notices[i].senderId+'</span>\n' +
+                        '                <span class="preview">时间:'+notices[i].gmtCreate+'</span>\n' +
+                        '            </li>';
+
+                    document.getElementById("left").innerHTML+=html;
+                    //判断消息是否已读
+                    if(notices[i].status==0){
+                        toRead(notices[i].id);
+                    }
+                }
+        });
+    }
+
+    /**
+     * @Description: 展示通知详情
+     * @date: 19:40 2021/5/8
+     */
+    function showNotice(id){
+
+        $.post("notice?method=showNotice",{id:id},function (result) {
+
+            var notice=result.data;
+
+            $("#rightBox").html('');
+
+            var html =
+                '<div class="conversation-start">\n' +
+                '                    <span>发送者id:' + notice.senderId + '</span>\n' +
+                '                </div>\n' +
+                '                <div class="bubble you">\n' +
+                '                    ' + notice.content + '\n' +
+                '                </div><br><br><br><br>\n' +
+                '<div id="noticeButton">\n' +
+                '                <div id="noticeButton" class="row" style="margin-top: 20px;">\n' +
+                '                <button class="btn-lg center-block" onclick="addFriend(' + notice.senderId + ')" >接受</button><br> \n' +
+                '                <button class="btn-lg center-block" onclick="refuse(' + notice.senderId + ')">拒绝</button>\n' +
+                '                </div>\n' +
+                '</div>';
+
+            document.getElementById("rightBox").innerHTML += html;
+        });
+
+    }
+
+
+    /**
+     * @Description: 加载最近聊天记录
+     * @date: 17:06 2021/5/14
+     */
+    function loadMessage(chatId){
+        $.post("chat?method=loadMessage",{chatId:chatId},function (result){
+            var messages=result.data;
+            for(var i=messages.length-1;i>=0;i--){
+                showMessage(messages[i]);
+            }
+        });
+    }
+
+    /**
+     * @Description: 收到消息时根据类型展示
+     * @date: 15:39 2021/5/6
+     */
+    function showMessage(message){
+
+        var userId=${sessionScope.login.id};
+        switch (message.type) {
+            case "friendNotice":
+                alert("有新的好友验证信息,请点击左上角通知按钮查收");
+
+                loadFriendNotice();
+                toRead('notice');
+                break;
+
+            default:
+                $.ajax({
+                    type: "POST",
+                    traditional: true,
+                    url: "user?method=showUserInform",
+                    async: false,
+                    data: {id: message.senderId},
+                    dataType: "json",
+                    success: function (result) {
+                        var user = result.data;
+                        var type = null;
+                        var position = null;
+                        if (message.senderId == userId) {
+                            type = 'me';
+                            position = 'right';
+                        } else {
+                            type = 'you';
+                            position = 'left';
+                        }
+                        var html =
+                            '<div class="chat-line">' +
+                            '<div   class="bubble ' + type + '" >\n' +
+                            '                    ' + message.content + '\n' +
+                            '                </div>' +
+                            '<p class="chat-' + position + '-name" ">' + user.userName + '</p>' +
+                            '<img src="upload/' + user.avatar + '" class="img-circle chat-image-' + position + '" lt="">\n' +
+                            '</div>'
+                        ;
+                        if (document.getElementById("rightBox").childNodes[1] != null) {
+                            var chatId = document.getElementById("rightBox").childNodes[1].id;
+                            //若处在消息对应的聊天框,则显示出来
+                            if (chatId == message.chatId) {
+                                document.getElementById("chatBox").innerHTML += html;
+                                document.getElementById("chatBox").scrollTop = document.getElementById("chatBox").scrollHeight;
+                            }
+                        }
+                    }
+                });
+        }
+    }
+
+    /**
+     * @Description: 标记为已读
+     * @date: 15:40 2021/5/6
+     */
+    function hasRead(id){
+        $("#"+id).css("border","");
+    }
+    /**
+     * @Description: 标记为未读
+     * @date: 15:41 2021/5/6
+     */
+    function toRead(id){
+        $("#"+id).css("border","1px solid red");
+    }
+
+    /**
+     * @Description: WebSocket脚本
+     * @date: 9:30 2021/5/5
+     */
+    function connectWebsocket() {
+
+        websocket = null;
+        var url = "ws://${host}/server/chat/${sessionScope.login.id}";
+
+        //判断当前浏览器是否支持WebSocket
+        if ('WebSocket' in window) {
+            websocket = new WebSocket(url);
+        } else {
+            alert('当前浏览器不支持 websocket,无法进行实时聊天');
+        }
+
+        //连接发生错误的回调方法
+        websocket.onerror = function () {
+            websocket = '';
+        };
+
+        //连接成功建立的回调方法
+        websocket.onopen = function () {
+        }
+
+        //接收到服务器消息时的回调方法
+        websocket.onmessage = function (event) {
+            var message = eval("(" + event.data + ")");
+            showMessage(message);
+        }
+        //连接关闭的回调方法
+        websocket.onclose = function () {
+            websocket = '';
+        }
+
+        //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+        window.onbeforeunload = function () {
+            websocket.close();
+        }
+
+    }
+
+    /**
+     * @Description: 加好友
+     * @date: 9:31 2021/5/5
+     */
+    function addFriend(friendId){
+
+        if(confirm("是否确定添加好友")) {
+
+            $("noticeButton").html('');
+
+            var description=prompt("尝试一下向对方描述你自己吧","....");
+            var alias=prompt("请输入好友备注","未设置");
+            var userId="${sessionScope.login.id}";
+
+            $.post("friend?method=addFriend",{userId:userId,friendId:friendId,alias:alias,description:description},function (result) {
+                alert(result.message);
+                if(result.flag){
+                    if(document.getElementById("left").childNodes[1].id=="friendList"){
+                        loadFriend();
+                    }
+                }
+            });
+
+            $("#noticeButton").html('');
+
+        }else {
+            return;
+        }
+    }
+
+    /**
+     * @Description: 拒绝
+     * @date: 22:54 2021/5/14
+     */
+    function refuse(friendId){
+        $("noticeButton").html('');
+    }
+
+    /**
+     * @Description: 加载搜索结果
+     * @date: 9:31 2021/5/5
+     */
+    function loadSearchUser(user){
+
+        document.getElementById("left").innerHTML='';
+
+        var html='<li class="person" onclick="addFriend('+user.id+')" >\n' +
+            '                <img src="upload/'+user.avatar+'" alt="" />\n' +
+            '                <span class="name" >用户名:'+user.userName+'</span>\n' +
+            '                <span class="time">用户id:'+user.id+'</span>\n' +
+            '                <span class="preview">微信号:'+user.wechatId+'</span>\n' +
+            '            </li>';
+
+        document.getElementById("left").innerHTML+=html;
+    }
+
+
+    /**
+     * @Description: 搜索用户功能
+     * @date: 9:31 2021/5/5
+     */
+    function searchUser(){
+        var searchText= $("#searchText").val();
+        if(searchText==''||searchText==null){
+            alert("搜索内容不能为空");
+        }else {
+            $.post("user?method=searchUser",{searchText:searchText},function (result){
+                if(result.flag){
+                    document.getElementById("left").innerHTML='';
+                    var users = result.data;
+                    for (var i = 0; i < users.length; i++) {
+                        loadSearchUser(users[i]);
+                    }
+                }else {
+                    alert(result.message);
+                }
+            });
+        }
+    }
+
+
+</script>
+<style>
+
+    .friendInfoText{
+        text-align: center;
+    }
+
+    .chat-left-name{
+        font-size: 12px;
+        position: absolute;
+        left: 90px;
+        color: yellowgreen;
+    }
+    .chat-right-name{
+        font-size: 12px;
+        position: absolute;
+        right: 90px;
+        color: #e7c3c3;
+    }
+
+
+
+
+    .chat-image-right{
+        position: absolute;
+        right: 2;
+        width: 65px;
+        height: 60px;
+    }
+    .chat-image-left{
+        position: absolute;
+        left: 2px;
+        float: left;
+        width: 65px;
+        height: 60px;
+        margin-left: 5px;
+    }
+
+    .modal-header h2,.modal-footer h3{
+        margin: 0;
+    }
+    .icon{
+        color: #fff;
+        float: right;
+        font-size: 90px;
+        right: 10px;
+        height: 22px;
+        width: 22px;
+        position: absolute;
+        background-image: url('img/cc.png');
+    }
+    .icon:hover,.icon:focus{
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    @keyframes modalopen{
+        from {opacity: 0}
+        to {opacity: 1}
+    }
+
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    /*登陆区主体*/
+    .main{
+        width: 350px;
+        height: 550px;
+        background: cadetblue;
+        text-align: center;
+        margin-left: 700px;
+        margin-top: 70px;
+        position: relative;
+    }
+
+    /*头像区*/
+    .avatar{
+        width: 190px;
+        height: 160px;
+        background: url(img/wechat.png) no-repeat;
+        background-size: cover;
+        margin: auto;
+        border-radius: 50%;
+    }
+
+    /*账号密码区*/
+
+    .account{
+        width: 75%;
+        /*height: 200px;*/
+        /*background: #ffd1e4;*/
+        margin: 0 auto;
+    }
+    .input-box{
+        height: 50px;
+        width: 250px;
+        /*background: #ffbcdd;*/
+    }
+    .input-box input{
+        height: 40px;
+        width: calc(100% - 10px);
+        border: none;
+        outline: none;
+        padding: 0 5px;
+        background: rgba(0,0,0,0.5);
+        color: #ffcae5;
+        font-size: 16px;
+    }
+
+    /*注册按钮*/
+    .register-btn{
+        width: 75%;
+        height: 35px;
+        display: block;
+        margin-top: 0px ;
+        margin-left: 35px;
+        background: aquamarine;
+        border: none;
+        outline: none;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    /*按下按钮*/
+    .register-btn:active{
+        position: relative;
+        top:2px;
+    }
+    .sendCode-btn{
+        position: absolute;
+        left: 55px;
+        height: 35px;
+        margin-top:2px;
+        background:#ffc5d1 ;
+        border: none;
+        outline: none;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    /*登陆区底部*/
+    .footer{
+        height: 40px;
+        text-align: center;
+        line-height: 50px;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        border-top: 1px solid #ccc;
+        margin-top: 20px;
+    }
+    .footer a{
+        color: #ccc;
+        text-decoration: none;
+    }
+    .footer a:hover{
+        color: red
+    }
+
+
+
+
+    *, *:before, *:after {
+        box-sizing: border-box;
+    }
+    *{
+        margin:0;
+        padding:0;
+    }
+    img{
+        border:0;
+    }
+
+    :root {
+        --white: #fff;
+        --black: #000;
+        --bg: #f8f8f8;
+        --grey: #999;
+        --dark: #1a1a1a;
+        --light: #e6e6e6;
+        --wrapper: 1000px;
+        --blue: #00b0ff;
+    }
+
+    body {
+        background-color: var(--bg);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+        font-family: 'Source Sans Pro', sans-serif;
+        font-weight: 400;
+        background-image: url("img/street.png");
+        background-size: cover;
+    }
+
+    .side{
+        position: absolute;
+        top:50px;
+        margin-left: 100px;
+        width: 10%;
+        height: 100%;
+        border: 1px solid var(--light);
+        background-color: var(--black);
+    }
+    .wrapper {
+        position: relative;
+        left: 50%;
+        width: var(--wrapper);
+        height: 900px;
+        -webkit-transform: translate(-50%, 0);
+        transform: translate(-50%, 0);
+    }
+
+    .contain {
+        position: relative;
+        margin-top: 30%;
+        top: 5px;
+        left: 50%;
+        width: 90%;
+        height: 65%;
+        background-color: var(--white);
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+    .contain .left {
+        float: left;
+        width: 34%;
+        height: 100%;
+        border: 1px solid var(--light);
+        background-color: var(--white);
+    }
+    .contain .left .top {
+        position: relative;
+        width: 100%;
+        height: 96px;
+        padding: 29px;
+    }
+    .contain .left .top:after {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        display: block;
+        width: 80%;
+        height: 1px;
+        content: '';
+        background-color: var(--light);
+        -webkit-transform: translate(-50%, 0);
+        transform: translate(-50%, 0);
+    }
+    .contain .left input {
+        float: left;
+        width: 188px;
+        height: 42px;
+        padding: 0 15px;
+        border: 1px solid var(--light);
+        background-color: #eceff1;
+        border-radius: 21px;
+        font-family: 'Source Sans Pro', sans-serif;
+        font-weight: 400;
+    }
+    .contain .left input:focus {
+        outline: none;
+    }
+    .contain .left .search {
+        display: block;
+        float: left;
+        width: 42px;
+        height: 42px;
+        margin-left: 10px;
+        border: 1px solid var(--light);
+        background-color: var(--blue);
+        /*background-image: url("img/name-type.png");*/
+        background-repeat: no-repeat;
+        background-position: top 12px left 14px;
+        border-radius: 50%;
+    }
+    .contain .left .people {
+        margin-left: -1px;
+        border-right: 1px solid var(--light);
+        border-left: 1px solid var(--light);
+        width: calc(100% + 2px);
+    }
+    .contain .left .people .person {
+        position: relative;
+        width: 100%;
+        height: 55px;
+        padding: 12px 10% 16px;
+        cursor: pointer;
+        background-color: var(--white);
+    }
+    .contain .left .people .person:after {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        display: block;
+        width: 80%;
+        height: 1px;
+        content: '';
+        background-color: var(--light);
+        -webkit-transform: translate(-50%, 0);
+        transform: translate(-50%, 0);
+    }
+    .contain .left .people .person img {
+        float: left;
+        width: 40px;
+        height: 40px;
+        margin-right: 12px;
+        border-radius: 50%;
+    }
+    .contain .left .people .person .name {
+        font-size: 14px;
+        line-height: 22px;
+        color: var(--dark);
+        font-family: 'Source Sans Pro', sans-serif;
+        font-weight: 600;
+    }
+    .contain .left .people .person .time {
+        font-size: 14px;
+        position: absolute;
+        top: 16px;
+        right: 10%;
+        padding: 0 0 5px 5px;
+        color: var(--grey);
+        background-color: var(--white);
+    }
+    .contain .left .people .person .preview {
+        font-size: 14px;
+        display: inline-block;
+        overflow: hidden !important;
+        width: 70%;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        color: var(--grey);
+    }
+    .contain .left .people .person.active, .contain .left .people .person:hover {
+        margin-top: -1px;
+        margin-left: -1px;
+        padding-top: 13px;
+        border: 0;
+        background-color: var(--blue);
+        width: calc(100% + 2px);
+        padding-left: calc(10% + 1px);
+    }
+    .contain .left .people .person.active span, .contain .left .people .person:hover span {
+        color: var(--white);
+        background: transparent;
+    }
+    .contain .left .people .person.active:after, .contain .left .people .person:hover:after {
+        display: none;
+    }
+    .contain .right {
+        position: relative;
+        float: left;
+        width: 66%;
+        height: 100%;
+    }
+    .contain .right .top {
+        width: 100%;
+        height: 47px;
+        padding: 15px 29px;
+        background-color: #eceff1;
+    }
+    .contain .right .top span {
+        font-size: 15px;
+        color: var(--grey);
+    }
+    .contain .right .top span .name {
+        color: var(--dark);
+        font-family: 'Source Sans Pro', sans-serif;
+        font-weight: 600;
+    }
+    .contain .right .chat {
+        position: relative;
+        display: none;
+        overflow: auto;
+        padding-left: 74px;
+        padding-right: 20px;
+        padding-bottom: 50px;
+        /*padding: 0 35px 92px;*/
+        border-width: 1px 1px 1px 0;
+        border-style: solid;
+        border-color: var(--light);
+        height: calc(100% - 48px);
+        justify-content: flex-end;
+        flex-direction: column;
+    }
+    .contain .right .chat.active-chat {
+        display: block;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
+    .chat-line{
+        width: 100%;
+        /*height: 60px;*/
+        margin-top: 20px;
+    }
+    .contain .right .chat.active-chat .bubble {
+        transition-timing-function: cubic-bezier(0.4, -0.04, 1, 1);
+    }
+    .contain .right .chat.active-chat .bubble:nth-of-type(1) {
+        -webkit-animation-duration: 0.15s;
+        animation-duration: 0.15s;
+    }
+    .contain .right .chat.active-chat .bubble:nth-of-type(2) {
+        -webkit-animation-duration: 0.3s;
+        animation-duration: 0.3s;
+    }
+    .contain .right .chat.active-chat .bubble:nth-of-type(3) {
+        -webkit-animation-duration: 0.45s;
+        animation-duration: 0.45s;
+    }
+    .contain .right .chat.active-chat .bubble:nth-of-type(4) {
+        -webkit-animation-duration: 0.6s;
+        animation-duration: 0.6s;
+    }
+    .contain .right .chat.active-chat .bubble:nth-of-type(5) {
+        -webkit-animation-duration: 0.75s;
+        animation-duration: 0.75s;
+    }
+    .contain .right .chat.active-chat .bubble:nth-of-type(6) {
+        -webkit-animation-duration: 0.9s;
+        animation-duration: 0.9s;
+    }
+    .contain .right .chat.active-chat .bubble:nth-of-type(7) {
+        -webkit-animation-duration: 1.05s;
+        animation-duration: 1.05s;
+    }
+    .contain .right .chat.active-chat .bubble:nth-of-type(8) {
+        -webkit-animation-duration: 1.2s;
+        animation-duration: 1.2s;
+    }
+    .contain .right .chat.active-chat .bubble:nth-of-type(9) {
+        -webkit-animation-duration: 1.35s;
+        animation-duration: 1.35s;
+    }
+    .contain .right .chat.active-chat .bubble:nth-of-type(10) {
+        -webkit-animation-duration: 1.5s;
+        animation-duration: 1.5s;
+    }
+    .contain .right .write {
+        position: absolute;
+        bottom: 29px;
+        left: 30px;
+        height: 42px;
+        padding-left: 8px;
+        border: 1px solid var(--light);
+        background-color: #eceff1;
+        width: calc(100% - 58px);
+        border-radius: 5px;
+    }
+    .contain .right .write input {
+        font-size: 16px;
+        float: left;
+        width: 347px;
+        height: 40px;
+        padding: 0 10px;
+        color: var(--dark);
+        border: 0;
+        outline: none;
+        background-color: #eceff1;
+        font-family: 'Source Sans Pro', sans-serif;
+        font-weight: 400;
+    }
+    .contain .right .write .write-link.attach:before {
+        display: inline-block;
+        float: left;
+        width: 20px;
+        height: 42px;
+        content: '';
+        background-image: url("img/attachment.png");
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    .contain .right .write .write-link.smiley:before {
+        display: inline-block;
+        float: left;
+        margin-left: 108px;
+        width: 20px;
+        height: 42px;
+        content: '';
+        background-image: url("img/smiley.png");
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    .contain .right .write .write-link.send:before {
+        display: inline-block;
+        float: left;
+        width: 20px;
+        height: 42px;
+        margin-left: 2px;
+        content: '';
+        background-image: url("img/send.png");
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    .contain .right .bubble {
+        font-size: 16px;
+        position: relative;
+        display: inline-block;
+        clear: both;
+        margin-bottom: 8px;
+        padding: 13px 14px;
+        vertical-align: top;
+        border-radius: 5px;
+    }
+    .contain .right .bubble:before {
+        position: absolute;
+        top: 19px;
+        display: block;
+        width: 8px;
+        height: 6px;
+        content: '\00a0';
+        -webkit-transform: rotate(29deg) skew(-35deg);
+        transform: rotate(29deg) skew(-35deg);
+    }
+    .contain .right .bubble.you {
+        margin-top: 20px;
+        /*margin-right: 400px;*/
+        left: 0px;
+        position: relative;
+        letter-spacing: 2px;
+        line-height: 22px;
+        float: left;
+        color: var(--white);
+        background-color: var(--blue);
+        align-self: flex-end;
+        -webkit-animation-name: slideFromLeft;
+        animation-name: slideFromLeft;
+    }
+    .contain .right .bubble.you:before {
+        left: -3px;
+        background-color: var(--blue);
+    }
+    .contain .right .bubble.me {
+        margin-top: 20px;
+        margin-left: 200px;
+        right: 50px;
+        position: relative;
+        letter-spacing: 2px;
+        line-height: 22px;
+        float: right;
+        color: var(--dark);
+        background-color: #eceff1;
+        align-self: flex-end;
+        -webkit-animation-name: slideFromRight;
+        animation-name: slideFromRight;
+    }
+    .contain .right .bubble.me:before {
+        right: -3px;
+        background-color: #eceff1;
+    }
+    .contain .right .conversation-start {
+        position: relative;
+        width: 100%;
+        margin-bottom: 27px;
+        text-align: center;
+    }
+    .contain .right .conversation-start span {
+        font-size: 14px;
+        display: inline-block;
+        color: var(--grey);
+    }
+    .contain .right .conversation-start span:before, .contain .right .conversation-start span:after {
+        position: absolute;
+        top: 10px;
+        display: inline-block;
+        width: 30%;
+        height: 1px;
+        content: '';
+        background-color: var(--light);
+    }
+    .contain .right .conversation-start span:before {
+        left: 0;
+    }
+    .contain .right .conversation-start span:after {
+        right: 0;
+    }
+
+
+    @keyframes slideFromLeft {
+        0% {
+            margin-left: -200px;
+            opacity: 0;
+        }
+        100% {
+            margin-left: 0;
+            opacity: 1;
+        }
+    }
+    @-webkit-keyframes slideFromLeft {
+        0% {
+            margin-left: -200px;
+            opacity: 0;
+        }
+        100% {
+            margin-left: 0;
+            opacity: 1;
+        }
+    }
+    @keyframes slideFromRight {
+        0% {
+            margin-right: -200px;
+            opacity: 0;
+        }
+        100% {
+            margin-right: 0;
+            opacity: 1;
+        }
+    }
+    @-webkit-keyframes slideFromRight {
+        0% {
+            margin-right: -200px;
+            opacity: 0;
+        }
+        100% {
+            margin-right: 0;
+            opacity: 1;
+        }
+    }
+
+
+
+</style>
+</html>

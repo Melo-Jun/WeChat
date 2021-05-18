@@ -40,11 +40,12 @@ public class LoginFilter implements Filter {
 
         //若还未登录(可能是自动登录失败)
         if (session == null || session.getAttribute("login") == null) {
-            //放行与登录和注册有关的资源
+            //放行与登录和注册以及找回密码有关的资源
             if (uri.contains("/CheckCode")||
                     uri.contains("/user")||
                     (WebPage.LOGIN_JSP.toString()).equalsIgnoreCase(path) ||
                     (WebPage.REGISTER_JSP.toString()).equalsIgnoreCase(path) ||
+                    (WebPage.RESETPASS_JSP.toString()).equalsIgnoreCase(path) ||
                     path.endsWith(".png") || path.endsWith(".jpg") || path.endsWith(".js"))
             {
                 filterChain.doFilter(req, resp);

@@ -140,7 +140,7 @@
     <button class="login-btn" name="login" id="login" type="submit" value="登录">登录</button>
 
     <div id="footer">
-        <a href="#">忘记密码?</a>&nbsp&nbsp&nbsp&nbsp&nbsp
+        <a href="resetPass.jsp">忘记密码?</a>&nbsp&nbsp&nbsp&nbsp&nbsp
         <a href="register.jsp">注册</a>
     </div>
 </div>
