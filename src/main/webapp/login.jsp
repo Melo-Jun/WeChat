@@ -65,7 +65,7 @@
          * @date: 16:25 2021/5/3
          */
         function changeCheckCode(){
-            $("#img").attr('src',"/melo/CheckCode?time=" + new Date().getTime())
+            $("#img").attr('src',"CheckCode?method=checkCode&&time=" + new Date().getTime());
         }
 
 
@@ -132,7 +132,7 @@
                     <input type="checkbox" id="checkbox" style="background-color:#e7c3c3; " >
                     <font color="#fff0f5"> 请记住我</font>
                 </label>
-                    <img id="img" src="/melo/CheckCode" class="col-sm-offset-7 col-lg-9" style="margin-top: 0px ">
+                    <img id="img" src="CheckCode?method=checkCode" class="col-sm-offset-7 col-lg-9" style="margin-top: 0px ">
         </div>
 
     </div>
