@@ -140,7 +140,6 @@ public class ConnectionPool {
         if (conn == null) {
             conn= getConnection();
             threadLocal.set(conn);
-            return conn;
         }
         return conn;
 

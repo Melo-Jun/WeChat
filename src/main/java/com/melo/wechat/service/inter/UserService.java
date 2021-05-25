@@ -16,7 +16,7 @@ public interface UserService {
      * @param user 用户
      * @return com.melo.wechat.model.dto.Result 返回结果封装类
      */
-    @LogInfo("新用户登录")
+    @LogInfo("新用户登录->")
     ServiceResult login(User user);
 
     /**
@@ -33,6 +33,7 @@ public interface UserService {
      * @date: 14:37 2021/5/3
      * @return: com.melo.wechat.model.dto.Result 返回结果封装类
      */
+    @LogInfo("新用户注册->")
     ServiceResult register(User user);
 
     /**
@@ -68,11 +69,36 @@ public interface UserService {
      */
     ServiceResult updateUser(User oldUser,User newUser);
 
+    /**
+     * @Description: 封号
+     * @param user
+     * @date: 0:10 2021/5/26
+     * @return: com.melo.wechat.model.dto.ServiceResult
+     */
     ServiceResult blockUser(User user);
 
+    /**
+     * @Description: 取消封号
+     * @param user
+     * @date: 0:10 2021/5/26
+     * @return: com.melo.wechat.model.dto.ServiceResult
+     */
     ServiceResult unBlockUser(User user);
 
+    /**
+     * @Description: 游客模式
+     * @param
+     * @date: 0:10 2021/5/26
+     * @return: com.melo.wechat.model.dto.ServiceResult
+     */
+    @LogInfo("新游客登录体验微信->")
     ServiceResult visit();
 
+    /**
+     * @Description: 判断是否为游客
+     * @param id
+     * @date: 0:10 2021/5/26
+     * @return: com.melo.wechat.model.dto.ServiceResult
+     */
     ServiceResult isVisitor(Integer id);
 }

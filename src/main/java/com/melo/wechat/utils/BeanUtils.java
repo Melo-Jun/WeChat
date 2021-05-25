@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 
 import static com.melo.wechat.utils.ReflectUtils.getMethods;
-import static com.melo.wechat.utils.StringUtils.delHtmlTag;
 
 public class BeanUtils {
 

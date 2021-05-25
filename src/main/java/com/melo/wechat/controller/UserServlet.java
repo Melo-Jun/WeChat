@@ -7,6 +7,7 @@ import com.melo.wechat.model.entity.User;
 import com.melo.wechat.service.impl.UserServiceImpl;
 import com.melo.wechat.service.inter.UserService;
 import com.melo.wechat.utils.*;
+import com.melo.wechat.utils.proxy.ServiceProxy;
 
 import javax.servlet.*;
 import javax.servlet.http.*;

@@ -8,7 +8,7 @@ import java.util.UUID;
 /**
  * @author Jun
  * @program WeChat
- * @description 用于提供一个uuid，并去除其中的横线
+ * @description 用于提供一个uuid或唯一的群号,微信号等
  * @date 2021-4-29
  */
 public class UUIDUtils {

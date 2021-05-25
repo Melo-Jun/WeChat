@@ -27,7 +27,19 @@ public interface MomentDao extends BaseDao{
      */
     Moment getMomentById(Integer momentId);
 
+    /**
+     * @Description: 新增点赞记录
+     * @param momentId
+     * @date: 0:05 2021/5/26
+     * @return: void
+     */
     void increaseLike(Integer momentId);
 
+    /**
+     * @Description: 删除点赞记录
+     * @param momentId
+     * @date: 0:05 2021/5/26
+     * @return: void
+     */
     void decreaseLike(Integer momentId);
 }

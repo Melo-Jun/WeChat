@@ -11,7 +11,7 @@ import com.melo.wechat.service.impl.RemarkServiceImpl;
 import com.melo.wechat.service.inter.LikeListService;
 import com.melo.wechat.service.inter.MomentService;
 import com.melo.wechat.service.inter.RemarkService;
-import com.melo.wechat.utils.ServiceProxy;
+import com.melo.wechat.utils.proxy.ServiceProxy;
 import com.melo.wechat.utils.proxy.TrancationProxy;
 
 import javax.servlet.ServletException;
@@ -36,7 +36,7 @@ public class MomentServlet extends BaseServlet {
      */
     private final MomentService momentService = ServiceProxy.getProxyInstance(MomentServiceImpl.class);
     private final RemarkService remarkService = ServiceProxy.getProxyInstance(RemarkServiceImpl.class);
-    private final LikeListService likeListService = TrancationProxy.getProxyInstance(LikeListServiceImpl.class);
+    private final LikeListService likeListService = ServiceProxy.getProxyInstance(LikeListServiceImpl.class);
 
     /**
      * @param request

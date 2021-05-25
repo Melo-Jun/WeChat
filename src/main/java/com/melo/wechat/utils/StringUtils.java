@@ -3,14 +3,13 @@
 package com.melo.wechat.utils;
 
 
-import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * @author Jun
  * @program WeChat
- * @description 用于字符串的转换
+ * @description 用于字符串的转换以及字符的校验等
  * @date 2021-4-24
  */
 public class StringUtils {

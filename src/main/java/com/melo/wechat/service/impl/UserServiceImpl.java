@@ -7,7 +7,7 @@ import com.melo.wechat.model.dto.ServiceResult;
 import com.melo.wechat.model.entity.*;
 import com.melo.wechat.service.inter.FriendService;
 import com.melo.wechat.service.inter.UserService;
-import com.melo.wechat.utils.ServiceProxy;
+import com.melo.wechat.utils.proxy.ServiceProxy;
 import com.melo.wechat.utils.UUIDUtils;
 import com.melo.wechat.utils.proxy.DaoProxy;
 

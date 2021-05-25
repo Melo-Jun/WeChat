@@ -1,6 +1,5 @@
 package com.melo.wechat.dao.impl;
 
-import com.melo.wechat.annotation.Insert;
 import com.melo.wechat.annotation.Table;
 import com.melo.wechat.constant.Status;
 import com.melo.wechat.dao.inter.UserDao;
@@ -60,7 +59,6 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
      * @param user 用户实体类
      * @return boolean 是否增加成功
      */
-    @Insert()
     @Override
     public boolean addUser(User user) {
         return super.insert(user) == 1;

@@ -8,6 +8,11 @@ import javax.mail.internet.MimeMessage;
 import java.security.GeneralSecurityException;
 import java.util.Properties;
 
+/**
+ * @Description: 发送邮件工具类
+ * @author: Jun
+ * @date: 0:11 2021/5/26
+ */
 public class MailUtils extends Thread {
 
     //发件人信息

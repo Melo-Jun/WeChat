@@ -2,15 +2,14 @@ package com.melo.wechat.controller.websocket;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.melo.wechat.dao.impl.ChatDaoImpl;
 import com.melo.wechat.dao.impl.UserChatDaoImpl;
-import com.melo.wechat.dao.impl.UserDaoImpl;
 import com.melo.wechat.dao.inter.UserChatDao;
 import com.melo.wechat.model.entity.*;
 import com.melo.wechat.service.impl.MessageServiceImpl;
 import com.melo.wechat.service.inter.MessageService;
-import com.melo.wechat.utils.ServiceProxy;
+import com.melo.wechat.utils.proxy.ServiceProxy;
 import com.melo.wechat.utils.StringUtils;
+import com.melo.wechat.utils.log.LogInfoUtil;
 import com.melo.wechat.utils.proxy.DaoProxy;
 
 
@@ -20,6 +19,7 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.logging.Logger;
 
 import static com.melo.wechat.utils.StringUtils.*;
 
@@ -48,6 +48,7 @@ public class WebSocket {
      */
     private Session session;
 
+
     @OnOpen
     public void onOpen(Session session, @PathParam("user_id") Integer userId) throws IOException {
         WebSocket server = new WebSocket();
@@ -55,6 +56,8 @@ public class WebSocket {
         server.session = session;
         //将用户id对应的对象装载到Map容器
         SERVER_MAP.put(userId, server);
+        Logger logger = LogInfoUtil.getLogger(WebSocket.class.getName());
+        logger.info("新用户连接上聊天服务器,用户id为--->"+userId);
     }
 
 
@@ -84,6 +87,8 @@ public class WebSocket {
         sendMessage(message, userId);
         //将聊天记录插入数据库
         messageService.insertMessage(message);
+        Logger logger = LogInfoUtil.getLogger(WebSocket.class.getName());
+        logger.info("收到新消息--->"+message.getContent());
     }
 
 

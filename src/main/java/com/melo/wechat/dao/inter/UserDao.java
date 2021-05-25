@@ -79,5 +79,11 @@ public interface UserDao extends BaseDao {
      */
      User getVisitor(String wechatId, String email);
 
-    boolean isVisitor(User user);
+     /**
+      * @Description: 判断是否为游客
+      * @param user
+      * @date: 0:06 2021/5/26
+      * @return: boolean
+      */
+     boolean isVisitor(User user);
 }

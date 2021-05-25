@@ -1,4 +1,4 @@
-package com.melo.wechat.utils;
+package com.melo.wechat.utils.proxy;
 
 import com.melo.wechat.annotation.log.LogInfo;
 import com.melo.wechat.utils.log.LogInfoUtil;
@@ -66,8 +66,13 @@ public class ServiceProxy implements InvocationHandler {
             Logger logger= LogInfoUtil.getLogger(target.getClass().getName());
             //取得注解
             LogInfo logInfo = method.getAnnotation(LogInfo.class);
-            //取得注解的值，输出日志
-            logger.info(new Date().toString() + " ---> " + logInfo.value());
+            //取得注解以及参数的值，输出日志
+            StringBuilder msg=new StringBuilder(new Date().toString() + " ---> " + logInfo.value());
+            for(Object arg:args){
+                msg.append(arg).append(",");
+            }
+            msg.deleteCharAt(msg.length()-1);
+            logger.info(msg.toString());
             for(Handler h:logger.getHandlers())
             {
                 h.close();
