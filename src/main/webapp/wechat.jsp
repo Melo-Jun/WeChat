@@ -4,8 +4,6 @@
 <c:set var="userId" value="${sessionScope.login.id}"/>
 <html >
 <head>
-    <%--<meta charset="UTF-8">--%>
-    <%--<meta name="viewport" content="width=device-width, initial-scale=1">--%>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,12 +12,10 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
     <link rel="stylesheet" href="css/reset.min.css">
-    <%--<link rel="stylesheet" href="css/style.css">--%>
     <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
     <script src="static/js/jquery-3.4.1.min.js" ></script>
     <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
     <script src="static/js/bootstrap.min.js" ></script>
-    <%--    <script  src="js/mywechat.js"></script>--%>
 
 
 </head>

@@ -1,0 +1,14 @@
+五月 25, 2021 11:55:25 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->0
+五月 25, 2021 11:55:36 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->0
+五月 26, 2021 12:01:32 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 00:01:32 CST 2021 ---> 创建了新的微信群,群主id,群名,群成员id分别为:->0,吹水小组,[Ljava.lang.String;@760c7afb
+五月 26, 2021 12:17:37 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->0
+五月 26, 2021 12:17:42 上午 com.melo.wechat.controller.websocket.WebSocket onMessage
+信息: 收到新消息---><img class="emoji" src="upload/emoji/fc2607d3-b46b-4694-b91c-7a92c3fe3805.gif" alt="">
+五月 26, 2021 12:17:56 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 00:17:56 CST 2021 ---> 用户上传表情包com.melo.wechat.model.entity.Emoji@15f92202
+五月 26, 2021 12:17:58 上午 com.melo.wechat.controller.websocket.WebSocket onMessage
+信息: 收到新消息---><img class="emoji" src="upload/emoji/9288c539-8a33-4525-9fc3-b2bbd3b1f406.png" alt="">
