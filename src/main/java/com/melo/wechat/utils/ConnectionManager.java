@@ -18,7 +18,7 @@ public class ConnectionManager {
     /**
      * 线程连接池
      */
-    private static ThreadLocal<Connection> threadLocal = new ThreadLocal<Connection>();
+    private static final ThreadLocal<Connection> threadLocal = new ThreadLocal<Connection>();
 
     /**
      * 获取连接池中的连接，并设置该连接为线程共享
@@ -35,10 +35,14 @@ public class ConnectionManager {
      *
      * @param conn connection对象
      */
-    public static void beginTransaction(Connection conn) throws SQLException {
+    public static void beginTransaction(Connection conn)  {
             if (conn != null) {
-                if (conn.getAutoCommit()) {
-                    conn.setAutoCommit(false);
+                try {
+                    if (conn.getAutoCommit()) {
+                        conn.setAutoCommit(false);
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
                 }
             }
     }
@@ -48,10 +52,14 @@ public class ConnectionManager {
      * 事务正常运行，提交事务
      * @param conn connection对象
      */
-    public static void commitTransaction(Connection conn) throws SQLException {
+    public static void commitTransaction(Connection conn)  {
             if (conn != null) {
-                if (!conn.getAutoCommit()) {
-                    conn.commit();
+                try {
+                    if (!conn.getAutoCommit()) {
+                        conn.commit();
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
                 }
             }
     }

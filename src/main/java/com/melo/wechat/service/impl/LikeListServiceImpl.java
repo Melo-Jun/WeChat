@@ -44,17 +44,15 @@ public class LikeListServiceImpl implements LikeListService {
     }
 
 
-//    @Transaction()
     @Override
     public ServiceResult like(LikeList likeList) {
-        //增加点赞数
-        momentDao.increaseLike(likeList.getMomentId());
         //新增点赞记录
         likeListDao.insert(likeList);
+        //增加点赞数
+        momentDao.increaseLike(likeList.getMomentId());
         return new ServiceResult(true);
     }
 
-//    @Transaction()
     @Override
     public ServiceResult unLike(LikeList likeList) {
         //减少点赞数

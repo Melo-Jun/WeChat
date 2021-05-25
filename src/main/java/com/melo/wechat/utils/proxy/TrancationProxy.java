@@ -67,11 +67,10 @@ public class TrancationProxy implements InvocationHandler {
         Object returnObj=null;
         if(method.isAnnotationPresent(Transaction.class)) {
             Connection conn = ConnectionManager.getConnection();
-            System.out.println(conn);
             try {
                 //如果没有出现异常就提交事务
                 ConnectionManager.beginTransaction(conn);
-                returnObj = method.invoke(proxy, args);
+                returnObj = method.invoke(target, args);
                 ConnectionManager.commitTransaction(conn);
             } catch (Exception e) {
                 // 代理类执行method时发生异常，回滚事务
@@ -84,7 +83,7 @@ public class TrancationProxy implements InvocationHandler {
                 ConnectionManager.closeThreadConn();
             }
         }else {
-            returnObj =method.invoke(proxy,args);
+            returnObj =method.invoke(target,args);
         }
         return returnObj;
     }

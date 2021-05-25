@@ -25,7 +25,7 @@ public interface LikeListService {
      * @date: 23:43 2021/5/25
      * @return: com.melo.wechat.model.dto.ServiceResult
      */
-//    @Transaction()
+    @Transaction()
     ServiceResult like(LikeList likeList);
 
     /**
@@ -34,7 +34,7 @@ public interface LikeListService {
      * @date: 23:43 2021/5/25
      * @return: com.melo.wechat.model.dto.ServiceResult
      */
-//    @Transaction()
+    @Transaction()
     ServiceResult unLike(LikeList likeList);
 
     /**

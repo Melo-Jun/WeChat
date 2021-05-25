@@ -50,6 +50,7 @@ public class MomentDaoImpl extends BaseDaoImpl implements MomentDao {
     public void increaseLike(Integer momentId) {
         Moment moment = getMomentById(momentId);
         update(new Moment(momentId,moment.getLikeCount()+1));
+
     }
 
     @Override

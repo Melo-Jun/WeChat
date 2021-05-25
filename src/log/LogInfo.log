@@ -12,3 +12,39 @@
 信息: Wed May 26 00:17:56 CST 2021 ---> 用户上传表情包com.melo.wechat.model.entity.Emoji@15f92202
 五月 26, 2021 12:17:58 上午 com.melo.wechat.controller.websocket.WebSocket onMessage
 信息: 收到新消息---><img class="emoji" src="upload/emoji/9288c539-8a33-4525-9fc3-b2bbd3b1f406.png" alt="">
+五月 26, 2021 1:32:04 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->0
+五月 26, 2021 1:35:55 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->0
+五月 26, 2021 1:41:11 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->0
+五月 26, 2021 1:44:59 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->0
+五月 26, 2021 1:47:35 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->0
+五月 26, 2021 1:49:28 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->0
+五月 26, 2021 1:54:19 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->0
+五月 26, 2021 1:54:46 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->0
+五月 26, 2021 1:55:49 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->0
+五月 26, 2021 1:56:30 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->0
+五月 26, 2021 1:57:50 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->0
+五月 26, 2021 2:04:30 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->0
+五月 26, 2021 2:08:06 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->0
+五月 26, 2021 2:16:08 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->0
+五月 26, 2021 2:18:47 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->0
+五月 26, 2021 2:19:21 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->0
+五月 26, 2021 2:21:25 上午 com.melo.wechat.controller.websocket.WebSocket onMessage
+信息: 收到新消息--->2
+五月 26, 2021 2:21:29 上午 com.melo.wechat.controller.websocket.WebSocket onMessage
+信息: 收到新消息---><img class="emoji" src="upload/emoji/8ccce7f7-bc87-408d-b91e-becbbd1ea747.png" alt="">

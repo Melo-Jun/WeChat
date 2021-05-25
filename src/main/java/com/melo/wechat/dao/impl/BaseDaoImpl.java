@@ -3,10 +3,13 @@ package com.melo.wechat.dao.impl;
 import com.melo.wechat.annotation.Column;
 import com.melo.wechat.annotation.Table;
 import com.melo.wechat.annotation.log.LogError;
+import com.melo.wechat.controller.websocket.WebSocket;
 import com.melo.wechat.dao.inter.BaseDao;
 import com.melo.wechat.dao.inter.ResultMapper;
 import com.melo.wechat.exception.DaoException;
 import com.melo.wechat.utils.ConnectionManager;
+import com.melo.wechat.utils.log.LogErrorUtil;
+import com.melo.wechat.utils.log.LogInfoUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -14,6 +17,7 @@ import java.lang.reflect.Method;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.logging.Logger;
 
 import static com.melo.wechat.utils.ConnectionPool.*;
 import static com.melo.wechat.utils.JdbcUtils.*;
@@ -41,7 +45,7 @@ public class BaseDaoImpl implements BaseDao {
     public int executeUpdate(Object obj,String sql) {
         //影响的行数
         int count = 0;
-        Connection conn=getThreadConnection();
+        Connection conn=getLocalConnection();
         //判断线程上是否有绑定连接(需要事务处理),没有则直接从连接池中拿即可(无需事务处理)
         if(conn==null){
              conn = getConnection();
@@ -56,9 +60,10 @@ public class BaseDaoImpl implements BaseDao {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
-            ConnectionManager.closeThreadConn();
-           freeConnection(conn);
-           close(ps, null);
+            if(conn!=getLocalConnection()) {
+                freeConnection(conn);
+                close(ps, null);
+            }
         }
         return count;
     }
@@ -88,6 +93,8 @@ public class BaseDaoImpl implements BaseDao {
             return  resultMapper.doMap(rs);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            Logger logger = LogErrorUtil.getLogger(WebSocket.class.getName());
+            logger.severe("预编译查询语句异常：");
             throw new DaoException("预编译查询语句异常：");
         } finally {
             freeConnection(conn);
@@ -259,6 +266,8 @@ public class BaseDaoImpl implements BaseDao {
                     values.add(newInstance);
                 }
             } catch (SQLException | InstantiationException | IllegalAccessException | InvocationTargetException throwables) {
+                Logger logger = LogErrorUtil.getLogger(WebSocket.class.getName());
+                logger.severe("映射对象出现异常：");
                 throw new DaoException("映射对象出现异常");
             }
             return values;
@@ -292,6 +301,8 @@ public class BaseDaoImpl implements BaseDao {
                 value = method.invoke(obj);
             } catch (Exception e) {
                 e.printStackTrace();
+                Logger logger = LogErrorUtil.getLogger(WebSocket.class.getName());
+                logger.severe("反射调用该get方法不存在或异常->" + methodName);
                 throw new DaoException("反射调用该get方法不存在或异常->" + methodName);
             }
            /*

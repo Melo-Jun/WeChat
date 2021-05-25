@@ -47,7 +47,7 @@ public class ConnectionPool {
     /**
      *线程连接池
      */
-    private static ThreadLocal<Connection> threadLocal =new ThreadLocal<>();
+    public static ThreadLocal<Connection> threadLocal =new ThreadLocal<>();
 
     static {
         try {
@@ -128,6 +128,10 @@ public class ConnectionPool {
             throw new RuntimeException("数据库连接已经到达最大值");
         }
         return conn;
+    }
+
+    public static Connection getLocalConnection(){
+        return threadLocal.get();
     }
 
     /**
