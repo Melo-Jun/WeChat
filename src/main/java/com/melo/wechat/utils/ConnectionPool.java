@@ -14,7 +14,7 @@ import java.util.Properties;
  * @description 数据库连接池实现类
  * @date 2021-4-24
  */
-public class MyDataSource {
+public class ConnectionPool {
     /**
      * 配置文件路径
      */
@@ -43,9 +43,13 @@ public class MyDataSource {
     /**
      * 数据库连接池
      */
-    private LinkedList<Connection> connPool = new LinkedList<>();
+    private static LinkedList<Connection> connPool = new LinkedList<>();
+    /**
+     *线程连接池
+     */
+    private static ThreadLocal<Connection> threadLocal =new ThreadLocal<>();
 
-    {
+    static {
         try {
             /**
              * 加载配置文件
@@ -69,7 +73,7 @@ public class MyDataSource {
             /**
              * 初始化数据库连接池
              */
-            this.initConnection();
+            initConnection();
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
             throw new ExceptionInInitializerError(e);
@@ -94,7 +98,7 @@ public class MyDataSource {
     /**
      * 初始化数据库连接池
      */
-    public void initConnection() {
+    public static void initConnection() {
         for (int i = 0; i < INIT_SIZE; i++) {
             connPool.add(creatConnection());
         }
@@ -103,47 +107,52 @@ public class MyDataSource {
     /**
      * 从数据库连接池中获取连接
      *
-     * @return
-     * @throws SQLException
+     * @return Connection
      */
-    public synchronized Connection getConnection() throws SQLException {
+    public static synchronized Connection getConnection()  {
+        Connection conn=null;
         if (connPool.size() > 0) {
-            Connection conn = connPool.removeLast();
-            if(conn.isValid(TIMEOUT)){
-                return conn;
-            }else {
-                return creatConnection();
+             conn = connPool.removeLast();
+            try {
+                if(conn.isValid(TIMEOUT)){
+                    return conn;
+                }else {
+                    return creatConnection();
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             }
         } else if (currentCount < MAX_SIZE) {
             return creatConnection();
         } else {
             throw new RuntimeException("数据库连接已经到达最大值");
         }
+        return conn;
     }
 
+    /**
+     * 从线程中获取连接(用于事务)
+     *
+     * @return Connection
+     */
+    public static Connection getThreadConnection()  {
+        Connection conn = threadLocal.get();
+        if (conn == null) {
+            conn= getConnection();
+            threadLocal.set(conn);
+            return conn;
+        }
+        return conn;
+
+    }
 
     /**
      * 释放连接，归还到数据库连接池中
      * @param coon
      */
-    public void freeConnection(Connection coon) {
-        this.connPool.addLast(coon);
+    public static void freeConnection(Connection coon) {
+        connPool.addLast(coon);
     }
 
-    /**
-     * 获取当前连接数 (便于操作)
-     * @return
-     */
-    public synchronized int getCurrentConnection() {
-        return currentCount;
-    }
-
-    /**
-     * 获取空闲连接数
-     * @return
-     */
-    public synchronized int getfreeCount() {
-        return this.connPool.size();
-    }
 
 }

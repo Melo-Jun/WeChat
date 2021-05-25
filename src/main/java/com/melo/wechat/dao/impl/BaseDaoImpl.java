@@ -1,10 +1,12 @@
 package com.melo.wechat.dao.impl;
 
+import com.melo.wechat.annotation.Column;
 import com.melo.wechat.annotation.Table;
+import com.melo.wechat.annotation.log.LogError;
 import com.melo.wechat.dao.inter.BaseDao;
 import com.melo.wechat.dao.inter.ResultMapper;
 import com.melo.wechat.exception.DaoException;
-import com.melo.wechat.utils.StringUtils;
+import com.melo.wechat.utils.ConnectionManager;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -13,6 +15,7 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import static com.melo.wechat.utils.ConnectionPool.*;
 import static com.melo.wechat.utils.JdbcUtils.*;
 import static com.melo.wechat.utils.ReflectUtils.getFields;
 import static com.melo.wechat.utils.ReflectUtils.getMethods;
@@ -38,7 +41,11 @@ public class BaseDaoImpl implements BaseDao {
     public int executeUpdate(Object obj,String sql) {
         //影响的行数
         int count = 0;
-        Connection conn = getConnection();
+        Connection conn=getThreadConnection();
+        //判断线程上是否有绑定连接(需要事务处理),没有则直接从连接池中拿即可(无需事务处理)
+        if(conn==null){
+             conn = getConnection();
+        }
         PreparedStatement ps = null;
         try {
             assert conn != null;
@@ -49,8 +56,9 @@ public class BaseDaoImpl implements BaseDao {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
-            freeConnection(conn);
-            close(ps, null);
+            ConnectionManager.closeThreadConn();
+           freeConnection(conn);
+           close(ps, null);
         }
         return count;
     }
@@ -75,6 +83,7 @@ public class BaseDaoImpl implements BaseDao {
             if (obj != null) {
                 setParams(ps, obj);
             }
+            System.out.println(sql);
             rs = ps.executeQuery();
             return  resultMapper.doMap(rs);
         } catch (SQLException throwables) {
@@ -123,11 +132,12 @@ public class BaseDaoImpl implements BaseDao {
      */
     @Override
     public int delete(Object obj) {
-        String sql =  "delete from "+obj.getClass().getAnnotation(Table.class).name()+" where id=?";
+        StringBuilder sql =  new StringBuilder("delete from "+obj.getClass().getAnnotation(Table.class).name()+" ");
+        appendWhereToSql(sql,obj,"AND");
         /*
           完成sql注入和执行
          */
-        return executeUpdate(obj, sql);
+        return executeUpdate(obj, sql.toString());
     }
 
     /**
@@ -268,34 +278,29 @@ public class BaseDaoImpl implements BaseDao {
             return;
         }
         /*
-          取出包括父类在内的所有方法和属性
+          取出包括父类在内的所有属性
          */
-        LinkedList<Method> methods = getMethods(obj);
         LinkedList<Field> fields = getFields(obj);
         for (Field field : fields) {
             /*
               获取get方法并invoke执行取得属性值
              */
-            for (Method method : methods) {
-                if (method.getName().startsWith("get") && method.getName().substring(3).equalsIgnoreCase(field.getName())) {
-                    Object value = null;
-                    try {
-                        value = method.invoke(obj);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        throw new DaoException("反射执行get方法异常：" + method.getName(), e);
-                    }
-                    /*
-                      只添加不为null值的字段
-                     */
-                    if (value != null) {
-                        fieldValues.add(value);
-                        /*
-                          取出该属性的名称，映射成数据库字段名
-                         */
-                         fieldNames.add(toColumnName(field.getName()));
-                    }
-                }
+            String methodName = "get" + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
+            Object value = null;
+            try {
+                Method method = obj.getClass().getMethod(methodName);
+                value = method.invoke(obj);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new DaoException("反射调用该get方法不存在或异常->" + methodName);
+            }
+           /*
+           添加非空的属性值
+            */
+            if (value != null) {
+                fieldValues.add(value);
+                //通过该属性的注解获取数据库列名
+                fieldNames.add(field.getAnnotation(Column.class).value());
             }
         }
     }
@@ -343,7 +348,14 @@ public class BaseDaoImpl implements BaseDao {
         if(fieldValues.size()!=0) {
             sql.append(" where ");
             for (Object fieldName : fieldNames) {
-                sql.append(fieldName).append("=? ").append(type).append(" ");
+                //若是AND类型
+                if("AND".equals(type)) {
+                    sql.append(fieldName).append(" = ? ").append(type).append(" ");
+                }
+                //若为OR类型(在本项目中同时也是LIKE类型)
+                else {
+                    sql.append(fieldName).append(" like ? ").append(type).append(" ");
+                }
             }
             //删除最后一个AND/OR
             sql.delete(sql.length()-4,sql.length());
@@ -363,34 +375,12 @@ public class BaseDaoImpl implements BaseDao {
         return id.isEmpty()?null:id.getFirst();
     }
 
+
+    @LogError("你所获取到的对象为空")
     @Override
-    public <T> T getObjectById(String sql, Object obj, Class<?> clazz){
+    public <T> T getObjectBy(String sql, Object obj, Class<?> clazz){
         return (T)queryAll(sql,obj,clazz).getFirst();
     }
 
-    @Override
-    synchronized public Integer getMaxId(Object obj) {
-        String sql = "select MAX(id) from " + obj.getClass().getAnnotation(Table.class).name();
-        Connection conn=getConnection();
-        Statement stmt=null;
-        ResultSet rs=null;
-        try {
-            assert conn != null;
-            stmt=conn.createStatement();
-            rs=stmt.executeQuery(sql);
-            if(rs.next()){
-                /*
-                  获取最大后+1
-                 */
-                return rs.getInt(1)+1;
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }finally {
-            freeConnection(conn);
-            close(stmt,rs);
-        }
-        return 1;
-    }
 
 }

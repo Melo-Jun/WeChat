@@ -4,6 +4,8 @@ package com.melo.wechat.utils;
 
 
 import java.text.SimpleDateFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Jun
@@ -12,6 +14,15 @@ import java.text.SimpleDateFormat;
  * @date 2021-4-24
  */
 public class StringUtils {
+
+    // 定义script的正则表达式
+    private static final String REG_EX_SCRIPT = "<script[^>]*?>[\\s\\S]*?<\\/script>";
+    // 定义style的正则表达式
+    private static final String REG_EX_STYLE = "<style[^>]*?>[\\s\\S]*?<\\/style>";
+    // 定义HTML标签的正则表达式
+    private static final String REG_EX_HTML = "<[^>]+>";
+    //定义空格回车换行符
+    private static final String REG_EX_SPACE = "\\s*|\t|\r|\n";
 
     /**
      * 将属性名转化为数据库字段名
@@ -47,49 +58,46 @@ public class StringUtils {
     }
 
     /**
-     * 将数据库获取到的对象转化为特定时间戳显示格式
-     * @param date 对象
-     * @return String 时间戳字符串
+     * @Description: 去除输入中的注入标签，预防XSS攻击
+     * @param htmlStr 前台内容
+     * @date: 0:04 2021/5/22
+     * @return: java.lang.String
      */
-    public static String convert2Date(Object date){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        return sdf.format(date);
-    }
+    public static String delHtmlTag(String htmlStr) {
 
-    /**
-     * 去除输入中的不合法字符，忽略html标签
-     *
-     * @param str 需要被过滤的字符
-     * @date 2021-4-27
-     */
-    public static String toLegalTextIgnoreTag(String str) {
-        if (str == null || str.trim().isEmpty()) {
-            return "";
+        if(htmlStr!=null) {
+                // 过滤script标签
+                Pattern p_script = Pattern.compile(REG_EX_SCRIPT, Pattern.CASE_INSENSITIVE);
+                Matcher m_script = p_script.matcher(htmlStr);
+                htmlStr = m_script.replaceAll("*");
+
+                // 过滤style标签
+                Pattern p_style = Pattern.compile(REG_EX_STYLE, Pattern.CASE_INSENSITIVE);
+                Matcher m_style = p_style.matcher(htmlStr);
+                htmlStr = m_style.replaceAll("*");
+
+                // 过滤html标签
+                Pattern p_html = Pattern.compile(REG_EX_HTML, Pattern.CASE_INSENSITIVE);
+                Matcher m_html = p_html.matcher(htmlStr);
+                htmlStr = m_html.replaceAll("*");
+
+                // 返回文本字符串
+                return htmlStr.trim();
         }
-        String styleLabel = "<style[^>]*?>[\\s\\S]*?<\\/style>";
-        String scriptLabel = "<script[^>]*?>[\\s\\S]*?<\\/script>";
-        str = str.replaceAll(styleLabel, "");
-        str = str.replaceAll(scriptLabel, "");
-        return str;
+        return null;
     };
 
 
-    /**
-     * 去除输入中的不合法字符，防止标签注入
-     *
-     * @param str 需要被过滤的字符
-     * @date 2021-4-27
-     */
-    public static String toLegalText(String str) {
-        if (str == null || str.trim().isEmpty()) {
-            return "";
+    public static String delScriptTag(String htmlStr) {
+        if(htmlStr!=null) {
+            // 过滤script标签
+            Pattern p_script = Pattern.compile(REG_EX_SCRIPT, Pattern.CASE_INSENSITIVE);
+            Matcher m_script = p_script.matcher(htmlStr);
+            htmlStr = m_script.replaceAll("*");
+
+            return htmlStr;
         }
-        str = toLegalTextIgnoreTag(str);
-        String htmlLabel = "<[^>]+>";
-        str = str.replaceAll(htmlLabel, "");
-        str = str.replace("\"", "");
-        str = str.replaceAll("\t|\r|\n", "");
-        return str;
+        return null;
     }
 
 

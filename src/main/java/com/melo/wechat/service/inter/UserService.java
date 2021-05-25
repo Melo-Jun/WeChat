@@ -1,5 +1,6 @@
 package com.melo.wechat.service.inter;
 
+import com.melo.wechat.annotation.log.LogInfo;
 import com.melo.wechat.model.dto.ServiceResult;
 import com.melo.wechat.model.entity.User;
 
@@ -15,6 +16,7 @@ public interface UserService {
      * @param user 用户
      * @return com.melo.wechat.model.dto.Result 返回结果封装类
      */
+    @LogInfo("新用户登录")
     ServiceResult login(User user);
 
     /**
@@ -35,11 +37,11 @@ public interface UserService {
 
     /**
      * @Description: 搜索用户
-     * @param user
+     * @param searchText
      * @date: 9:55 2021/5/5
      * @return: com.melo.wechat.model.dto.ServiceResult
      */
-    ServiceResult searchUser(User user);
+    ServiceResult searchUser(String searchText);
 
     /**
      * @Description: 根据id获取User对象
@@ -65,4 +67,12 @@ public interface UserService {
      * @return: com.melo.wechat.model.dto.ServiceResult
      */
     ServiceResult updateUser(User oldUser,User newUser);
+
+    ServiceResult blockUser(User user);
+
+    ServiceResult unBlockUser(User user);
+
+    ServiceResult visit();
+
+    ServiceResult isVisitor(Integer id);
 }

@@ -7,46 +7,11 @@ import java.util.Map;
 import java.util.Set;
 
 import static com.melo.wechat.utils.ReflectUtils.getMethods;
+import static com.melo.wechat.utils.StringUtils.delHtmlTag;
 
 public class BeanUtils {
 
     public static <T> T parameter2Object(Map<String, String[]> parameter, Class<T> clazz) {
-//        Set<String> keys = parameter.keySet();
-//        Object instance = null;
-//        try {
-//            instance = clazz.newInstance();
-//        } catch (InstantiationException | IllegalAccessException e) {
-//            e.printStackTrace();
-//        }
-//        LinkedList<Field> fields = getFields(instance);
-//
-//        for (String key : keys) {
-//            boolean flag=false;
-//            for(Field field:fields){
-//                if(key.equalsIgnoreCase(field.getName())){
-//                    flag=true;
-//                    break;
-//                }
-//            }
-//            if(flag) {
-//                //目标:根据字段名获取对应的set方法,这是另外一种技术叫做 todo 内省, 通过Class对象解析set方法
-//                PropertyDescriptor descriptor = null;
-//                try {
-//                    descriptor = new PropertyDescriptor(key, clazz);
-//                } catch (IntrospectionException e) {
-//                    e.printStackTrace();
-//                }
-//                assert descriptor != null;
-//                //获取set方法
-//                Method writeMethod = descriptor.getWriteMethod();
-//                try {
-//                    writeMethod.invoke(instance, parameter.get(key));
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//        return instance;
 
                 T instance = null;
         try {
@@ -71,11 +36,11 @@ public class BeanUtils {
                 for (Method method : setMethods) {
                     if (entry.getKey().equalsIgnoreCase(method.getName().substring(3))) {
                         try {
+                            String value = entry.getValue()[0];
                             if(method.toString().contains(".Integer")){
-                                Integer value = Integer.parseInt(entry.getValue()[0]);
-                                method.invoke(instance, value);
+                                method.invoke(instance, Integer.parseInt(value));
                             }else {
-                                method.invoke(instance, entry.getValue()[0]);
+                                method.invoke(instance,value);
                             }
                         } catch (InvocationTargetException e) {
                             e.printStackTrace();

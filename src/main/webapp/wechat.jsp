@@ -50,7 +50,7 @@
     <%--                    </div>--%>
     <%--                </div>--%>
     <%--            </form>--%>
-    <%--            <button class="register-btn" type="submit" value="确定修改" onclick="updateUser()">修改</button>--%>
+    <%--            <button class="register-btn" type="button" value="确定修改" onclick="updateUser()">修改</button>--%>
     <%--        </div>--%>
     <%--    </div>--%>
     <%--    <div id="friendInform" style="display: none">--%>
@@ -72,7 +72,7 @@
     <%--                        <label for="newPass"></label><input type="password" placeholder="请输入新密码" name="password" id="newPass">--%>
     <%--                    </div>--%>
     <%--                </div>--%>
-    <%--            <button class="register-btn" type="submit" value="确定修改" onclick="updateUser()">修改</button>--%>
+    <%--            <button class="register-btn" type="button" value="确定修改" onclick="updateUser()">修改</button>--%>
     <%--        </div>--%>
     <%--    </div>--%>
 
@@ -85,11 +85,12 @@
         <li role="presentation" ><a ><p onclick="initGroup()" >群聊</p> </a></li>
         <li role="presentation" ><a ><p onclick="loadAllMoment(${userId})" >朋友圈</p></a></li>
         <li role="presentation" ><a ><p onclick="loadMyInform()">我的</p></a></li>
+        <li role="presentation" ><a ><p onclick="logout()">退出登录</p></a></li>
     </ul>
     <div class="contain">
         <div class="left" style="overflow-y: auto;overflow-x: hidden" >
             <div class="top" id="searchBox">
-                <input id="searchText" type="text" style="width: 192px" placeholder="请输入用户名或微信号"/>
+                <input id="searchText" type="text"  placeholder="请输入用户名或微信号"/>
                 <a class="search" id="searchUser" ><p onclick="searchUser()"><br>-搜索</p></a>
             </div>
             <ul class="people" id="left" >
@@ -259,6 +260,18 @@
 <script>
 
     /**
+     * @Description: 校验输入是否有效
+     * @date: 22:58 2021/5/21
+     */
+    function isValid(value){
+        if(value==null||value==''){
+            alert("输入内容不能为空");
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * @Description: 校验输入
      * @date: 22:05 2021/5/13
      */
@@ -292,33 +305,10 @@
         $("#simpleModal").hide();
     }
 
-    // //上传图片
-    // function updateAvatar() {
-    //
-    //     var formData = new FormData();
-    //     formData.append('photo', $(document.getElementById("uploadAvatar"))[0].files[0]);  //添加图片信息的参数
-    //     $.ajax({
-    //         url: "upload?method=updateAvatar",
-    //         type: 'POST',
-    //         cache: false, //上传文件不需要缓存
-    //         data: formData,
-    //         processData: false, // 告诉jQuery不要去处理发送的数据
-    //         contentType: false, // 告诉jQuery不要去设置Content-Type请求头
-    //         success:function(result){
-    //             $("#avatar").css({"background":"url(TempUpload/"+result.data+")","background-size":"cover"});
-    //         }
-    //         // success: function (data) {
-    //         //     if (data.message != null && data.message !== '') {
-    //         //         alert("系统提示：" + data.message);
-    //         //     }
-    //         // },
-    //         // Error: function (xhr, error, exception) {
-    //         //     alert(exception.toString());
-    //         // }
-    //     })
-    // }
-
-
+    /**
+     * @Description: 页面初始化调用函数
+     * @date: 19:15 2021/5/21
+     */
     $(function (){
         connectWebsocket();
     });
@@ -333,12 +323,11 @@
             var html = '    <div id="myInform" style="display: block">\n' +
                 '        <div class="main">\n' +
                 '            <span class="icon" onclick="hide(\'myInform\')"></span>\n' +
-                '            <br><br><div class="avatar" id="avatar" style="background: url(\'upload/'+user.avatar+'\');background-size: cover ">\n' +
+                '            <br><br><div class="avatar" id="avatar" style="background: url(\'upload/avatar/'+user.avatar+'\');background-size: cover ">\n' +
                 '            </div>\n' +
-                '            <form id="updateUserForm" method="post" enctype="multipart/form-data">\n' +
                 '                <div class="account">\n' +
                 '                    <br><div style="text-decoration: underline;margin-bottom: 5px;">修改头像</div>\n' +
-                '                    <br><input oninput="uploadPhoto(\'uploadAvatar\',\'upload?method=updateAvatar&&path=TempUpload\')" type="file" name="photo" id="uploadAvatar" style="margin-left: 5px" />\n' +
+                '                    <br><input oninput="uploadPhoto(\'uploadAvatar\',\'upload?method=uploadPhoto&&path=upload/avatarTemp\')" type="file" name="photo" id="uploadAvatar" style="margin-left: 5px" />\n' +
                 '                    <div class="input-box">\n' +
                 '                        <label for="wechatId"></label><input type="text" placeholder="原微信号: '+user.wechatId+'" name="wechatId" id="wechatId" >\n' +
                 '                    </div>\n' +
@@ -352,8 +341,7 @@
                 '                        <label for="newPass"></label><input type="password" placeholder="请输入新密码" name="password" id="newPass">\n' +
                 '                    </div>\n' +
                 '                </div>\n' +
-                '            </form>\n' +
-                '            <button class="register-btn" type="submit" value="确定修改" onclick="updateUser()">修改</button>\n' +
+                '            <button class="option-btn" type="button" value="确定修改" onclick="updateUser()">修改</button>\n' +
                 '        </div>\n' +
                 '    </div>\n';
             document.getElementById("simpleModal").innerHTML += html;
@@ -370,7 +358,7 @@
         var avatar=$("#avatar").css("background-image").split("(")[1].split(")")[0];
         avatar=avatar.substring(avatar.lastIndexOf("\/")+1,avatar.length-1);
         if($("#uploadAvatar").val()!=''){
-            uploadPhoto('uploadAvatar','upload?method=updateAvatar&&name='+avatar+'&&path=upload');
+            uploadPhoto('uploadAvatar','upload?method=uploadPhoto&&name='+avatar+'&&path=upload/avatar');
         }
 
         var wechatId=$("#wechatId").val()
@@ -424,11 +412,115 @@
                             "background-size": "cover"
                         });
                     }
+                    return true;
                 }
             })
         }else {
             alert("请确认你上传的是图片类型");
         }
+    }
+
+    /**
+     * @Description: 上传图片工具函数
+     * @date: 15:12 2021/5/12
+     */
+    function uploadFile(chatId){
+        if($("#file").val()!=null&&$("#file").val()!='') {
+            var name= prompt("请输入文件名称","未命名");
+            var url='upload?method=uploadPhoto&&path=upload/file/'+chatId+'/';
+            var path = url.substring(url.lastIndexOf("path") + 5, url.length);
+            var formData = new FormData();
+            //添加图片信息的参数
+            formData.append('file', $("#file" )[0].files[0]);
+            $.ajax({
+                url: url,
+                type: 'POST',
+                //上传文件不需要缓存
+                cache: false,
+                data: formData,
+                // 告诉jQuery不要去处理发送的数据
+                processData: false,
+                // 告诉jQuery不要去设置Content-Type请求头
+                contentType: false,
+                success: function (result) {
+                    if (result.data != null) {
+                        var content= '<a href="download?method=downloadFile&&path=upload/file/'+chatId+'/&&fileName='+result.data+'"  class="emoji" >文件名:<br> '+name+'</a>';
+                        websocket.send(JSON.stringify({
+                            senderId: ${userId},
+                            chatId: chatId,
+                            content: content,
+                            type:'file'
+                        }));
+                    }
+                    return true;
+                }
+            })
+        }else {
+            alert("上传内容不能为空");
+        }
+    }
+
+    /**
+     * @Description: 上传表情包函数
+     * @date: 15:12 2021/5/12
+     */
+    function uploadEmoji(id,url){
+        if(checkPhoto(id)) {
+            var uploadPath = url.substring(url.lastIndexOf("path") + 5, url.length);
+            var formData = new FormData();
+            //添加图片信息的参数
+            formData.append('photo', $("#" + id)[0].files[0]);
+            $.ajax({
+                url: url,
+                type: 'POST',
+                //上传文件不需要缓存
+                cache: false,
+                data: formData,
+                // 告诉jQuery不要去处理发送的数据
+                processData: false,
+                // 告诉jQuery不要去设置Content-Type请求头
+                contentType: false,
+                success: function (result) {
+                    if (result.data != null) {
+                        $("#emoji").css({
+                            "background-image": "url(" + uploadPath + "/" + result.data + ")",
+                            "background-size": "cover"
+                        });
+                    }
+                    var path=JSON.stringify(result.data);
+                    var emoji =" <img onclick='reviewEmoji("+path+")'  id='"+result.data+"' class='emoji' src='upload/emoji/"+result.data+"' alt='' />\n";
+                    document.getElementById("emojiList").innerHTML+=emoji;
+
+                    //上传到用户的表情库中
+                    $.post("emoji?method=uploadEmoji",{userId:${userId},path:result.data});
+                }
+            });
+        }else {
+            alert("请确认你上传的是图片类型");
+        }
+    }
+
+    /**
+     * @Description: 退出登录
+     * @date: 12:01 2021/5/23
+     */
+    function logout(){
+
+        <%--var returnData;--%>
+        <%--$.ajax({--%>
+        <%--    url: "user?method=logout" ,--%>
+        <%--    type: "POST",--%>
+        <%--    data:{userId:${userId}},--%>
+        <%--    dataType: "json",--%>
+        <%--    async: false,--%>
+        <%--    success: function (result) {--%>
+        <%--        window.open("http://${host}/login.jsp");            }--%>
+        <%--});--%>
+        <%--return returnData;--%>
+        $.post("user?method=logout",{userId:${userId}},function (result){
+            <%--window.open("http://${host}/login.jsp");--%>
+            window.location.href="login.jsp";
+        });
     }
 
     /**
@@ -440,26 +532,30 @@
         $("#left").html('');
         $("#searchBox").html('');
 
-        var html='<input id="searchText" type="text" style="width: 192px" placeholder="请输入用户名或微信号"/>\n' +
+        var html='<input id="searchText" type="text"  placeholder="请输入用户名或微信号"/>\n' +
             '        <a class="search" id="searchUser" ><p onclick="searchUser()"><br>-搜索</p></a>';
         document.getElementById("searchBox").innerHTML+=html;
 
         $.post("friend?method=loadFriend",{userId:${userId}},function (result){
-            var friends = result.data;
-            var isBlock='';
-            for (var i=0;i<friends.length;i++){
-                if(friends[i].isBlock==1){
-                    isBlock="(已拉黑)";
+            if(result.flag) {
+                var friends = result.data;
+                var isBlock = '';
+                for (var i = 0; i < friends.length; i++) {
+                    if (friends[i].isBlock == 1) {
+                        isBlock = "(已拉黑)";
+                    }
+                    var html = "<div id='friendList'>\n" +
+                        "<li class='person' onclick='showFriendChat(" + friends[i].id + ")' >\n" +
+                        '                <img src="upload/avatar/' + friends[i].avatar + '"' + ' />\n' +
+                        '                <span class="name" >' + friends[i].alias + isBlock + '</span>\n' +
+                        '                <span class="time">' + friends[i].gmtCreate + '</span>\n' +
+                        '                <span class="preview">好友描述:' + friends[i].description + '</span>\n' +
+                        '            </li>\n' +
+                        '</div>';
+                    document.getElementById("left").innerHTML += html;
                 }
-                var html="<div id='friendList'>\n" +
-                    "<li class='person' onclick='showFriendChat("+friends[i].id+")' >\n" +
-                    '                <img src="upload/'+friends[i].avatar+'" alt="" />\n' +
-                    '                <span class="name" >'+friends[i].alias+isBlock+'</span>\n' +
-                    '                <span class="time">状态:'+friends[i].friendId+'</span>\n' +
-                    '                <span class="preview">好友描述:'+friends[i].description+'</span>\n' +
-                    '            </li>\n' +
-                    '</div>';
-                document.getElementById("left").innerHTML+=html;
+            }else {
+                alert("你还没有加好友");
             }
         });
     }
@@ -468,8 +564,135 @@
      * @Description: 创建群聊
      * @date: 8:46 2021/5/18
      */
-    function newGroup(){
+    function initNewGroup(){
 
+        var html = '    <div id="newGroupInvite" style="display: block">\n' +
+            '        <div class="newGroup">\n' +
+            '<p class="leftText" >待邀请好友</p>'+
+            '<p class="rightText">已邀请好友</p>' +
+            '<div id="leftUser" class="leftUser" >' +
+            '</div>'+
+            '<div id="rightUser" class="rightUser"  >' +
+            '</div>'+
+            '            <span class="icon" onclick="hide(\'newGroupInvite\')"></span>\n' +
+            '            <button class="option-btn" type="button" value="确定创建群聊" onclick="newGroup()">创建群聊</button>\n' +
+            '        </div>\n' +
+            '    </div>\n';
+        document.getElementById("simpleModal").innerHTML += html;
+        $("#simpleModal").show();
+        $.post("friend?method=loadFriend",{userId:${userId}},function (result) {
+            var friends=result.data;
+            for(var i=0;i<friends.length;i++){
+                if(!isVisitor(friends[i].friendId)) {
+                    var html =
+                        '<div style="background: cadetblue" id="' + friends[i].friendId + '">' +
+                        '    <span>' + friends[i].alias + '</span>\n' +
+                        ' <img  style="width: 80px;margin-top: 20px;"  src="upload/avatar/' + friends[i].avatar + '" alt="" >\n' +
+                        '    <button onclick="move(' + friends[i].friendId + ')" class="btn-default">增加或删除</button>' +
+                        '</div>';
+                    document.getElementById("leftUser").innerHTML += html;
+                }
+            }
+        });
+    }
+
+    /**
+     * @Description: 创建群聊
+     * @date: 18:15 2021/5/20
+     */
+    function newGroup(){
+        var name=prompt("请为你的群设置群名称","吹水小组");
+        var userList = [];
+        for (var i = 0; i < document.getElementById("rightUser").childNodes.length; i++) {
+            userList[i] = document.getElementById("rightUser").childNodes[i].id;
+        }
+        userList=userList.toString();
+        if (userList.length == 0) {
+            alert("你未选中待邀请成员");
+        }else {
+        $.post("chat?method=newGroup",{name:name,userList:userList,userId:${userId}},function (result){
+            if(result.flag){
+                alert(result.message);
+                hide("newGroupInvite");
+                loadGroup();
+            }
+        });
+        }
+    }
+
+    /**
+     * @Description: 邀请新的群成员
+     * @date: 8:46 2021/5/18
+     */
+    function initInviteGroup(chatId,master){
+
+        hide("chatMembersBox");
+        var html = ' <div id="InviteGroup" style="display: block">\n' +
+            '        <div class="newGroup">\n' +
+            '<p class="leftText" >待邀请好友</p>'+
+            '<p class="rightText">已邀请好友</p>' +
+            '<div id="leftUser" class="leftUser" >' +
+            '</div>'+
+            '<div id="rightUser" class="rightUser"  >' +
+            '</div>'+
+            '            <span class="icon" onclick="showChatMember(\''+chatId+'\',\''+master+'\')"></span>\n' +
+            '            <button class="option-btn" type="button"  onclick="inviteMember(\''+chatId+'\')">确定邀请</button>\n' +
+            '        </div>\n' +
+            '    </div>\n';
+        document.getElementById("simpleModal").innerHTML += html;
+        $("#simpleModal").show();
+        $.post("friend?method=loadFriend",{userId:${userId}},function (result) {
+            var friends=result.data;
+            for(var i=0;i<friends.length;i++){
+                if(!isAtGroup(friends[i].friendId,chatId)&&!isVisitor(friends[i].friendId)) {
+                    var html =
+                        '<div style="background: cadetblue" id="' + friends[i].friendId + '">' +
+                        '    <span>' + friends[i].alias + '</span>\n' +
+                        ' <img  style="width: 80px;margin-top: 20px;"  src="upload/avatar/' + friends[i].avatar + '" alt="" >\n' +
+                        '    <button onclick="move(' + friends[i].friendId + ')" class="btn-default">增加或删除</button>' +
+                        '</div>';
+                    document.getElementById("leftUser").innerHTML += html;
+                }
+            }
+        });
+    }
+
+    /**
+     * @Description: 邀请好友进入群聊(游客不可进入)
+     * @date: 18:15 2021/5/20
+     */
+    function inviteMember(chatId){
+        if(confirm("确定邀请吗")) {
+            var userList = [];
+            for (var i = 0; i < document.getElementById("rightUser").childNodes.length; i++) {
+                userList[i] = document.getElementById("rightUser").childNodes[i].id;
+            }
+            userList = userList.toString();
+            if (userList.length == 0) {
+                alert("你未选中待邀请成员");
+            } else {
+                $.post("chat?method=inviteMember", {userList: userList, chatId: chatId}, function (result) {
+                    if (result.flag) {
+                        alert(result.message);
+                        hide("InviteGroup");
+                        showGroupChat(chatId);
+                    }
+                });
+            }
+        }
+    }
+
+
+
+    function move(id) {
+        var html = $("#" + id).parent().html();
+        if (document.getElementById(id).parentElement.id == "leftUser") {
+            $("#" + id).remove();
+            $("#rightUser").append(html);
+        }else  {
+            $("#" + id).remove();
+            $("#leftUser").append(html);
+        }
     }
 
 
@@ -478,21 +701,16 @@
      * @date: 16:50 2021/5/15
      */
     function loadGroup(){
-        $("#searchBox").html('');
-        var html='<input id="searchText" type="text" style="width: 192px" placeholder="请输入群号(模糊搜索)"/>\n' +
-            '        <a class="search" id="searchUser" ><p onclick="searchUser()"><br>-搜索</p></a>';
-        document.getElementById("searchBox").innerHTML+=html;
-        var userId="${sessionScope.login.id}";
-        $.post("chat?method=loadGroup",{userId:userId},function (result) {
+        $.post("chat?method=loadGroup",{userId:${userId}},function (result) {
             document.getElementById("left").innerHTML='';
             var groups=result.data;
               for(var i=0;i<groups.length;i++){
                   var html="<div id='groupList'>\n" +
                       "<li class='person' onclick='showGroupChat("+groups[i].id+")' >\n" +
-                      '                <img src="upload/'+groups[i].photo+'" alt="" />\n' +
+                      '                <img src="upload/groupAvatar/'+groups[i].avatar+'" alt="" />\n' +
                       '                <span class="name" >'+groups[i].name+'</span>\n' +
                       '                <span class="time">群主id:'+groups[i].master+'</span>\n' +
-                      '                <span class="preview">好友描述:'+groups[i].number+'</span>\n' +
+                      '                <span class="preview">群号:'+groups[i].number+'</span>\n' +
                       '            </li>\n' +
                       '</div>';
                   document.getElementById("left").innerHTML+=html;
@@ -524,15 +742,17 @@
 
             var html = '<div class="top" style="top:0">' +
                 '<span class="name">In: ' + chat.name + '</span>' +
+                '<input type="file" name="file" id="file" onchange="uploadFile('+chatId+')" style="display:none">'+
+                "<span  onclick='initUpload("+chatId+")' class='icon' style='right:40px;background-image: url(img/发送文件.png)' ></span>" +
                 "<span onclick='showChatInform(" + chat.id + ")' class='icon' style='background-image: url(img/省略号.png)' ></span>" +
                 '</div>' +
                 '<div id=' + chat.id + '>\n' +
                 '<div class="chat active-chat" data-chat="person2" id="chatBox">' +
                 '</div>' +
                 '<div class="write" style="bottom: 0">\n' +
-                '                <a class="write-link attach"></a>\n' +
+                '                <a class="write-link attach"  ></a>\n' +
                 '                <input type="text" id="content" />\n' +
-                '                <a  class="write-link smiley"></a>\n' +
+                '                <a  class="write-link smiley" onclick="loadGroupEmoji('+chat.id+')"></a>\n' +
                 '                <a  class="write-link send" onclick="sendGroupMessage(' + chat.id + ')"></a>\n' +
                 '            </div>' +
                 '            </div>';
@@ -541,6 +761,10 @@
             //展示最近记录
             loadMessage(chat.id);
         });
+    }
+
+    function initUpload(chatId){
+        $("#file").trigger("click");
     }
 
     /**
@@ -554,17 +778,19 @@
             var friend=result.data;
             $("#rightBox").html('');
 
-            var html = '<div class="top" style="top:0">' +
+            var html = '<div id="top"  class="top" style="top:0">' +
                 '<span class="name">To: ' + friend.alias +'('+friend.status+')'+ '</span>' +
+                '<input type="file" name="file" id="file" onchange="uploadFile('+friend.chatId+')" style="display:none">'+
+                "<span  onclick='initUpload("+friend.chatId+")' class='icon' style='right:40px;background-image: url(img/发送文件.png)' ></span>" +
                 "<span onclick='showFriendInform(" + friend.id + ")' class='icon' style='background-image: url(img/省略号.png)' ></span>" +
                 '</div>' +
                 '<div id=' + friend.chatId + '>\n' +
                 '<div class="chat active-chat" data-chat="person2" id="chatBox">' +
                 '</div>' +
-                '<div class="write" style="bottom: 0">\n' +
+                '<div id="write"  class="write" style="bottom: 0">\n' +
                 '                <a class="write-link attach"></a>\n' +
                 '                <input type="text" id="content" />\n' +
-                '                <a  class="write-link smiley"></a>\n' +
+                '                <a  class="write-link smiley" onclick="loadFriendEmoji(\''+friend.friendId+'\',\''+friend.chatId+'\',\''+friend.isBlock+'\')"></a>\n' +
                 '                <a  class="write-link send" onclick="sendFriendMessage(\''+friend.friendId+'\',\''+friend.chatId+'\',\''+friend.isBlock+'\')"></a>\n' +
                 '            </div>' +
                 '            </div>';
@@ -574,6 +800,77 @@
             loadMessage(friend.chatId);
         });
 
+    }
+
+    function initListMessageByPage(chatId){
+
+        var html = '<nav aria-label="Page navigation" style="bottom: 15px;position: relative;margin-left: 120px;">\n' +
+            '  <ul id="page" class="pagination">\n' +
+            '  </ul>\n' +
+            '</nav>';
+        document.getElementById("write").innerHTML = '';
+        document.getElementById("write").innerHTML += html;
+
+        var currentPage=1;
+
+        var returnData;
+        $.ajax({
+            url: "message?method=listMessageByPage" ,
+            type: "POST",
+            data:{chatId:chatId,currentPage:currentPage},
+            dataType: "json",
+            contentType: 'application/json',
+            async: false,
+            success: function (result) {
+                for(var i=1;i<result.totalPage;i++){
+                    alert(i);
+                    document.getElementById("page").innerHTML +=  '<li><a ><p>1</p></a></li>\n' ;
+
+                }
+            }
+        });
+        // return returnData;
+
+
+        // $.post("message?method=listMessageByPage",{chatId:chatId,currentPage:currentPage},function (result) {
+        //
+        //     for(var i=1;i<result.totalPage;i++){
+        //         alert(i);
+        //        document.getElementById("page").innerHTML +=  '<li><a ><p>1</p></a></li>\n' ;
+        //
+        //     }
+        // });
+    }
+
+    /**
+     * @Description: 展示用户个人信息
+     * @date: 20:41 2021/5/21
+     */
+    function showUserInform(userId){
+
+        $.post("user?method=showUserInform",{id:userId},function (result) {
+            var user=result.data;
+            var html =
+                '    <div id="UserInform" style="display: block">\n' +
+                '        <div class="searchUserInform">\n' +
+                '            <span class="search-icon" onclick="hide(\'UserInform\')"></span>\n' +
+                '            <br><div id="avatar"  class="avatar" style="background: url(\'upload/avatar/'+user.avatar+'\');background-size: cover ">\n' +
+                '            </div>\n' +
+                '                <div class="account">\n' +
+                '                    <div class="input-box">\n' +
+                '                        <br><br><p class="friendInfoText"> <font color="#99FF33" > 微信号:</font>  '+ user.wechatId +'</p>\n' +
+                '                    </div>\n' +
+                '                    <div class="input-box">\n' +
+                '                        <br><br><p class="friendInfoText"> <font color="#99FF33" >用户名:</font>  '+ user.userName +'</p>\n' +
+                '                    </div>\n' +
+                '                </div>\n' +
+                '            <br><button class="option-btn" type="button"  onclick="addFriend('+userId+')">添加好友</button>\n' +
+                '        </div>\n' +
+                '</div>';
+
+            document.getElementById("simpleModal").innerHTML += html;
+            $("#simpleModal").show();
+        });
     }
 
     /**
@@ -586,6 +883,7 @@
 
             var functionName='';
             var functionType='';
+            //判断拉黑状态
             if(friendVo.isBlock==0){
                 functionName='拉黑好友';
                 functionType='blockFriend';
@@ -596,7 +894,7 @@
             var html='    <div id="friendInform" >\n' +
                 '        <div class="main">\n' +
                 '            <span class="icon" onclick="hide(\'friendInform\')"></span>\n' +
-                '            <br><div id="avatar"  class="avatar" style="background: url(\'upload/'+friendVo.avatar+'\');background-size: cover ">\n' +
+                '            <br><div id="avatar"  class="avatar" style="background: url(\'upload/avatar/'+friendVo.avatar+'\');background-size: cover ">\n' +
                 '            </div>\n' +
                 '                <div class="account">\n' +
                 '                    <div class="input-box">\n' +
@@ -608,17 +906,47 @@
                 '                     <div class="input-box">\n' +
                 '                        <br><br><p class="friendInfoText"> <font color="#99FF33" >备注:</font>  '+ friendVo.alias +'</p>\n' +
                 '                    </div>\n' +
-                '                </div>\n' +
-                '            <br><button class="register-btn" type="submit"  onclick="showMoment(\''+friendVo.id+'\',\''+friendVo.alias+'\')">查看朋友圈</button>\n' +
-                '            <br><button class="register-btn" type="submit"  onclick="updateAlias(\''+friendVo.id+'\',\''+friendVo.alias+'\')">修改备注</button>\n' +
-                '            <br><button class="register-btn" type="submit"  onclick="'+functionType+'('+friendVo.id+')">'+functionName+'</button>\n' +
-                '            <br><button class="register-btn" type="submit"  onclick="deleteFriend('+friendVo.chatId+')">删除好友</button>\n' +
+                '                </div>\n' ;
+
+            //若对方为管理员
+            if(friendVo.userId==0)
+             html+=
+                '            <br><button class="option-btn" type="button"  onclick="loadAllMoment('+friendVo.userId+')">查看管理员公告</button>\n' +
                 '        </div>\n' +
                 '    </div>';
+            //若自己为管理员
+            else if(0==${userId}){
+                if(friendVo.validity==1) {
+                    html +=
+                        '<br><button class="option-btn" type="button"  onclick="loadAllMoment(' + friendVo.userId + ')">管理朋友圈</button>\n' +
+                        '            <br><button id="block" class="option-btn" type="button"  onclick="blockUser(\''+friendVo.userId+'\',\''+friendVo.id+'\')">封号</button>\n' +
+                        '        </div>\n' +
+                        '    </div>';
+                }
+                else {
+                    html +=
+                        '<br><button class="option-btn" type="button"  onclick="loadAllMoment(' + friendVo.userId + ')">管理朋友圈</button>\n' +
+                        '            <br><button id="block" class="option-btn" type="button"  onclick="unBlockUser(\''+friendVo.userId+'\',\''+friendVo.id+'\')">取消封号</button>\n' +
+                        '        </div>\n' +
+                        '    </div>';
+                }
+            }
+            else{
+                html+=
+                    '            <br><button class="option-btn" type="button"  onclick="loadAllMoment('+friendVo.userId+')">查看朋友圈</button>\n' +
+                    '            <br><button class="option-btn" type="button"  onclick="updateAlias(\''+friendVo.id+'\',\''+friendVo.alias+'\')">修改备注</button>\n' +
+                    '            <br><button id="block" class="option-btn" type="button"  onclick="'+functionType+'('+friendVo.id+')">'+functionName+'</button>\n' +
+                    '            <br><button id="deleteFriend" class="option-btn" type="button"  onclick="deleteFriend('+friendVo.chatId+')">删除好友</button>\n' +
+                    '        </div>\n' +
+                    '    </div>';
+            }
+
             $("#simpleModal").html(html);
             $("#simpleModal").show();
+
         });
     }
+
 
     /**
      * @Description: 查看群聊信息
@@ -627,30 +955,205 @@
     function showChatInform(chatId) {
         $.post("chat?method=showChatInform", {chatId: chatId}, function (result) {
             var chat=result.data;
-            var html='    <div id="chatInform" >\n' +
-                '        <div class="main">\n' +
+            var html= '    <div id="chatInform" >\n' +
+                '        <div class="main" style="height: 600px;margin-top: 48px">\n' +
                 '            <span class="icon" onclick="hide(\'chatInform\')"></span>\n' +
-                '            <br><div id="avatar"  class="avatar" style="background: url(\'upload/'+chat.photo+'\');background-size: cover ">\n' +
+                '            <br><div id="avatar"  class="avatar" style="background: url(\'upload/groupAvatar/'+chat.avatar+'\');background-size: cover ">\n' +
                 '            </div>\n' +
                 '                <div class="account">\n' +
                 '                    <div class="input-box">\n' +
-                '                        <br><br><p class="friendInfoText" > <font color="#99FF33" style="margin-bottom: 2px" > 群号:</font><br><br> '+ chat.number +'</p>\n' +
+                '                        <br><br><p class="friendInfoText" > <font color="#99FF33" style="margin-bottom: 2px" > 群号:</font> '+ chat.number +'</p>\n' +
                 '                    </div>\n' +
                 '                    <div class="input-box">\n' +
                 '                        <br><br><p class="friendInfoText"> <font color="#99FF33" style="margin-top: 12px;" >群名称:</font>  '+ chat.name +'</p>\n' +
                 '                    </div>\n' +
                 '                     <div class="input-box">\n' +
-                '                        <br><br><p class="friendInfoText"> <font color="#99FF33" >群主id:</font>  '+ chat.master +'</p>\n' +
-                '            <br><button class="register-btn" type="submit"  onclick="showChatMember('+chatId+')">查看群成员</button>\n' +
-                '            <br><button class="register-btn" type="submit"  onclick="updateMemberName('+chatId +')">修改群昵称</button>\n' +
-                '            <br><button class="register-btn" type="submit"  onclick="exitGroup('+chatId+')">退出群聊</button>\n' +
-                '                    </div>\n' +
-                '                </div>\n' +
-                '        </div>\n' +
-                '    </div>';
+                '                        <br><br><p class="friendInfoText"> <font color="#99FF33" >群主id:</font>  '+ chat.master +'</p>\n' ;
+
+            if(chat.master==${userId}){
+                html+=
+                    '            <br><input oninput="uploadPhoto(\'uploadAvatar\',\'upload?method=uploadPhoto&&path=upload/groupAvatarTemp\')" type="file" name="photo" id="uploadAvatar" style="margin-left: 5px;background: bottom" />\n' +
+                    '            <br><button class="option-btn" type="button"  onclick="updateGroupAvatar('+chatId+')">修改群头像</button>\n' +
+                    '            <br><button class="option-btn" type="button"  onclick="showChatMember(\''+chatId+'\',\''+chat.master+'\')">查看群成员</button>\n' +
+                    '            <br><button class="option-btn" type="button"  onclick="updateChatName(\''+chat.id+'\',\''+chat.name+'\')">修改群名称</button>\n' +
+                    '            <br><button class="option-btn" type="button"  onclick="deleteGroup('+chatId+')">解散群聊</button>\n' +
+                    '                    </div>\n' +
+                    '                </div>\n' +
+                    '        </div>\n' +
+                    '    </div>';
+            }else {
+                html+=
+                    '            <br><button class="option-btn" type="button"  onclick="showChatMember(\''+chatId+'\',\''+chat.master+'\')">查看群成员</button>\n' +
+                    '            <br><button class="option-btn" type="button"  onclick="updateMemberName('+chatId +')">修改群名片</button>\n' +
+                    '            <br><button class="option-btn" type="button"  onclick="exitGroup('+chatId+')">退出群聊</button>\n' +
+                    '                    </div>\n' +
+                    '                </div>\n' +
+                    '        </div>\n' +
+                    '    </div>';
+            }
+
             $("#simpleModal").html(html);
             $("#simpleModal").show();
         });
+    }
+
+    function showChatMember(chatId,master){
+
+        hide("chatInform");
+        $.post("chat?method=showChatMember",{chatId:chatId},function (result){
+            var members=result.data;
+            var member='';
+            var html = '    <div id="chatMembersBox" style="display: block">\n' +
+                '        <div id="chatMembers" class="chatMembers">\n' +
+                '<span onclick="initInviteGroup(\''+chatId+'\',\''+master+'\')" class="icon" style="right:160px; background-image: url(img/邀请好友.png)" ></span>' +
+                '<button style="width: 50px;margin-left: 300px;" class="option-btn" type="button"  onclick="showChatInform('+chatId+')">返回</button>\n'+
+                '        </div>\n' +
+            '    </div>\n';
+            $("#simpleModal").html(html);
+            for(var i=0;i<members.length;i++){
+                member+=
+                    '<div class="chat-line" style="height: 80px;background: steelblue;margin-top: 5px">' +
+                    '<div class="bubble you" style="margin-left: 100px;width:70%;float: right" >\n' ;
+                    //判断是否为群主
+                    if(master==${userId}&&members[i].userId!=${userId}){
+                        if(members[i].isBlock==0) {
+                            member += '<button onclick="blockMember(\''+members[i].id+'\',\''+members[i].chatId+'\',\''+master+'\')" class="chat-member-btn">禁言</button>' ;
+                        }else {
+                            member += '<button onclick="unBlockMember(\''+members[i].id+'\',\''+members[i].chatId+'\',\''+master+'\')" class="chat-member-btn">取消禁言</button>' ;
+                        }
+                        member+='<button onclick="deleteMember(\''+chatId+'\',\''+members[i].id+'\',\''+master+'\')" class="chat-member-btn">踢出群聊</button>';
+                    }else {
+                        if(members[i].userId!=${userId}){
+                            member+= '<button onclick="addFriend('+members[i].userId+')" class="chat-member-btn">添加好友</button>';
+                        }
+                    }
+                member+=
+                    '                </div>' +
+                    '<p class="chat-left-name" style="font-size: 15px;" >' + members[i].memberName +'('+members[i].role+')'+ '</p>' +
+                    '<img src="upload/avatar/' + members[i].memberAvatar + '" class="img-circle chat-image-left" lt="">\n' +
+                    '</div>' ;
+            }
+
+            document.getElementById("chatMembers").innerHTML+=member;
+            $("#simpleModal").show();
+        })
+
+
+    }
+
+    /**
+     * @Description: 群主修改群名称
+     * @date: 15:18 2021/5/22
+     */
+    function updateChatName(chatId,name){
+        var newName=prompt("请输入新群名",name);
+        if(isValid(newName)) {
+            $.post("chat?method=updateChatName",{id:chatId,name:newName},function (result){
+                    alert(result.message);
+                    loadGroup();
+                    showGroupChat(chatId);
+                    showChatInform(chatId);
+            });
+        }
+    }
+
+    /**
+     * @Description: 更改群昵称
+     * @date: 22:14 2021/5/22
+     */
+    function updateMemberName(chatId,oldName){
+        var memberName=prompt("请输入新的群名片昵称",oldName);
+        if(isValid(memberName)) {
+            $.post("chat?method=updateMemberName",{userId:${userId},chat:chatId,memberName:memberName},function (result){
+                alert(result.message);
+                loadGroup();
+                showGroupChat(chatId);
+            });
+        }
+    }
+
+    /**
+     * @Description: 群主更改群头像
+     * @date: 22:14 2021/5/22
+     */
+    function updateGroupAvatar(chatId){
+        //上传到头像储存的文件夹(非临时文件夹)
+        var avatar=$("#avatar").css("background-image").split("(")[1].split(")")[0];
+        avatar=avatar.substring(avatar.lastIndexOf("\/")+1,avatar.length-1);
+        if(isValid($("#uploadAvatar").val())){
+            uploadPhoto('uploadAvatar','upload?method=uploadPhoto&&name='+avatar+'&&path=upload/groupAvatar');
+        }
+
+        $.post("chat?method=updateGroupAvatar",{id:chatId,avatar:avatar},function (result){
+            if(result.flag){
+                alert("修改成功");
+                loadGroup();
+                showGroupChat(chatId);
+            }
+        })
+    }
+
+    /**
+     * @Description: 解散群聊
+     * @date: 23:02 2021/5/22
+     */
+    function deleteGroup(chatId){
+        $.post("chat?method=deleteGroup",{id:chatId},function (result){
+            alert(result.message);
+            hide("chatInform");
+            loadGroup();
+            $("#rightBox").html('');
+        })
+    }
+
+    /**
+     * @Description: 退出群聊
+     * @date: 23:05 2021/5/22
+     */
+    function exitGroup(chatId){
+        $.post("chat?method=exitGroup",{chatId:chatId,userId:${userId}},function (result){
+            alert(result.message);
+            hide("chatInform");
+            loadGroup();
+            $("#rightBox").html('');
+        })
+    }
+
+    /**
+     * @Description: 禁言群成员
+     * @date: 22:14 2021/5/22
+     */
+    function blockMember(id,chatId,master){
+        $.post("chat?method=blockMember",{id:id,isBlock:1},function (result){
+            alert(result.message);
+            hide("chatMembersBox")
+            showChatMember(chatId,master);
+        })
+    }
+
+    /**
+     * @Description: 取消禁言群成员
+     * @date: 22:17 2021/5/22
+     */
+    function unBlockMember(id,chatId,master){
+        $.post("chat?method=unBlockMember",{id:id,isBlock:0},function (result){
+            alert(result.message);
+            hide("chatMembersBox")
+            showChatMember(chatId,master);
+        })
+    }
+
+    /**
+     * @Description: 踢出群聊
+     * @date: 22:42 2021/5/22
+     */
+    function deleteMember(chatId,id,master){
+        $.post("chat?method=deleteMember",{id:id},function (result){
+            alert(result.message);
+            hide("chatMembersBox");
+            showChatMember(chatId,master);
+            showGroupChat(chatId);
+        })
     }
 
     /**
@@ -676,6 +1179,36 @@
             hide('friendInform');
             loadFriend();
             showFriendChat(id);
+        });
+    }
+
+    /**
+     * @Description: 管理员封号
+     * @date: 14:34 2021/5/23
+     */
+    function blockUser(userId,friendId){
+        $.post("user?method=blockUser",{id:userId,validity:0},function (result){
+            alert(result.message);
+            hide("friendInform")
+            showFriendInform(friendId);
+            websocket.send(JSON.stringify({
+                senderId: 0,
+                receiverId:friendId,
+                content: "你已被封号,未申请解封通过之前不得登录",
+                type:'adminNotice'
+            }));
+        });
+    }
+
+    /**
+     * @Description: 管理员解封
+     * @date: 14:34 2021/5/23
+     */
+    function unBlockUser(userId,friendId){
+        $.post("user?method=unBlockUser",{id:userId,validity:1},function (result){
+            alert(result.message);
+            hide("friendInform");
+            showFriendInform(friendId);
         });
     }
 
@@ -718,23 +1251,24 @@
         $.post("friend?method=isBlocked",{userId:friendId,chatId:chatId},function(result){
             if(result.flag){
                 alert(result.message);
+                return;
             }else if(isBlock==1){
-                alert("你已拉黑该用户")
+                alert("你已拉黑该用户");
+                return;
             }
             else{
             var content=$("#content").val();
-            if(content==null||content==''){
-                alert("发送消息不能为空");
+            if(isValid(content)){
+                websocket.send(JSON.stringify({
+                    senderId: ${userId},
+                    chatId: chatId,
+                    content: content
+                }));
             }
-            websocket.send(JSON.stringify({
-                senderId: ${sessionScope.login.id},
-                chatId: chatId,
-                content: content,
-            }));
             //清空输入框
                 $("#content").val('');
             }
-        })
+        });
 
     }
 
@@ -747,21 +1281,153 @@
         $.post("chat?method=isBlocked",{userId:${userId},chatId:chatId},function(result){
             if(result.flag){
                 alert(result.message);
+                return;
             }else{
                     var content=$("#content").val();
-                    if(content==null||content==''){
-                        alert("发送消息不能为空");
-                    }
+
                     websocket.send(JSON.stringify({
-                        senderId: ${sessionScope.login.id},
+                        senderId: ${userId},
                         chatId: chatId,
-                        content: content,
+                        content: content
                     }));
                     $("#content").val('');
+
             }
     });
     }
 
+    function loadFriendEmoji(friendId,chatId,isBlock) {
+
+        var html = '    <div id="myEmoji" style="display: block">\n' +
+            '        <div style="overflow-y: auto"  class="main">\n' +
+            '            <span class="icon" onclick="hide(\'myEmoji\')"></span>\n' +
+            '            <br><br><div class="avatar" id="emoji" style="background: url(\'upload/emoji/'+"3de8b9e7-963e-4cf6-a48e-65f230b63415.png"+'\');background-size: cover ">\n' +
+            '            </div>\n' +
+            '                <div style="width: 79%;margin-left: 20px;"  class="account">\n' +
+            '                    <br><div style="text-decoration: underline;margin-bottom: 5px;">预览表情包</div>\n' +
+            '                    <br><input oninput="uploadEmoji(\'upload\',\'upload?method=uploadPhoto&&path=upload/emoji\')" type="file" name="photo" id="upload" style="margin-left: 5px" />\n' +
+            '<div id="emojiList" style=" width: 120%;right: 15px;position: relative;">' +
+            '</div>' +
+            '            <button style="margin-top: 230px;" class="option-btn" type="button" onclick="sendFriendPhoto(\''+friendId+'\',\''+chatId+'\',\''+isBlock+'\')">确定发送表情包</button>\n' +
+            '        </div>\n' +
+            '    </div>\n';
+
+        $.post("emoji?method=loadEmoji",{userId:${userId}},function(result){
+            var emojis=result.data;
+            var emoji='';
+            for(var i=0;i<emojis.length;i++){
+                var path=JSON.stringify(emojis[i].path);
+                emoji +=" <img onclick='reviewEmoji("+path+")'  id='"+emojis[i].path+"' class='emoji' src='upload/emoji/"+emojis[i].path+"' alt='' />\n" ;
+            }
+            document.getElementById("emojiList").innerHTML+=emoji;
+        });
+
+        $("#simpleModal").html(html);
+        $("#simpleModal").show();
+
+    }
+
+    function loadGroupEmoji(chatId) {
+
+        var html = '    <div id="myEmoji" style="display: block">\n' +
+            '        <div style="overflow-y: auto"  class="main">\n' +
+            '            <span class="icon" onclick="hide(\'myEmoji\')"></span>\n' +
+            '            <br><br><div class="avatar" id="emoji" style="background: url(\'upload/emoji/'+"3de8b9e7-963e-4cf6-a48e-65f230b63415.png"+'\');background-size: cover ">\n' +
+            '            </div>\n' +
+            '                <div style="width: 79%;margin-left: 20px;"  class="account">\n' +
+            '                    <br><div style="text-decoration: underline;margin-bottom: 5px;">预览表情包</div>\n' +
+            '                    <br><input oninput="uploadEmoji(\'upload\',\'upload?method=uploadPhoto&&path=upload/emoji\')" type="file" name="photo" id="upload" style="margin-left: 5px" />\n' +
+            '<div id="emojiList" style=" width: 120%;right: 15px;position: relative;">' +
+            '</div>' +
+            '            <button style="margin-top: 230px;" class="option-btn" type="button" onclick="sendGroupPhoto('+chatId+')">确定发送表情包</button>\n' +
+            '        </div>\n' +
+            '    </div>\n';
+
+        $.post("emoji?method=loadEmoji",{userId:${userId}},function(result){
+            var emojis=result.data;
+            var emoji='';
+            for(var i=0;i<emojis.length;i++){
+                var path=JSON.stringify(emojis[i].path);
+                emoji +=" <img onclick='reviewEmoji("+path+")'  id='"+emojis[i].path+"' class='emoji' src='upload/emoji/"+emojis[i].path+"' alt='' />\n" ;
+            }
+            document.getElementById("emojiList").innerHTML+=emoji;
+        });
+
+        $("#simpleModal").html(html);
+        $("#simpleModal").show();
+
+    }
+
+    /**
+     * @Description: 预览表情包
+     * @date: 21:34 2021/5/23
+     */
+    function reviewEmoji(path){
+        $("#emoji").css({
+            "background-image": "url(upload/emoji/" + path + ")",
+            "background-size": "cover"
+        });
+    }
+    
+    /**
+     * @Description: 发送好友表情包
+     * @date: 23:39 2021/5/10
+     */
+    function sendFriendPhoto(friendId,chatId,isBlock){
+
+        //发送前判断是否被拉黑
+        $.post("friend?method=isBlocked",{userId:friendId,chatId:chatId},function(result){
+            if(result.flag){
+                alert(result.message);
+                return;
+            }else if(isBlock==1){
+                alert("你已拉黑该用户");
+                return;
+            }
+                var emoji=$("#emoji").css("background-image").split("(")[1].split(")")[0];
+                emoji=emoji.substring(emoji.lastIndexOf("\/")+1,emoji.length-1);
+                if(emoji!=null&&emoji!='') {
+                    var content= '<img class="emoji" src="upload/emoji/'+emoji+'" alt="">';
+                    websocket.send(JSON.stringify({
+                        senderId: ${userId},
+                        chatId: chatId,
+                        content: content,
+                        type:'photo'
+                    }));
+                }
+                hide("myEmoji");
+
+        });
+
+    }
+
+    /**
+     * @Description: 发送群聊表情包
+     * @date: 23:39 2021/5/10
+     */
+    function sendGroupPhoto(chatId){
+
+        $.post("chat?method=isBlocked",{userId:${userId},chatId:chatId},function(result){
+            if(result.flag){
+                alert(result.message);
+                return;
+            }else{
+            var emoji=$("#emoji").css("background-image").split("(")[1].split(")")[0];
+            emoji=emoji.substring(emoji.lastIndexOf("\/")+1,emoji.length-1);
+            if(emoji!=null&&emoji!='') {
+                var content= '<img class="emoji" src="upload/emoji/'+emoji+'" alt="">';
+                websocket.send(JSON.stringify({
+                    senderId: ${userId},
+                    chatId: chatId,
+                    content: content,
+                    type:'photo'
+                }));
+            }
+            }
+            hide("myEmoji");
+        });
+
+    }
 
     /**
      * @Description: 初始化通知列表
@@ -772,43 +1438,58 @@
         $("#notice").css("border","");
         $("#left").html('');
         $("#rightBox").html('');
-        var html=
-            '<div id="initNotice">\n'+
-            '<li class="person" onclick="loadFriendNotice()" >\n' +
-            '                <img src="img/wechat.png" alt="" />\n' +
-            '                <span class="name" >好友通知</span>\n' +
-            '                <span class="time"></span>\n' +
-            '                <span class="preview"></span>\n' +
-            '            </li>\n'+
-            '<li class="person" onclick="" >\n' +
-            '                <img src="img/name-type.png" alt="" />\n' +
-            '                <span class="name" >群聊通知</span>\n' +
-            '                <span class="time"></span>\n' +
-            '                <span class="preview"></span>\n' +
-            '            </li>\n'+
-            '<li class="person" onclick="" >\n' +
-            '                <img src="img/name-type.png" alt="" />\n' +
-            '                <span class="name" >系统通知</span>\n' +
-            '                <span class="time"></span>\n' +
-            '                <span class="preview"></span>\n' +
-            '            </li></div>\n';
+        var html='';
+        if(0!=${userId}) {
+             html =
+                '<div id="initNotice">\n' +
+                '<li class="person" onclick="loadFriendNotice()" >\n' +
+                '                <img src="img/好友.png" alt="" />\n' +
+                '                <span class="name" >好友申请</span>\n' +
+                '                <span class="time"></span>\n' +
+                '                <span class="preview"></span>\n' +
+                '            </li>\n' +
+                '<li class="person" onclick="loadGroupNotice()" >\n' +
+                '                <img src="img/群聊.png" alt="" />\n' +
+                '                <span class="name" >群聊申请</span>\n' +
+                '                <span class="time"></span>\n' +
+                '                <span class="preview"></span>\n' +
+                '            </li>\n' +
+                '<li class="person" onclick="loadSystemNotice()" >\n' +
+                '                <img src="img/系统.png" alt="" />\n' +
+                '                <span class="name" >系统通知</span>\n' +
+                '                <span class="time"></span>\n' +
+                '                <span class="preview"></span>\n' +
+                '            </li></div>\n';
+        }else {
+            html='<div id="initNotice">\n' +
+                '<li class="person" onclick="loadUserNotice()" >\n' +
+                '                <img src="img/用户.png" alt="" />\n' +
+                '                <span class="name" >用户申诉</span>\n' +
+                '                <span class="time"></span>\n' +
+                '                <span class="preview"></span>\n' +
+                '            </li>\n' ;
+        }
         document.getElementById("left").innerHTML+=html;
     }
 
     function initGroup() {
+        $("#searchBox").html('');
+        var html='<input id="searchText" type="text"  placeholder="请输入群号(模糊搜索)"/>\n' +
+            '        <a class="search" id="searchGroup" ><p onclick="searchGroup()"><br>-搜索</p></a>';
+        document.getElementById("searchBox").innerHTML+=html;
         //消除有通知未读的红色边框状态
         $("#left").html('');
         $("#rightBox").html('');
         var html =
             '<div id="initGroup">\n' +
-            '<li class="person" onclick="newGroup()" >\n' +
-            '                <img src="img/wechat.png" alt="" />\n' +
+            '<li class="person" onclick="initNewGroup()" >\n' +
+            '                <img src="img/创建群聊.png" alt="" />\n' +
             '                <span class="name" >创建群聊</span>\n' +
             '                <span class="time"></span>\n' +
             '                <span class="preview"></span>\n' +
             '            </li>\n' +
             '<li class="person" onclick="loadGroup()" >\n' +
-            '                <img src="img/name-type.png" alt="" />\n' +
+            '                <img src="img/group.png" alt="" />\n' +
             '                <span class="name" >查看群聊</span>\n' +
             '                <span class="time"></span>\n' +
             '                <span class="preview"></span>\n' +
@@ -817,17 +1498,17 @@
     }
 
     /**
-     * @Description: 加载好友通知列表
+     * @Description: 加载好友申请通知列表
      * @date: 21:31 2021/5/6
      */
     function loadFriendNotice(){
-        var receiverId="${sessionScope.login.id}"
-        $.post("notice?method=loadFriendNotice",{receiverId:receiverId},function (result){
+        var type="friendNotice";
+        $.post("notice?method=loadNotice",{receiverId:${userId},type:type},function (result){
                 var notices = result.data;
                 document.getElementById("left").innerHTML=' ';
                 for(var i=0;i<notices.length;i++){
 
-                    var html="<li id="+ notices[i].id +" class='person' onclick='showNotice("+notices[i].id+")' >\n" +
+                    var html='<li id='+ notices[i].id +' class="person" onclick="showFriendNotice(\''+notices[i].id+'\',\''+notices[i].senderId+'\')" >\n' +
                         '                <img src="img/name-type.png" />\n' +
                         '                <span class="name" >通知内容:'+notices[i].content.substring(0,10)+'</span>\n' +
                         '                <span class="time">发送者id:'+notices[i].senderId+'</span>\n' +
@@ -844,36 +1525,225 @@
     }
 
     /**
-     * @Description: 展示通知详情
+     * @Description: 加载用户申诉通知
+     * @date: 21:31 2021/5/6
+     */
+    function loadUserNotice(){
+        $.post("notice?method=loadNotice",{receiverId:${userId}},function (result){
+            var notices = result.data;
+            document.getElementById("left").innerHTML=' ';
+            for(var i=0;i<notices.length;i++){
+
+                var html='<li id='+ notices[i].id +' class="person" onclick="showUserNotice(\''+notices[i].id+'\',\''+notices[i].senderId+'\')" >\n' +
+                    '                <img src="img/name-type.png" />\n' +
+                    '                <span class="name" >通知内容:'+notices[i].content.substring(0,10)+'</span>\n' +
+                    '                <span class="time">发送者id:'+notices[i].senderId+'</span>\n' +
+                    '                <span class="preview">时间:'+notices[i].gmtCreate+'</span>\n' +
+                    '            </li>';
+
+                document.getElementById("left").innerHTML+=html;
+                //判断消息是否已读
+                if(notices[i].status==0){
+                    toRead(notices[i].id);
+                }
+            }
+        });
+    }
+
+
+    /**
+     * @Description: 加载群聊申请通知列表
+     * @date: 12:17 2021/5/22
+     */
+    function loadGroupNotice(){
+        var type="groupNotice";
+        $.post("notice?method=loadNotice",{receiverId:${userId},type:type},function (result){
+            var notices = result.data;
+            document.getElementById("left").innerHTML=' ';
+            for(var i=0;i<notices.length;i++){
+
+                var html='<li id='+ notices[i].id +' class="person" onclick="showGroupNotice(\''+notices[i].id+'\',\''+notices[i].senderId+'\')" >\n' +
+                    '                <img src="img/name-type.png" />\n' +
+                    '                <span class="name" >通知内容:'+notices[i].content.substring(0,10)+'</span>\n' +
+                    '                <span class="time">发送者id:'+notices[i].senderId+'</span>\n' +
+                    '                <span class="preview">时间:'+notices[i].gmtCreate+'</span>\n' +
+                    '            </li>';
+
+                document.getElementById("left").innerHTML+=html;
+                //判断消息是否已读
+                if(notices[i].status==0){
+                    toRead(notices[i].id);
+                }
+            }
+        });
+    }
+
+    /**
+     * @Description: 加载系统通知列表
+     * @date: 12:17 2021/5/22
+     */
+    function loadSystemNotice(){
+        var type="systemNotice";
+        $.post("notice?method=loadNotice",{receiverId:${userId},type:type},function (result){
+            var notices = result.data;
+            document.getElementById("left").innerHTML=' ';
+            for(var i=0;i<notices.length;i++){
+
+                var html='<li id='+ notices[i].id +' class="person" onclick="showSystemNotice(\''+notices[i].id+'\',\''+notices[i].senderId+'\')" >\n' +
+                    '                <img src="img/name-type.png" />\n' +
+                    '                <span class="name" >通知内容:'+notices[i].content.substring(0,10)+'</span>\n' +
+                    '                <span class="time">发送者id:'+notices[i].senderId+'</span>\n' +
+                    '                <span class="preview">时间:'+notices[i].gmtCreate+'</span>\n' +
+                    '            </li>';
+
+                document.getElementById("left").innerHTML+=html;
+                //判断消息是否已读
+                if(notices[i].status==0){
+                    toRead(notices[i].id);
+                }
+            }
+        });
+    }
+
+
+
+    /**
+     * @Description: 展示好友申请通知详情
      * @date: 19:40 2021/5/8
      */
-    function showNotice(id){
+    function showFriendNotice(id,senderId){
 
-        $.post("notice?method=showNotice",{id:id},function (result) {
+        $.post("notice?method=showNotice",{id:id,senderId:senderId},function (result) {
 
-            var notice=result.data;
+            var noticeVo=result.data;
 
             $("#rightBox").html('');
 
-            var html =
-                '<div class="conversation-start">\n' +
-                '                    <span>发送者id:' + notice.senderId + '</span>\n' +
-                '                </div>\n' +
-                '                <div class="bubble you">\n' +
-                '                    ' + notice.content + '\n' +
-                '                </div><br><br><br><br>\n' +
-                '<div id="noticeButton">\n' +
-                '                <div id="noticeButton" class="row" style="margin-top: 20px;">\n' +
-                '                <button class="btn-lg center-block" onclick="addFriend(' + notice.senderId + ')" >接受</button><br> \n' +
-                '                <button class="btn-lg center-block" onclick="refuse(' + notice.senderId + ')">拒绝</button>\n' +
-                '                </div>\n' +
-                '</div>';
+            var html=
+                '<div class="chat-line">' +
+                '<div   class="bubble you" style="margin-left: 100px;width:70%" >\n' +
+                '                    ' + noticeVo.content + '\n' +
+                '                </div>' +
+                '<p class="chat-left-name" ">' + noticeVo.userName + '</p>' +
+                '<img src="upload/avatar/' + noticeVo.avatar + '" class="img-circle chat-image-left" lt="">\n' +
+                '</div>' ;
 
             document.getElementById("rightBox").innerHTML += html;
+
+            if(noticeVo.status==0){
+
+                var btn=
+                '<button onclick="receiveFriend(\''+noticeVo.id+'\',\''+noticeVo.senderId+'\')" class="notice-btn">接受好友请求</button>'+
+                '<button onclick="refuseFriend(\''+noticeVo.id+'\',\''+noticeVo.senderId+'\')" class="notice-btn">拒绝好友请求</button>';
+
+                document.getElementById("rightBox").innerHTML += btn;
+            }
+
         });
 
     }
 
+    /**
+     * @Description: 展示用户申诉通知详情
+     * @date: 19:40 2021/5/8
+     */
+    function showUserNotice(id,senderId){
+
+        $.post("notice?method=showNotice",{id:id,senderId:senderId},function (result) {
+
+            var noticeVo=result.data;
+
+            $("#rightBox").html('');
+
+            var html=
+                '<div class="chat-line">' +
+                '<div   class="bubble you" style="margin-left: 100px;width:70%" >\n' +
+                '                    ' + noticeVo.content + '\n' +
+                '                </div>' +
+                '<p class="chat-left-name" ">' + noticeVo.userName + '</p>' +
+                '<img src="upload/avatar/' + noticeVo.avatar + '" class="img-circle chat-image-left" lt="">\n' +
+                '</div>' ;
+
+            document.getElementById("rightBox").innerHTML += html;
+
+            if(noticeVo.status==0){
+
+                var btn=
+                    '<button onclick="receiveRequest(\''+noticeVo.id+'\',\''+noticeVo.senderId+'\')" class="notice-btn">同意解封用户</button>'+
+                    '<button onclick="refuseRequest(\''+noticeVo.id+'\',\''+noticeVo.senderId+'\')" class="notice-btn">拒绝解封用户</button>';
+
+                document.getElementById("rightBox").innerHTML += btn;
+            }
+
+        });
+
+    }
+
+    /**
+     * @Description: 展示群聊申请通知详情
+     * @date: 19:40 2021/5/8
+     */
+    function showGroupNotice(id,senderId){
+
+        $.post("notice?method=showNotice",{id:id,senderId:senderId},function (result) {
+
+            var noticeVo=result.data;
+
+            $("#rightBox").html('');
+
+            var html=
+                '<div class="chat-line">' +
+                '<div   class="bubble you" style="margin-left: 100px;width:70%" >\n' +
+                '                    ' + noticeVo.content + '\n' +
+                '                </div>' +
+                '<p class="chat-left-name" ">' + noticeVo.userName + '</p>' +
+                '<img src="upload/avatar/' + noticeVo.avatar + '" class="img-circle chat-image-left" lt="">\n' +
+                '</div>' ;
+
+            document.getElementById("rightBox").innerHTML += html;
+
+            if(noticeVo.status==0){
+
+                var btn=
+                    '<button onclick="receiveAddGroup(\''+noticeVo.id+'\',\''+noticeVo.senderId+'\',\''+noticeVo.chatId+'\')" class="notice-btn">同意群聊申请</button>'+
+                    '<button onclick="refuseAddGroup('+noticeVo.senderId+')" class="notice-btn">拒绝群聊申请</button>';
+
+                document.getElementById("rightBox").innerHTML += btn;
+            }
+
+        });
+
+    }
+
+    /**
+     * @Description: 展示群聊申请通知详情
+     * @date: 19:40 2021/5/8
+     */
+    function showSystemNotice(id,senderId){
+
+        updateStatus(id);
+        hasRead(id);
+
+        $.post("notice?method=showNotice",{id:id,senderId:senderId},function (result) {
+
+            var noticeVo=result.data;
+
+            $("#rightBox").html('');
+
+            var html=
+                '<div class="chat-line">' +
+                '<div   class="bubble you" style="margin-left: 100px;width:70%" >\n' +
+                '                    ' + noticeVo.content + '\n' +
+                '                </div>' +
+                '<p class="chat-left-name" ">' + noticeVo.userName + '</p>' +
+                '<img src="upload/avatar/' + noticeVo.avatar + '" class="img-circle chat-image-left" lt="">\n' +
+                '</div>' ;
+
+            document.getElementById("rightBox").innerHTML += html;
+
+        });
+
+    }
 
     /**
      * @Description: 加载最近聊天记录
@@ -894,28 +1764,41 @@
      */
     function showMessage(message){
 
-        var userId=${sessionScope.login.id};
         switch (message.type) {
             case "friendNotice":
                 alert("有新的好友验证信息,请点击左上角通知按钮查收");
-
-                loadFriendNotice();
+                // loadFriendNotice();
                 toRead('notice');
                 break;
-
+            case "groupNotice":
+                alert("有新的群聊申请信息,请点击左上角通知按钮查收");
+                // loadGroupNotice();
+                toRead('notice');
+                break;
+            case "systemNotice":
+                alert("有新的系统信息,请点击左上角通知按钮查收");
+                // loadSystemNotice();
+                toRead('notice');
+                break;
+            case "adminNotice":
+                alert(message.content);
+                window.location.href="login.jsp";
+                logout();
+                return;
             default:
                 $.ajax({
                     type: "POST",
                     traditional: true,
-                    url: "user?method=showUserInform",
+                    url: "chat?method=showMemberInform",
                     async: false,
-                    data: {id: message.senderId},
+                    data: {userId: message.senderId,chatId:message.chatId},
                     dataType: "json",
+                    contentType: 'application/json',
                     success: function (result) {
-                        var user = result.data;
+                        var member = result.data;
                         var type = null;
                         var position = null;
-                        if (message.senderId == userId) {
+                        if (message.senderId == ${userId}) {
                             type = 'me';
                             position = 'right';
                         } else {
@@ -924,11 +1807,11 @@
                         }
                         var html =
                             '<div class="chat-line">' +
-                            '<div   class="bubble ' + type + '" >\n' +
+                            '<div id="'+message.chatId+'"  class="bubble ' + type + '" >\n' +
                             '                    ' + message.content + '\n' +
                             '                </div>' +
-                            '<p class="chat-' + position + '-name" ">' + user.userName + '</p>' +
-                            '<img src="upload/' + user.avatar + '" class="img-circle chat-image-' + position + '" lt="">\n' +
+                            '<p class="chat-' + position + '-name" ">' + member.memberName + '</p>' +
+                            '<img src="${pageContext.request.contextPath}/upload/avatar/' + member.memberAvatar + '" class="img-circle chat-image-' + position + '" lt="">\n' +
                             '</div>'
                         ;
                         if (document.getElementById("rightBox").childNodes[1] != null) {
@@ -936,6 +1819,9 @@
                             //若处在消息对应的聊天框,则显示出来
                             if (chatId == message.chatId) {
                                 document.getElementById("chatBox").innerHTML += html;
+                                if(message.type=='photo'){
+                                    $("#"+message.chatId).css("background","unset");
+                                }
                                 document.getElementById("chatBox").scrollTop = document.getElementById("chatBox").scrollHeight;
                             }
                         }
@@ -957,6 +1843,14 @@
      */
     function toRead(id){
         $("#"+id).css("border","1px solid red");
+    }
+
+    /**
+     * @Description: 更新通知消息已读未读状态
+     * @date: 22:57 2021/5/20
+     */
+    function updateStatus(noticeId){
+        $.post("notice?method=updateStatus",{id:noticeId});
     }
 
     /**
@@ -996,36 +1890,108 @@
 
         //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
         window.onbeforeunload = function () {
-            websocket.close();
+            closeWebSocket();
         }
 
     }
 
+    //关闭WebSocket连接
+    function closeWebSocket() {
+        websocket.close();
+
+    }
+
+
     /**
-     * @Description: 加好友
+     * @Description: 发送好友请求
      * @date: 9:31 2021/5/5
      */
     function addFriend(friendId){
 
-        if(confirm("是否确定添加好友")) {
+        if(isFriend(friendId)){
+            alert("你已添加该好友");
+        } else {
+                   var description=prompt("尝试一下向对方描述你自己吧","....");
+                   var alias=prompt("请输入好友备注","未设置");
 
-            $("noticeButton").html('');
+                   $.post("friend?method=addFriend",{userId:${userId},friendId:friendId,alias:alias,description:description},function (result) {
+                       alert(result.message);
+                       if(result.flag){
+                           if(document.getElementById("left").childNodes[1].id=="friendList"){
+                               loadFriend();
+                           }
+                       }
+                   });
+                   return true;
 
-            var description=prompt("尝试一下向对方描述你自己吧","....");
-            var alias=prompt("请输入好友备注","未设置");
-            var userId="${sessionScope.login.id}";
+           }
 
-            $.post("friend?method=addFriend",{userId:userId,friendId:friendId,alias:alias,description:description},function (result) {
-                alert(result.message);
-                if(result.flag){
-                    if(document.getElementById("left").childNodes[1].id=="friendList"){
-                        loadFriend();
-                    }
-                }
+    }
+
+    /**
+     * @Description: 同意解封用户
+     * @date: 19:37 2021/5/24
+     */
+    function receiveRequest(noticeId,senderId){
+        if(confirm("确定解封吗")) {
+            //更改通知消息状态
+            updateStatus(noticeId);
+            $.post("user?method=unBlockUser", {id:senderId,validity:1},function (reuslt) {
+                alert(reuslt.message);
+                loadUserNotice();
+                showUserNotice(noticeId, senderId);
             });
+        }else {
+            return;
+        }
+    }
 
-            $("#noticeButton").html('');
+    /**
+     * @Description: 拒绝解封用户
+     * @date: 19:37 2021/5/24
+     */
+    function refuseRequest(noticeId,senderId){
+        if(prompt("确定拒绝解封该用户吗")) {
+            //更改通知消息状态
+            updateStatus(noticeId);
+        }else {
+            return;
+        }
+    }
 
+    /**
+     * @Description: 接受好友请求
+     * @date: 22:53 2021/5/20
+     */
+    function receiveFriend(noticeId,friendId){
+
+        //更改消息状态
+        updateStatus(noticeId);
+        //添加好友
+        addFriend(friendId);
+        //重载通知内容(去除button防止重复加好友)
+        loadFriendNotice();
+        showFriendNotice(noticeId, friendId);
+    }
+
+    /**
+     * @Description: 接受群聊申请
+     * @date: 13:41 2021/5/22
+     */
+    function receiveAddGroup(noticeId,senderId,chatId){
+        if(confirm("确定接受该成员吗")) {
+            //更改通知消息状态
+            updateStatus(noticeId);
+            $.post("chat?method=receiveAddGroup", {
+                userId: senderId,
+                chatId: chatId,
+                role: "普通成员",
+                type: "group"
+            }, function (reuslt) {
+                alert(reuslt.message);
+                loadGroupNotice();
+                showGroupNotice(noticeId, senderId);
+            });
         }else {
             return;
         }
@@ -1035,23 +2001,126 @@
      * @Description: 拒绝
      * @date: 22:54 2021/5/14
      */
-    function refuse(friendId){
-        $("noticeButton").html('');
+    function refuseFriend(noticeId,friendId){
+        //更改通知消息状态
+        updateStatus(noticeId);
+        var content=prompt("请输入拒绝的理由,好让对方死心","我们不合适");
+        //重载通知内容(去除button防止重复加好友)
+        loadFriendNotice();
+        showFriendNotice(noticeId,friendId);
+        //删除好友请求
+        $.post("friend?method=refuseFriend",{userId:friendId,friendId:${userId},senderId:${userId},receiverId:friendId,content:content});
+
+    }
+
+    function isAtGroup(userId,chatId){
+        var returnData;
+        $.ajax({
+            url: "chat?method=isAtGroup" ,
+            type: "POST",
+            data:{userId:userId,chatId:chatId},
+            dataType: "json",
+            contentType: 'application/json',
+            async: false,
+            success: function (result) {
+                returnData= result.flag;
+            }
+        });
+        return returnData;
     }
 
     /**
-     * @Description: 加载搜索结果
+     * @Description: 判断是否为好友
+     * @date: 10:46 2021/5/25
+     */
+    function isFriend(friendId){
+        var returnData;
+        $.ajax({
+            url: "friend?method=isFriend" ,
+            type: "POST",
+            data:{userId:${userId},friendId:friendId},
+            dataType: "json",
+            contentType: 'application/json',
+            async: false,
+            success: function (result) {
+                returnData= result.flag;
+            }
+        });
+        return returnData;
+    }
+
+    function isVisitor(userId){
+
+        var returnData;
+        $.ajax({
+            url: "user?method=isVisitor" ,
+            type: "POST",
+            data:{id:userId},
+            dataType: "json",
+            contentType: 'application/json',
+            async: false,
+            success: function (result) {
+                returnData= result.flag;
+            }
+        });
+        return returnData;
+
+    }
+
+
+    /**
+     * @Description: 发送加群请求
+     * @date: 20:48 2021/5/21
+     */
+    function addGroup(chatId,receiverId){
+
+            if(isAtGroup(${userId},chatId)){
+                alert("你已在群聊中");
+            }else {
+                if(confirm("是否确定发送加群申请")) {
+
+                    var content=prompt("请填写加群验证消息","....");
+
+                    $.post("chat?method=addGroup",{userId:${userId},chatId:chatId,content:content,senderId:${userId},receiverId:receiverId},function (result) {
+                        alert(result.message);
+                        if(result.flag){
+                            if(document.getElementById("left").childNodes[1].id=="groupList"){
+                                loadGroup();
+                            }
+                        }
+                    });
+                }
+            }
+    }
+
+
+    /**
+     * @Description: 加载搜索用户结果
      * @date: 9:31 2021/5/5
      */
     function loadSearchUser(user){
 
-        document.getElementById("left").innerHTML='';
-
-        var html='<li class="person" onclick="addFriend('+user.id+')" >\n' +
-            '                <img src="upload/'+user.avatar+'" alt="" />\n' +
+        var html='<li  class="person" onclick="addFriend('+user.id+')" >\n' +
+            '                <img src="${pageContext.request.contextPath}/upload/avatar/'+user.avatar+'" alt="" />\n' +
             '                <span class="name" >用户名:'+user.userName+'</span>\n' +
             '                <span class="time">用户id:'+user.id+'</span>\n' +
             '                <span class="preview">微信号:'+user.wechatId+'</span>\n' +
+            '            </li>';
+
+        document.getElementById("left").innerHTML+=html;
+    }
+
+    /**
+     * @Description: 加载搜索群聊结果
+     * @date: 19:21 2021/5/21
+     */
+    function loadSearchGroup(group){
+
+        var html='<li class="person" onclick="addGroup(\''+group.id+'\',\''+group.master+'\')" >\n' +
+            '                <img src="upload/groupAvatar/'+group.avatar+'" alt="" />\n' +
+            '                <span class="name" >用户名:'+group.name+'</span>\n' +
+            '                <span class="time">群主id:'+group.master+'</span>\n' +
+            '                <span class="preview">群号:'+group.number+'</span>\n' +
             '            </li>';
 
         document.getElementById("left").innerHTML+=html;
@@ -1072,7 +2141,34 @@
                     document.getElementById("left").innerHTML='';
                     var users = result.data;
                     for (var i = 0; i < users.length; i++) {
-                        loadSearchUser(users[i]);
+                        if(users[i].id!=${userId}) {
+                            loadSearchUser(users[i]);
+                        }
+                    }
+                }else {
+                    alert(result.message);
+                }
+            });
+        }
+    }
+
+    /**
+     * @Description: 搜索群聊功能
+     * @date: 19:20 2021/5/21
+     */
+    function searchGroup(){
+        var number= $("#searchText").val();
+        if(number==''||number==null){
+            alert("搜索内容不能为空");
+        }else {
+            $.post("chat?method=searchGroup",{number:number},function (result){
+                if(result.flag){
+                    document.getElementById("left").innerHTML='';
+                    var groups = result.data;
+                    for (var i = 0; i < groups.length; i++) {
+                        if(groups[i].type=="group") {
+                            loadSearchGroup(groups[i]);
+                        }
                     }
                 }else {
                     alert(result.message);
@@ -1082,9 +2178,112 @@
     }
 
 
+
+
+
 </script>
 <style>
 
+    .chat-member-btn{
+        /* position: absolute; */
+        width: 100px;
+        /* right: 20; */
+        margin-top: 1px;
+        height: 35px;
+        display: block;
+        margin-left: 145px;
+        background: border-box;
+        border: none;
+        outline: none;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .chat-member-name{
+        margin-top: 55px;
+        right: 200px;
+        position: absolute;
+    }
+    .chat-member-avatar{
+        width: 60px;
+        height: 60px;
+        float: left;
+        border-radius: 50%;
+    }
+    .chatMembers{
+        overflow-y: auto;
+        width: 350px;
+        height: 562px;
+        background: darkgray;
+        text-align: center;
+        margin-left: 660px;
+        margin-top: 70px;
+        position: relative;
+    }
+    .notice-btn{
+        width: 40%;
+        height: 35px;
+        display: block;
+        margin-top: 3px;
+        margin-left: 200px;
+        background: wheat;
+        border: none;
+        outline: none;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .leftText{
+        width: 250px;
+        float: left;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+    .rightText{
+        width: 250px;
+        float: right;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+    .newGroup{
+        width: 550px;
+        height: 562px;
+        background: slategray;
+        text-align: center;
+        margin-left: 580px;
+        margin-top: 70px;
+        position: relative;
+    }
+    .leftUser{
+        width: 250px;
+        height: 500px;
+        float: left;
+        overflow-y: auto;
+    }
+    .rightUser{
+        width: 250px;
+        height: 500px;
+        float: right;
+        overflow-y: auto;
+    }
+    .searchUserInform{
+        height: 350px;
+        background: lightyellow;
+        width: 350px;
+        margin-top: 150px;
+        margin-left: 660px;
+    }
+    .search-icon{
+        color: #fff;
+        float: right;
+        font-size: 90px;
+        margin-left: 330px;
+        margin-top: 2px;
+        height: 20px;
+        width: 21px;
+        position: absolute;
+        background-image: url(img/cc.png);
+    }
     .friendInfoText{
         text-align: center;
     }
@@ -1122,6 +2321,14 @@
 
     .modal-header h2,.modal-footer h3{
         margin: 0;
+    }
+    .emoji{
+        float: left;
+        width: 100px;
+        height: 100px;
+        margin-top: 20px;
+        margin-left: 5px;
+        background-size: cover;
     }
     .icon{
         color: #fff;
@@ -1193,7 +2400,7 @@
     }
 
     /*注册按钮*/
-    .register-btn{
+    .option-btn{
         width: 75%;
         height: 35px;
         display: block;
@@ -1207,7 +2414,7 @@
         cursor: pointer;
     }
     /*按下按钮*/
-    .register-btn:active{
+    .option-btn:active{
         position: relative;
         top:2px;
     }
@@ -1335,7 +2542,7 @@
     }
     .contain .left input {
         float: left;
-        width: 188px;
+        width: 175px;
         height: 42px;
         padding: 0 15px;
         border: 1px solid var(--light);
@@ -1369,7 +2576,7 @@
     .contain .left .people .person {
         position: relative;
         width: 100%;
-        height: 55px;
+        /*height: 55px;*/
         padding: 12px 10% 16px;
         cursor: pointer;
         background-color: var(--white);
@@ -1410,10 +2617,11 @@
         background-color: var(--white);
     }
     .contain .left .people .person .preview {
+        width: 190px;
         font-size: 14px;
         display: inline-block;
         overflow: hidden !important;
-        width: 70%;
+        /*width: 70%;*/
         white-space: nowrap;
         text-overflow: ellipsis;
         color: var(--grey);

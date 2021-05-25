@@ -25,14 +25,9 @@ import static com.melo.wechat.utils.JsonUtils.sendJsonObject;
 public class UserServlet extends BaseServlet {
 
     /**
-     * Cookie存活时间
-     */
-    private final int AUTO_LOGIN_AGE = 60 * 60 * 24 * 30;
-
-    /**
      * 相关操作类
      */
-    private final UserService userService = (UserService) new ProxyUtils().newProxyInstance(new UserServiceImpl());
+    private final UserService userService = ServiceProxy.getProxyInstance(UserServiceImpl.class);
 
 
     /**
@@ -57,9 +52,9 @@ public class UserServlet extends BaseServlet {
     }
 
     /**
-     * @Description: 判断邮箱验证码是否正确
      * @param request
      * @param response
+     * @Description: 判断邮箱验证码是否正确
      * @date: 10:50 2021/5/18
      * @return: boolean
      */
@@ -70,17 +65,17 @@ public class UserServlet extends BaseServlet {
         return code.equals(checkCode);
     }
 
-        /**
-         * @param request
-         * @param response
-         * @Description: 注册业务
-         * @date: 20:24 2021/5/2
-         * @return: void
-         */
+    /**
+     * @param request
+     * @param response
+     * @Description: 注册业务
+     * @date: 20:24 2021/5/2
+     * @return: void
+     */
     public void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServiceResult serviceResult = new ServiceResult();
         User user = parameter2Object(request.getParameterMap(), User.class);
-        if(judgeCheckCode(request,response)){
+        if (judgeCheckCode(request, response)) {
             serviceResult = userService.register(user);
         } else {
             serviceResult.setMessage(Status.WRONG_CHECKCODE.getMessage());
@@ -90,17 +85,17 @@ public class UserServlet extends BaseServlet {
     }
 
     /**
-     * @Description: 登录业务
      * @param request
      * @param response
+     * @Description: 登录业务
      * @date: 10:50 2021/5/18
      * @return: void
      */
     public void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = parameter2Object(request.getParameterMap(), User.class);
         ServiceResult serviceResult = new ServiceResult();
-        //先获取生成的验证码
-        String code = request.getParameter("checkCode");
+        //先获取前台输过来的
+        String code = request.getParameter("code");
         //获取session中的验证码
         HttpSession session = request.getSession();
         String checkCode = (String) session.getAttribute("checkCode");
@@ -109,13 +104,15 @@ public class UserServlet extends BaseServlet {
             serviceResult.setMessage(Status.WRONG_CHECKCODE.getMessage());
         } else {
             serviceResult = userService.login(user);
+            //若登录成功
             if (serviceResult.flag) {
-                session.setAttribute("login", user);
-            }
-            //判断是否要记住登录状态
-            String checkbox = request.getParameter("checkbox");
-            if ("true".equals(checkbox)) {
-                setAutoLoginCookie(response, request, user.getId());
+                User loginUser=(User)serviceResult.getData();
+                session.setAttribute("login", loginUser);
+                //判断是否要记住登录状态
+                String checkbox = request.getParameter("checkbox");
+                if ("true".equals(checkbox)) {
+                    setAutoLoginCookie(response, request, loginUser.getId());
+                }
             }
         }
         sendJsonObject(response, serviceResult);
@@ -131,8 +128,8 @@ public class UserServlet extends BaseServlet {
      * @date 2021-4-28
      */
     private void setAutoLoginCookie(HttpServletResponse resp, HttpServletRequest req, Integer userId) throws ServletException, IOException {
-        Cookie cookie = new Cookie("user_id", userId.toString());
-        cookie.setMaxAge(AUTO_LOGIN_AGE);
+        Cookie cookie = new Cookie("userId", userId.toString());
+        cookie.setMaxAge(60 * 60 * 24 * 30);
         cookie.setPath(req.getContextPath());
         resp.addCookie(cookie);
     }
@@ -151,15 +148,57 @@ public class UserServlet extends BaseServlet {
             Cookie[] cookies = req.getCookies();
             if (cookies != null && cookies.length > 0) {
                 for (Cookie cookie : cookies) {
-                    if (cookie.getName().equals("user_id")) {
-                        String temp = cookie.getValue();
-                        Integer userId = Integer.parseInt(temp);
+                    if (cookie.getName().equals("userId") && cookie.getValue() != null) {
+                        Integer userId = Integer.parseInt(cookie.getValue());
                         User user = userService.getUserById(userId);
                         session.setAttribute("login", user);
                     }
                 }
             }
         }
+    }
+
+    /**
+     * @Description: 退出登录
+     * @param request
+     * @param response
+     * @date: 19:45 2021/5/25
+     * @return: void
+     */
+    public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String userId = request.getParameter("userId");
+        HttpSession session = request.getSession();
+        if (session != null || session.getAttribute("login") != null) {
+            //删除自动登录cookie
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null && cookies.length > 0) {
+                Cookie cookie = new Cookie("userId", null);
+                cookie.setMaxAge(0);
+                cookie.setPath(request.getContextPath());
+                response.addCookie(cookie);
+            }
+            //删除session
+            session.invalidate();
+        }
+    }
+
+    /**
+     * @param request
+     * @param response
+     * @Description: 游客模式
+     * @date: 10:50 2021/5/18
+     * @return: void
+     */
+    public void visit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String wechatId = UUIDUtils.getUniqueNumber();
+        ServiceResult serviceResult = userService.visit();
+        //若游客登录成功
+            if (serviceResult.flag) {
+                User visitor=(User)serviceResult.getData();
+                session.setAttribute("login", visitor);
+            }
+        sendJsonObject(response, serviceResult);
+
     }
 
     /**
@@ -171,64 +210,100 @@ public class UserServlet extends BaseServlet {
      */
     public void searchUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String searchText = request.getParameter("searchText");
-        User user = new User();
-        user.setWechatId(searchText);
-        user.setUserName(searchText);
-        ServiceResult result = userService.searchUser(user);
+        ServiceResult result = userService.searchUser(searchText);
         sendJsonObject(response, result);
     }
 
     /**
-     * @Description: 显示用户个人信息
+     * @Description: 判断是否为游客
      * @param request
      * @param response
+     * @date: 19:44 2021/5/25
+     * @return: void
+     */
+    public void isVisitor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Integer id = Integer.parseInt(request.getParameter("id"));
+        ServiceResult result = userService.isVisitor(id);
+        sendJsonObject(response, result);
+    }
+
+    /**
+     * @param request
+     * @param response
+     * @Description: 显示用户个人信息
      * @date: 22:14 2021/5/13
      * @return: void
      */
     public void showUserInform(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Integer id=Integer.parseInt(request.getParameter("id"));
+        Integer id = Integer.parseInt(request.getParameter("id"));
         User user = userService.getUserById(id);
         ServiceResult result = new ServiceResult();
         result.setData(user);
-        sendJsonObject(response,result);
+        sendJsonObject(response, result);
     }
 
-        /**
-         * @Description: 更新用户信息
-         * @param request
-         * @param response
-         * @date: 23:54 2021/5/12
-         * @return: void
-         */
+    /**
+     * @param request
+     * @param response
+     * @Description: 更新用户信息
+     * @date: 23:54 2021/5/12
+     * @return: void
+     */
     public void updateUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = parameter2Object(request.getParameterMap(), User.class);
         User oldUser = new User();
         oldUser.setId(user.getId());
         oldUser.setPassword(request.getParameter("oldPass"));
         ServiceResult result = userService.updateUser(oldUser, user);
-        sendJsonObject(response,result);
+        sendJsonObject(response, result);
     }
 
     /**
-     * @Description: 重设密码
      * @param request
      * @param response
+     * @Description: 重设密码
      * @date: 10:51 2021/5/18
      * @return: void
      */
     public void resetPass(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServiceResult result = new ServiceResult();
         if (judgeCheckCode(request, response)) {
-            String password=request.getParameter("password");
+            String password = request.getParameter("password");
             String oldPass = request.getParameter("oldPass");
             //根据绑定的邮箱找到该用户id来更新信息
             Integer id = userService.getIdByEmail(request.getParameter("email"));
-            User oldUser = new User(id,oldPass);
-            User newUser = new User(id,password);
+            User oldUser = new User(id, oldPass);
+            User newUser = new User(id, password);
             result = userService.updateUser(oldUser, newUser);
-        }else {
+        } else {
             result.setMessage(Status.WRONG_CHECKCODE.getMessage());
         }
+        sendJsonObject(response, result);
+    }
+
+    /**
+     * @Description: 封号
+     * @param request
+     * @param response
+     * @date: 19:44 2021/5/25
+     * @return: void
+     */
+    public void blockUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User user = parameter2Object(request.getParameterMap(), User.class);
+        ServiceResult result = userService.blockUser(user);
+        sendJsonObject(response, result);
+    }
+
+    /**
+     * @Description: 取消封号
+     * @param request
+     * @param response
+     * @date: 19:45 2021/5/25
+     * @return: void
+     */
+    public void unBlockUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User user = parameter2Object(request.getParameterMap(), User.class);
+        ServiceResult result = userService.unBlockUser(user);
         sendJsonObject(response, result);
     }
 }

@@ -1,4 +1,4 @@
-package com.melo.wechat.controller;
+package com.melo.wechat.controller.checkcode;
 
 import com.melo.wechat.controller.abs.BaseServlet;
 
@@ -16,11 +16,20 @@ import java.io.IOException;
 import java.util.Random;
 
 /**
- * @author Jun
+ * @Description: 验证码
+ * @author: Jun
+ * @date: 17:05 2021/5/24
  */
 @WebServlet("/CheckCode")
 public class CheckCode extends BaseServlet {
 
+    /**
+     * @Description: 生成验证码
+     * @param request
+     * @param response
+     * @date: 14:26 2021/5/21
+     * @return: void
+     */
     public void checkCode(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //设置尺寸
         int width = 100;

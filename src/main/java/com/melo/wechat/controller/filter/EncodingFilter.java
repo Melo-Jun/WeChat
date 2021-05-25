@@ -10,12 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @author Jun
- * @program WeChat
- * @description 负责设置编码格式
- * @date 2021-4-26
+ * @Description: 编码过滤器
+ * @author: Jun
+ * @date: 17:05 2021/5/24
  */
-
 @WebFilter(
         filterName = "EncodingFilter",
         urlPatterns = {"/*"}, servletNames = {"/*"},

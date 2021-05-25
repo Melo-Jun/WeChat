@@ -68,6 +68,15 @@
             $("#img").attr('src',"CheckCode?method=checkCode&&time=" + new Date().getTime());
         }
 
+        function visit(){
+            $.post("user?method=visit",function (serviceResult){
+                alert(serviceResult.message);
+                if(serviceResult.flag){
+                    $(location).attr("href","visitor.jsp");
+                }
+            });
+        }
+
 
         $(function () {
 
@@ -90,20 +99,21 @@
              */
             $("#login").click(function () {
 
-                checkCode=$("#checkCode").val();
+                code=$("#checkCode").val();
 
                 var checkbox=$("#checkbox").is(':checked');
                 if(!checkEmail()||!checkPassword()){
                     alert("输入不合法,请按提示框要求输入");
                 }
 
-                $.post("user?method=login",{email:email,password:password,checkCode:checkCode,checkbox:checkbox},function (serviceResult){
+                $.post("user?method=login",{email:email,password:password,code:code,checkbox:checkbox},function (serviceResult){
                     alert(serviceResult.message);
                     if(serviceResult.flag){
                         $(location).attr("href","wechat.jsp");
                     }
                 });
             });
+
         });
 
 
@@ -114,7 +124,7 @@
 <body>
 <div id="main">
 
-    <div id="avatar">uploadAvatar
+    <div id="avatar">
     </div>
     <form id="loginForm" method="post"  >
     <div id="account">
@@ -140,8 +150,10 @@
     <button class="login-btn" name="login" id="login" type="submit" value="登录">登录</button>
 
     <div id="footer">
+        <a href="register.jsp">注册</a>&nbsp&nbsp&nbsp&nbsp&nbsp
         <a href="resetPass.jsp">忘记密码?</a>&nbsp&nbsp&nbsp&nbsp&nbsp
-        <a href="register.jsp">注册</a>
+        <a href="register.jsp">管理员模式</a>&nbsp&nbsp&nbsp&nbsp&nbsp
+        <a onclick="visit()">游客模式</a>&nbsp&nbsp&nbsp&nbsp&nbsp
     </div>
 </div>
 </body>

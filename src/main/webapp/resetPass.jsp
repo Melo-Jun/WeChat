@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="host" value="localhost:8080/melo/"/>
+<c:set var="host" value="localhost:8088/melo/"/>
 <html >
 <head>
     <meta charset="utf-8">
@@ -149,7 +149,7 @@
                 </div>
             </div>
         </div>
-        <button class="register-btn" name="updatePass" id="updatePass" type="submit" value="修改密码">修改密码</button>
+        <button class="option-btn" name="updatePass" id="updatePass" type="submit" value="修改密码">修改密码</button>
 
     </div>
 </div>
@@ -211,7 +211,7 @@
     }
 
     /*注册按钮*/
-    .register-btn{
+    .option-btn{
         width: 75%;
         height: 35px;
         display: block;
@@ -225,7 +225,7 @@
         cursor: pointer;
     }
     /*按下按钮*/
-    .register-btn:active{
+    .option-btn:active{
         position: relative;
         top:2px;
     }

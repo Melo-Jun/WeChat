@@ -1,14 +1,15 @@
 package com.melo.wechat.service.impl;
 
 import com.melo.wechat.constant.Status;
-import com.melo.wechat.dao.impl.NoticeDaoImpl;
-import com.melo.wechat.dao.impl.UserDaoImpl;
-import com.melo.wechat.dao.inter.NoticeDao;
-import com.melo.wechat.dao.inter.UserDao;
+import com.melo.wechat.dao.impl.*;
+import com.melo.wechat.dao.inter.*;
 import com.melo.wechat.model.dto.ServiceResult;
-import com.melo.wechat.model.entity.User;
+import com.melo.wechat.model.entity.*;
+import com.melo.wechat.service.inter.FriendService;
 import com.melo.wechat.service.inter.UserService;
-import com.melo.wechat.utils.ProxyUtils;
+import com.melo.wechat.utils.ServiceProxy;
+import com.melo.wechat.utils.UUIDUtils;
+import com.melo.wechat.utils.proxy.DaoProxy;
 
 import java.util.LinkedList;
 
@@ -24,8 +25,11 @@ public class UserServiceImpl implements UserService {
     /**
      * 代理对象类
      */
-    UserDao userDao= (UserDao) new ProxyUtils().newProxyInstance(UserDaoImpl.getInstance());
-    NoticeDao noticeDao=(NoticeDao) new ProxyUtils().newProxyInstance(NoticeDaoImpl.getInstance());
+    UserDao userDao= DaoProxy.getProxyInstance(UserDaoImpl.class);
+    ChatDao chatDao= DaoProxy.getProxyInstance(ChatDaoImpl.class);
+    FriendService friendService= ServiceProxy.getProxyInstance(FriendServiceImpl.class);
+    FriendDao friendDao= DaoProxy.getProxyInstance(FriendDaoImpl.class);
+
 
     /**
      * 判断登录是否成功
@@ -34,16 +38,18 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public ServiceResult login(User user) {
-        ServiceResult serviceResult = new ServiceResult();
         user.setPassword(getDigest(user.getPassword()));
         if(judgePass(user)){
-            serviceResult.setMessage(Status.SUCCEED_LOGIN.getMessage());
-            serviceResult.setFlag(true);
-            user.setId(userDao.getId(user));
-        }else {
-            serviceResult.setMessage(Status.FAILED_LOGIN.getMessage());
+            Integer id = userDao.getId(user);
+            user=getUserById(id);
+            //判断用户是否有效
+            if(user.getValidity()==0){
+                return new ServiceResult(Status.IS_BLOCKED_USER.getMessage(),false);
+            }
+            return new ServiceResult(true,Status.SUCCEED_LOGIN.getMessage(),user);
         }
-        return serviceResult;
+            return new ServiceResult(Status.FAILED_LOGIN.getMessage());
+
     }
 
     /**
@@ -65,36 +71,41 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public ServiceResult register(User user){
-        ServiceResult serviceResult =new ServiceResult();
         user.setPassword(getDigest(user.getPassword()));
         if(userDao.isExistEmail(user)){
-            serviceResult.setMessage(Status.IS_EXIST_EMAIL.getMessage());
+            return new ServiceResult(Status.IS_EXIST_EMAIL.getMessage(),false);
         }else {
-            serviceResult.setMessage(Status.SUCCEED_REGISTER.getMessage());
-            serviceResult.setFlag(true);
             userDao.addUser(user);
+            Integer id = getIdByEmail(user.getEmail());
+            //默认加管理员好友
+            //建立属于两人的聊天会话框
+            String chatNumber= UUIDUtils.getUniqueNumber();
+            friendDao.addFriend(new Friend(0,id));
+            friendDao.addFriend(new Friend(id,0));
+            chatDao.insertChat(new Chat(chatNumber));
+            //为好友关系设置ChatId(触发器中间表会新增两条记录)
+            friendService.updateFriendChat(id,0,chatDao.getIdByNumber(chatNumber));
+            System.out.println(chatDao.getIdByNumber(chatNumber));
+            return new ServiceResult(Status.SUCCEED_REGISTER.getMessage(),true);
         }
-        return serviceResult;
     }
 
     /**
      * @Description: 搜索用户
-     * @param user 用户
+     * @param searchText 用户名或微信号
      * @date: 9:55 2021/5/5
      * @return: com.melo.wechat.model.dto.ServiceResult
      */
     @Override
-    public ServiceResult searchUser(User user){
-        ServiceResult serviceResult =new ServiceResult();
+    public ServiceResult searchUser(String searchText){
+        StringBuilder text = new StringBuilder("%"+searchText+"%");
+        User user = new User(text.toString(), text.toString());
         LinkedList<User> users = userDao.showUserAll(user);
         if(users.isEmpty()){
-            serviceResult.setFlag(false);
-            serviceResult.setMessage(Status.NO_USER.getMessage());
+           return new ServiceResult(Status.NO_USER.getMessage(),false);
         }else {
-            serviceResult.setData(users);
-            serviceResult.setFlag(true);
+           return new ServiceResult(users,true);
         }
-        return serviceResult;
     }
 
     /**
@@ -144,6 +155,47 @@ public class UserServiceImpl implements UserService {
         }
         return result;
     }
+
+    @Override
+    public ServiceResult blockUser(User user) {
+        if(userDao.updateUser(user)==1){
+            return new ServiceResult(Status.SUCCESS.getMessage(),true);
+        }
+        return new ServiceResult(false);
+    }
+
+    @Override
+    public ServiceResult unBlockUser(User user) {
+        if(userDao.updateUser(user)==1){
+            return new ServiceResult(Status.SUCCESS.getMessage(),true);
+        }
+        return new ServiceResult(false);
+    }
+
+    @Override
+    public ServiceResult visit() {
+        //为游客设置唯一的微信号
+        String wechatId = UUIDUtils.getUniqueNumber();
+        User user = new User(wechatId);
+        user.setEmail(Status.VISITOR_EMAIL.getMessage());
+        if(userDao.addUser(user)){
+            User visitor = userDao.getVisitor(wechatId, Status.VISITOR_EMAIL.getMessage());
+            return new ServiceResult(true,Status.WELCOME_VISITOR.getMessage(), visitor);
+        }
+        return new ServiceResult(Status.SYSTEM_ERROR.getMessage(),false);
+    }
+
+    @Override
+    public ServiceResult isVisitor(Integer id) {
+        User user = new User();
+        user.setId(id);
+        if(userDao.isVisitor(user)){
+            return new ServiceResult(true);
+        }
+        return new ServiceResult(false);
+    }
+
+
 
 
     /*

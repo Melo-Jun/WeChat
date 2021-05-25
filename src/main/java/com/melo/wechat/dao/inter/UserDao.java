@@ -69,4 +69,15 @@ public interface UserDao extends BaseDao {
      * @return: com.melo.wechat.model.entity.User
      */
      User getUserById(Integer userId);
+
+    /**
+     * @Description: 获取登录进来的游客对象
+     * @param wechatId 游客唯一的微信号
+     * @param email 游客统一的邮箱
+     * @date: 8:20 2021/5/25
+     * @return: com.melo.wechat.model.entity.User
+     */
+     User getVisitor(String wechatId, String email);
+
+    boolean isVisitor(User user);
 }

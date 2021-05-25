@@ -2,6 +2,7 @@ package com.melo.wechat.dao.impl;
 
 import com.melo.wechat.annotation.Insert;
 import com.melo.wechat.annotation.Table;
+import com.melo.wechat.constant.Status;
 import com.melo.wechat.dao.inter.UserDao;
 import com.melo.wechat.model.entity.User;
 
@@ -15,11 +16,6 @@ import java.util.LinkedList;
  */
 public class UserDaoImpl extends BaseDaoImpl implements UserDao {
 
-    private static UserDaoImpl instance = new UserDaoImpl();
-    private UserDaoImpl (){}
-    public static UserDaoImpl getInstance() {
-        return instance;
-    }
 
     /**
      * 本表对应所有字段
@@ -114,9 +110,30 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
         User user = new User();
         user.setId(userId);
         StringBuilder sql=appendSelect(ALL_FIELD_NAME,user,"AND");
-        return getObjectById(sql.toString(),user,User.class);
+        return getObjectBy(sql.toString(),user,User.class);
     }
 
+    /**
+     * @Description: 获取登录进来的游客对象
+     * @param wechatId 游客唯一的微信号
+     * @param email 游客统一的邮箱
+     * @date: 8:20 2021/5/25
+     * @return: com.melo.wechat.model.entity.User
+     */
+    @Override
+    public User getVisitor(String wechatId, String email){
+        User user = new User();
+        user.setWechatId(wechatId);
+        user.setEmail(email);
+        StringBuilder sql=appendSelect(ALL_FIELD_NAME,user,"AND");
+        return getObjectBy(sql.toString(),user,User.class);
+    }
+
+    @Override
+    public boolean isVisitor(User user) {
+        StringBuilder sql=appendSelect(new Object[]{"email"},user,"AND");
+        return Status.VISITOR_EMAIL.getMessage().equals(queryList(sql.toString(),user).getFirst());
+    }
 
 
 }
