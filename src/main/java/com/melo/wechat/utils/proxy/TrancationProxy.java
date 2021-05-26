@@ -56,9 +56,7 @@ public class TrancationProxy implements InvocationHandler {
                 e.printStackTrace();
             }
             trancationProxys.put(clazz, trancationProxy);
-
         }
-
         return (T)trancationProxy.getProxy();
     }
     /**
