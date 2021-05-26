@@ -149,7 +149,9 @@ public class WebSocket {
             //当该成员处于消息对应的聊天中,并且在线时时给他发送消息
             if (receiver != null && receiver.session != null && receiver.session.isOpen()) {
                 try {
-                    receiver.session.getBasicRemote().sendText(jsonString);
+                    synchronized (receiver.session) {
+                        receiver.session.getBasicRemote().sendText(jsonString);
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

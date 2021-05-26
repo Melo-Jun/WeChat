@@ -581,10 +581,12 @@
             for(var i=0;i<friends.length;i++){
                 if(!isVisitor(friends[i].friendId)) {
                     var html =
+                        '<div id='+friends[i].id+'>' +
                         '<div style="background: cadetblue" id="' + friends[i].friendId + '">' +
                         '    <span>' + friends[i].alias + '</span>\n' +
                         ' <img  style="width: 80px;margin-top: 20px;"  src="upload/avatar/' + friends[i].avatar + '" alt="" >\n' +
                         '    <button onclick="move(' + friends[i].friendId + ')" class="btn-default">增加或删除</button>' +
+                        '</div>' +
                         '</div>';
                     document.getElementById("leftUser").innerHTML += html;
                 }
@@ -679,15 +681,16 @@
     }
 
 
-
     function move(id) {
-        var html = $("#" + id).parent().html();
-        if (document.getElementById(id).parentElement.id == "leftUser") {
-            $("#" + id).remove();
+        var  html = $("#" + id).parent().html();
+        if (document.getElementById(id).parentElement.parentElement.id == "leftUser") {
             $("#rightUser").append(html);
+
+            $("#"+id).parent().remove();
         }else  {
-            $("#" + id).remove();
             $("#leftUser").append(html);
+
+            $("#"+id).parent().remove();
         }
     }
 
@@ -815,7 +818,6 @@
             type: "POST",
             data:{chatId:chatId,currentPage:currentPage},
             dataType: "json",
-            contentType: 'application/json',
             async: false,
             success: function (result) {
                 for(var i=1;i<result.totalPage;i++){
@@ -1277,7 +1279,7 @@
         $.post("chat?method=isBlocked",{userId:${userId},chatId:chatId},function(result){
             if(result.flag){
                 alert(result.message);
-                return;
+                // return;
             }else{
                     var content=$("#content").val();
 
@@ -1789,7 +1791,6 @@
                     async: false,
                     data: {userId: message.senderId,chatId:message.chatId},
                     dataType: "json",
-                    contentType: 'application/json',
                     success: function (result) {
                         var member = result.data;
                         var type = null;
@@ -1807,7 +1808,7 @@
                             '                    ' + message.content + '\n' +
                             '                </div>' +
                             '<p class="chat-' + position + '-name" ">' + member.memberName + '</p>' +
-                            '<img src="${pageContext.request.contextPath}/upload/avatar/' + member.memberAvatar + '" class="img-circle chat-image-' + position + '" lt="">\n' +
+                            '<img src="upload/avatar/' + member.memberAvatar + '" class="img-circle chat-image-' + position + '" lt="">\n' +
                             '</div>'
                         ;
                         if (document.getElementById("rightBox").childNodes[1] != null) {
@@ -1882,6 +1883,7 @@
         //连接关闭的回调方法
         websocket.onclose = function () {
             websocket = '';
+            alert("连接已断开,请刷新浏览器重新连接");
         }
 
         //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
@@ -2016,7 +2018,6 @@
             type: "POST",
             data:{userId:userId,chatId:chatId},
             dataType: "json",
-            contentType: 'application/json',
             async: false,
             success: function (result) {
                 returnData= result.flag;
@@ -2036,7 +2037,6 @@
             type: "POST",
             data:{userId:${userId},friendId:friendId},
             dataType: "json",
-            contentType: 'application/json',
             async: false,
             success: function (result) {
                 returnData= result.flag;
@@ -2053,7 +2053,6 @@
             type: "POST",
             data:{id:userId},
             dataType: "json",
-            contentType: 'application/json',
             async: false,
             success: function (result) {
                 returnData= result.flag;

@@ -149,6 +149,8 @@ public class FriendServlet extends BaseServlet {
      */
     public void isFriend(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Friend friend = parameter2Object(request.getParameterMap(), Friend.class);
+        System.out.println(request.getParameter("userId"));
+        System.out.println(request.getParameter("friendId"));
         ServiceResult result=friendService.isFriend(friend);
         sendJsonObject(response,result);
     }

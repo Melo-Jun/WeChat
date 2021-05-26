@@ -169,11 +169,9 @@ public class FriendServiceImpl implements FriendService {
             for (Integer chatId : chatIds) {
                 LinkedList<Integer> friendIds = friendDao.getFriendIdByChatId(chatId);
                 Integer friendId = friendIds.pop();
-                System.out.println(friendId+"first");
                 if (friendId.equals(userId)) {
                     friendId = friendIds.pop();
                 }
-                System.out.println(friendId+"second");
                 Friend friend = friendDao.getFriendByFriendIdAndChatId(friendId,chatId);
                 //获取好友的个人用户信息,以便设置备注以及头像
                 User user = userDao.getUserById(friendId);

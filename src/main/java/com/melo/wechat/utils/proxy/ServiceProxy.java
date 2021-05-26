@@ -52,7 +52,6 @@ public class ServiceProxy implements InvocationHandler {
             serviceProxys.put(clazz, serviceProxy);
 
         }
-
         return (T)serviceProxy.getProxy();
     }
     /**
@@ -68,10 +67,12 @@ public class ServiceProxy implements InvocationHandler {
             LogInfo logInfo = method.getAnnotation(LogInfo.class);
             //取得注解以及参数的值，输出日志
             StringBuilder msg=new StringBuilder(new Date().toString() + " ---> " + logInfo.value());
-            for(Object arg:args){
-                msg.append(arg).append(",");
+            if(args!=null&&args.length>0) {
+                for (Object arg : args) {
+                    msg.append(arg).append(",");
+                }
+                msg.deleteCharAt(msg.length() - 1);
             }
-            msg.deleteCharAt(msg.length()-1);
             logger.info(msg.toString());
             for(Handler h:logger.getHandlers())
             {

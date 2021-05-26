@@ -151,7 +151,6 @@
     <div id="footer">
         <a href="register.jsp">注册</a>&nbsp&nbsp&nbsp&nbsp&nbsp
         <a href="resetPass.jsp">忘记密码?</a>&nbsp&nbsp&nbsp&nbsp&nbsp
-        <a href="register.jsp">管理员模式</a>&nbsp&nbsp&nbsp&nbsp&nbsp
         <a onclick="visit()">游客模式</a>&nbsp&nbsp&nbsp&nbsp&nbsp
     </div>
 </div>

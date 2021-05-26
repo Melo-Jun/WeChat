@@ -79,8 +79,10 @@ public class FriendDaoImpl extends BaseDaoImpl implements FriendDao  {
         StringBuilder sql = appendSelect(new Object[]{"chat_id"}, friend, "AND");
         //若没有记录(未发送过好友申请)
         if(queryList(sql.toString(),friend).isEmpty()){
+            System.out.println("falseaaa");
             return false;
         }
+        System.out.println(queryList(sql.toString(),friend).getFirst());
         //或者只有一方发送,双方还未建立起聊天会话
         return queryList(sql.toString(), friend).getFirst()!=null;
     }

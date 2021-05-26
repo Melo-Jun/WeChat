@@ -17,5 +17,6 @@ public class TestTransaction {
         likeList.setUserId(0);
         likeList.setMomentId(18);
         likeListService.like(likeList);
+
     }
 }

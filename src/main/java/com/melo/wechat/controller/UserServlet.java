@@ -191,7 +191,6 @@ public class UserServlet extends BaseServlet {
      * @return: void
      */
     public void visit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String wechatId = UUIDUtils.getUniqueNumber();
         ServiceResult serviceResult = userService.visit();
         //若游客登录成功
             if (serviceResult.flag) {

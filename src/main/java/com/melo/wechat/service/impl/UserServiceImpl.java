@@ -180,6 +180,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(Status.VISITOR_EMAIL.getMessage());
         if(userDao.addUser(user)){
             User visitor = userDao.getVisitor(wechatId, Status.VISITOR_EMAIL.getMessage());
+            System.out.println(visitor.getId());
             return new ServiceResult(true,Status.WELCOME_VISITOR.getMessage(), visitor);
         }
         return new ServiceResult(Status.SYSTEM_ERROR.getMessage(),false);
