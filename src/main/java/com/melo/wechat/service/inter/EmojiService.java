@@ -20,6 +20,6 @@ public interface EmojiService {
      * @date: 23:52 2021/5/25
      * @return: com.melo.wechat.model.dto.ServiceResult
      */
-    @LogInfo("用户上传表情包")
+    @LogInfo("用户上传表情包-->")
     ServiceResult uploadEmoji(Emoji emoji);
 }

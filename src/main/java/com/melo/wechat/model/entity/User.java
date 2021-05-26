@@ -141,10 +141,6 @@ public class User extends BaseEntity {
                 "email='" + email + '\'' +
                 ", wechatId='" + wechatId + '\'' +
                 ", userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", status=" + status +
-                ", validity=" + validity +
                 ", type='" + type + '\'' +
                 '}';
     }

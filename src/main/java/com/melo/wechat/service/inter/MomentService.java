@@ -19,7 +19,6 @@ public interface MomentService {
      */
     ServiceResult showMoment(Integer userId);
 
-    ServiceResult showAllMoment(Integer userId);
 
     /**
      * @Description: 发布新的朋友圈动态

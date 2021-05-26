@@ -42,4 +42,13 @@ public class Remark extends BaseEntity {
     public void setMomentId(Integer momentId) {
         this.momentId = momentId;
     }
+
+    @Override
+    public String toString() {
+        return "Remark{" +
+                "content='" + content + '\'' +
+                ", userId=" + userId +
+                ", momentId=" + momentId +
+                '}';
+    }
 }

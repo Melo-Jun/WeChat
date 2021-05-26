@@ -57,7 +57,6 @@ public class WebSocket {
         //将用户id对应的对象装载到Map容器
         SERVER_MAP.put(userId, server);
         Logger logger = LogInfoUtil.getLogger(WebSocket.class.getName());
-        logger.info("新用户连接上聊天服务器,用户id为--->"+userId);
     }
 
 
@@ -88,7 +87,7 @@ public class WebSocket {
         //将聊天记录插入数据库
         messageService.insertMessage(message);
         Logger logger = LogInfoUtil.getLogger(WebSocket.class.getName());
-        logger.info("收到新消息--->"+message.getContent());
+        logger.info("收到新消息-->"+message.getContent());
     }
 
 

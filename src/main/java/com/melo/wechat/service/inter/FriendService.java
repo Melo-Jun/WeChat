@@ -28,7 +28,7 @@ public interface FriendService {
      * @date: 15:18 2021/5/13
      * @return: void
      */
-    @LogInfo("建立新的好友聊天会话,用户id,好友id,聊天id分别为:->")
+    @LogInfo("建立新的好友聊天会话,用户id,好友id,聊天id分别为:-->")
     void updateFriendChat(Integer userId,Integer friendId,Integer chatId);
 
     /**

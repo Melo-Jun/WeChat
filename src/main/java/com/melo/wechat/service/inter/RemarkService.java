@@ -1,5 +1,6 @@
 package com.melo.wechat.service.inter;
 
+import com.melo.wechat.annotation.log.LogInfo;
 import com.melo.wechat.model.dto.ServiceResult;
 import com.melo.wechat.model.entity.Remark;
 
@@ -24,5 +25,6 @@ public interface RemarkService {
      * @date: 0:09 2021/5/26
      * @return: com.melo.wechat.model.dto.ServiceResult
      */
+    @LogInfo("有新的评论-->")
     ServiceResult newRemark(Remark remark);
 }

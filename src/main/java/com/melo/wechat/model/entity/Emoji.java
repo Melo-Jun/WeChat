@@ -39,4 +39,12 @@ public class Emoji extends BaseEntity {
     public void setPath(String path) {
         this.path = path;
     }
+
+    @Override
+    public String toString() {
+        return "Emoji{" +
+                "userId=" + userId +
+                ", path='" + path + '\'' +
+                '}';
+    }
 }

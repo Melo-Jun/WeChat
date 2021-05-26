@@ -60,4 +60,13 @@ public class Moment extends BaseEntity {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
+
+    @Override
+    public String toString() {
+        return "Moment{" +
+                "content='" + content + '\'' +
+                ", photo='" + photo + '\'' +
+                ", userId=" + userId +
+                '}';
+    }
 }

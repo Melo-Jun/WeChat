@@ -60,7 +60,7 @@ public interface ChatService {
       * @date: 23:05 2021/5/25
       * @return: com.melo.wechat.model.dto.ServiceResult
       */
-     @LogInfo("创建了新的微信群,群主id,群名,群成员id分别为:->")
+     @LogInfo("创建了新的微信群,群主id,群名,群成员id分别为:-->")
      ServiceResult newGroup(Integer userId,String name,String[] userLists);
 
      /**
@@ -70,7 +70,7 @@ public interface ChatService {
       * @date: 23:06 2021/5/25
       * @return: com.melo.wechat.model.dto.ServiceResult
       */
-     @LogInfo("邀请新成员,群聊id,新成员id分别为:->")
+     @LogInfo("邀请新成员,群聊id,新成员id分别为:-->")
      ServiceResult inviteMember(Integer chatId, String[] userLists);
 
      /**

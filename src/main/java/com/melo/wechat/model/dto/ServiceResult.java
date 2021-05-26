@@ -105,4 +105,13 @@ public class ServiceResult {
     public void setFlag(boolean flag) {
         this.flag = flag;
     }
+
+    @Override
+    public String toString() {
+        return "ServiceResult{" +
+                "message='" + message + '\'' +
+                ", data=" + data +
+                ", flag=" + flag +
+                '}';
+    }
 }

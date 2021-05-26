@@ -37,17 +37,21 @@ public class TrancationProxy implements InvocationHandler {
     /**
      *将被代理的对象传入获得它的类加载器和实现接口作为Proxy.newProxyInstance方法的参数。
      */
-    public synchronized static<T> T getProxyInstance(Class<T> clazz){
+    public static<T> T getProxyInstance(Class<T> clazz){
         //先从Map中获取
         TrancationProxy trancationProxy = trancationProxys.get(clazz);
-        //取不到则生成
-        if(null == trancationProxy){
-            trancationProxy = new TrancationProxy();
+        //取不到则生成(此处有没有必要双检锁呢?)
+        if(trancationProxy == null){
+            synchronized (TrancationProxy.class) {
+                if (trancationProxy == null) {
+                    trancationProxy = new TrancationProxy();
+                }
+            }
             try {
-                T tar = clazz.newInstance();
-                trancationProxy.setTarget(tar);
-                trancationProxy.setProxy(Proxy.newProxyInstance(tar.getClass().getClassLoader(),
-                        tar.getClass().getInterfaces(), trancationProxy));
+                T target = clazz.newInstance();
+                trancationProxy.setTarget(target);
+                trancationProxy.setProxy(Proxy.newProxyInstance(target.getClass().getClassLoader(),
+                        target.getClass().getInterfaces(), trancationProxy));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -62,7 +66,6 @@ public class TrancationProxy implements InvocationHandler {
      */
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        Logger loggerInfo= LogInfoUtil.getLogger(proxy.getClass().getName());
         Logger loggerError= LogErrorUtil.getLogger(proxy.getClass().getName());
         Object returnObj=null;
         if(method.isAnnotationPresent(Transaction.class)) {

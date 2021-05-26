@@ -37,14 +37,18 @@ public class DaoProxy implements InvocationHandler {
     public synchronized  static<T> T getProxyInstance(Class<T> clazz){
         //先从Map中获取
         DaoProxy daoProxy = daoProxys.get(clazz);
-        //取不到则生成
-        if(null == daoProxy){
-            daoProxy = new DaoProxy();
+        //取不到则生成(此处有没有必要双检锁呢?)
+        if( daoProxy == null){
+            synchronized (DaoProxy.class) {
+                if( daoProxy == null) {
+                    daoProxy = new DaoProxy();
+                }
+            }
             try {
-                T tar = clazz.newInstance();
-                daoProxy.setTarget(tar);
-                daoProxy.setProxy(Proxy.newProxyInstance(tar.getClass().getClassLoader(),
-                        tar.getClass().getInterfaces(), daoProxy));
+                T target = clazz.newInstance();
+                daoProxy.setTarget(target);
+                daoProxy.setProxy(Proxy.newProxyInstance(target.getClass().getClassLoader(),
+                        target.getClass().getInterfaces(), daoProxy));
             } catch (Exception e) {
                 e.printStackTrace();
             }

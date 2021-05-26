@@ -98,48 +98,6 @@
 信息: Wed May 26 09:21:55 CST 2021 ---> 建立新的好友聊天会话,用户id,好友id,聊天id分别为:->41,0,17
 五月 26, 2021 9:22:01 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
 信息: Wed May 26 09:22:01 CST 2021 ---> 新用户登录->com.melo.wechat.model.entity.User@6414cc24
-五月 26, 2021 9:22:02 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->41
-五月 26, 2021 9:23:48 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->40
-五月 26, 2021 9:24:18 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->40
-五月 26, 2021 9:28:54 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->40
-五月 26, 2021 9:30:09 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->40
-五月 26, 2021 9:33:10 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->40
-五月 26, 2021 9:35:37 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->40
-五月 26, 2021 9:36:24 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->40
-五月 26, 2021 9:36:46 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->40
-五月 26, 2021 9:38:09 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->40
-五月 26, 2021 9:38:39 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->40
-五月 26, 2021 9:39:43 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->40
-五月 26, 2021 9:40:37 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->40
-五月 26, 2021 9:41:35 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->40
-五月 26, 2021 9:41:59 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->40
-五月 26, 2021 9:42:13 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->40
-五月 26, 2021 9:42:58 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->40
-五月 26, 2021 9:43:49 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->40
-五月 26, 2021 9:44:06 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->40
-五月 26, 2021 9:45:03 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->40
-五月 26, 2021 9:46:25 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->40
 五月 26, 2021 9:46:56 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
 信息: Wed May 26 09:46:56 CST 2021 ---> 创建了新的微信群,群主id,群名,群成员id分别为:->40,吹水小组,[Ljava.lang.String;@55b27982
 五月 26, 2021 9:48:24 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
@@ -190,8 +148,6 @@
 信息: 收到新消息--->23
 五月 26, 2021 9:56:33 上午 com.melo.wechat.controller.websocket.WebSocket onMessage
 信息: 收到新消息--->123123
-五月 26, 2021 9:57:52 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->40
 五月 26, 2021 9:58:02 上午 com.melo.wechat.controller.websocket.WebSocket onMessage
 信息: 收到新消息--->23
 五月 26, 2021 9:58:19 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
@@ -378,8 +334,6 @@
 信息: Wed May 26 10:50:16 CST 2021 ---> 新用户注册->com.melo.wechat.model.entity.User@2402a0ff
 五月 26, 2021 10:50:16 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
 信息: Wed May 26 10:50:16 CST 2021 ---> 建立新的好友聊天会话,用户id,好友id,聊天id分别为:->46,0,28
-五月 26, 2021 10:50:26 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
-信息: Wed May 26 10:50:26 CST 2021 ---> 新用户登录->com.melo.wechat.model.entity.User@6b99e89c
 五月 26, 2021 10:51:51 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
 信息: 新用户连接上聊天服务器,用户id为--->46
 五月 26, 2021 10:52:35 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
@@ -434,20 +388,8 @@
 信息: 新用户连接上聊天服务器,用户id为--->0
 五月 26, 2021 11:11:44 上午 com.melo.wechat.controller.websocket.WebSocket onMessage
 信息: 收到新消息--->你已被封号,未申请解封通过之前不得登录
-五月 26, 2021 11:11:46 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->0
 五月 26, 2021 11:20:06 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
 信息: Wed May 26 11:20:06 CST 2021 ---> 新用户登录->com.melo.wechat.model.entity.User@2997de84
-五月 26, 2021 11:20:07 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->47
-五月 26, 2021 11:21:11 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->47
-五月 26, 2021 11:24:32 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->47
-五月 26, 2021 11:24:42 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
-信息: Wed May 26 11:24:42 CST 2021 ---> 新用户登录->com.melo.wechat.model.entity.User@7c97e48b
-五月 26, 2021 11:24:55 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
-信息: Wed May 26 11:24:55 CST 2021 ---> 新用户登录->com.melo.wechat.model.entity.User@56a8a34f
 五月 26, 2021 11:24:56 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
 信息: 新用户连接上聊天服务器,用户id为--->41
 五月 26, 2021 11:25:58 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
@@ -490,77 +432,30 @@
 信息: 新用户连接上聊天服务器,用户id为--->49
 五月 26, 2021 11:42:03 上午 com.melo.wechat.controller.websocket.WebSocket onMessage
 信息: 收到新消息--->*
-五月 26, 2021 1:11:16 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 1:14:08 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 1:14:56 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 1:15:17 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 1:23:19 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 1:24:00 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 1:30:03 下午 org.apache.catalina.core.StandardWrapper unload
-信息: 正在等待为Servlet[com.melo.wechat.controller.MessageServlet]释放[1]实例
-五月 26, 2021 1:30:04 下午 org.apache.catalina.core.StandardWrapper unload
-信息: 正在等待为Servlet[com.melo.wechat.controller.MessageServlet]释放[1]实例
-五月 26, 2021 1:30:05 下午 org.apache.catalina.core.StandardWrapper unload
-信息: 正在等待为Servlet[com.melo.wechat.controller.MessageServlet]释放[1]实例
-五月 26, 2021 1:30:25 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 1:30:49 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 1:36:20 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 1:36:50 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 1:38:39 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 1:39:30 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 1:42:57 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 1:43:00 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 1:44:24 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 1:44:28 下午 com.melo.wechat.controller.websocket.WebSocket onMessage
-信息: 收到新消息--->1
-五月 26, 2021 1:45:28 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 1:46:05 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 1:55:06 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 1:56:16 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 1:58:53 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 2:00:16 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 2:03:38 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 2:04:12 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 2:05:23 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 2:09:25 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 2:10:31 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 2:11:58 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 2:12:19 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 2:13:02 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 2:16:31 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 2:17:51 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 2:18:14 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
-五月 26, 2021 3:27:46 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
-信息: 新用户连接上聊天服务器,用户id为--->49
+
+五月 26, 2021 4:42:39 下午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: 新用户登录-->____invoke method: login; args: [User{email='1158280627@qq.com', wechatId='null', userName='null', type='null'}]; return: ServiceResult{message='登录成功', data=User{email='1158280627@qq.com', wechatId='melo', userName='melo', type='user'}, flag=true}
+五月 26, 2021 4:45:51 下午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: 新用户登录-->____invoke method: login; args: [User{email='1158280627@qq.com', wechatId='null', userName='null', type='null'}]; return: ServiceResult{message='登录失败', data=null, flag=false}
+五月 26, 2021 4:45:54 下午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: 新用户登录-->____invoke method: login; args: [User{email='1158280627@qq.com', wechatId='null', userName='null', type='null'}]; return: ServiceResult{message='登录成功', data=User{email='1158280627@qq.com', wechatId='melo', userName='melo', type='user'}, flag=true}
+五月 26, 2021 4:52:00 下午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: 新用户登录-->____invoke method: login; args: [User{email='1158280627@qq.com', wechatId='null', userName='null', type='null'}]; return: ServiceResult{message='登录成功', data=User{email='1158280627@qq.com', wechatId='melo', userName='melo', type='user'}, flag=true}
+五月 26, 2021 4:53:23 下午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: 新用户登录-->____invoke method: login; args: [User{email='1158280627@qq.com', wechatId='null', userName='null', type='null'}]; return: ServiceResult{message='登录失败', data=null, flag=false}
+五月 26, 2021 4:53:27 下午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: 新用户登录-->____invoke method: login; args: [User{email='1158280627@qq.com', wechatId='null', userName='null', type='null'}]; return: ServiceResult{message='登录成功', data=User{email='1158280627@qq.com', wechatId='melo', userName='melo', type='user'}, flag=true}
+五月 26, 2021 4:57:52 下午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: 新用户登录-->____invoke method: login; args: [User{email='1158280627@qq.com', wechatId='null', userName='null', type='null'}]; return: ServiceResult{message='登录成功', data=User{email='1158280627@qq.com', wechatId='melo', userName='melo', type='user'}, flag=true}
+五月 26, 2021 4:59:00 下午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: 新用户登录-->____invoke method: login; args: [User{email='1158280627@qq.com', wechatId='null', userName='null', type='null'}]; return: ServiceResult{message='登录成功', data=User{email='1158280627@qq.com', wechatId='melo', userName='melo', type='user'}, flag=true}
+五月 26, 2021 5:07:45 下午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: 创建了新的微信群,群主id,群名,群成员id分别为:-->____invoke method: newGroup; args: [49, 别闹了, [Ljava.lang.String;@16afba5c]; return: ServiceResult{message='操作成功', data=null, flag=true}
+五月 26, 2021 5:11:43 下午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: 有新的朋友圈动态-->____invoke method: newMoment; args: [Moment{content='<i><font face="arial black">哦嗨哟</font></i>', photo='246e18fc-de5f-4203-a9e5-55476d445233.jpg', userId=41}]; return: ServiceResult{message='操作成功', data=null, flag=true}
+五月 26, 2021 5:11:53 下午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: 有新的评论-->____invoke method: newRemark; args: [Remark{content='天气真好', userId=41, momentId=29}]; return: ServiceResult{message='null', data=null, flag=true}
+五月 26, 2021 5:14:25 下午 com.melo.wechat.controller.websocket.WebSocket onMessage
+信息: 收到新消息-->1
+五月 26, 2021 5:14:27 下午 com.melo.wechat.controller.websocket.WebSocket onMessage
+信息: 收到新消息--><img class="emoji" src="upload/emoji/396d272d-8d41-4ab7-8f08-f6f90c63141c.png" alt="">

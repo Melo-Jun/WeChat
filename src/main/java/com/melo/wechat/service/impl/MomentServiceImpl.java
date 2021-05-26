@@ -61,40 +61,6 @@ public class MomentServiceImpl implements MomentService {
         return result;
     }
 
-    /**
-     * @Description: 列出所有用户朋友圈
-     * @param userId 用户id
-     * @date: 14:07 2021/5/19
-     * @return: com.melo.wechat.model.dto.ServiceResult
-     */
-    @Override
-    public ServiceResult showAllMoment(Integer userId) {
-        ServiceResult result = new ServiceResult();
-        User user = userDao.getUserById(userId);
-        LinkedList<Moment> moments = momentDao.getMomentByUserId(userId);
-        LinkedList<MomentVO> momentVos = new LinkedList<>();
-        if(!moments.isEmpty()) {
-            for (Moment moment : moments) {
-                MomentVO momentVO = new MomentVOBuilder()
-                        .setUserId(userId)
-                        .setUserName(user.getUserName())
-                        .setWechatId(user.getWechatId())
-                        .setAvatar(user.getAvatar())
-                        .setId(moment.getId())
-                        .setContent(moment.getContent())
-                        .setLikeCount(moment.getLikeCount())
-                        .setPhoto(moment.getPhoto())
-                        .setGmtCreate(moment.getGmtCreate()).build();
-                momentVos.add(momentVO);
-            }
-            result.setFlag(true);
-        }else {
-            momentVos.add(new MomentVO(user.getUserName(),user.getAvatar()));
-            result.setFlag(false);
-        }
-        result.setData(momentVos);
-        return result;
-    }
 
     @Override
     public ServiceResult newMoment(Moment moment) {
