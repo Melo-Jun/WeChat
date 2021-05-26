@@ -85,7 +85,6 @@ public class UserServiceImpl implements UserService {
             chatDao.insertChat(new Chat(chatNumber));
             //为好友关系设置ChatId(触发器中间表会新增两条记录)
             friendService.updateFriendChat(id,0,chatDao.getIdByNumber(chatNumber));
-            System.out.println(chatDao.getIdByNumber(chatNumber));
             return new ServiceResult(Status.SUCCEED_REGISTER.getMessage(),true);
         }
     }
@@ -180,7 +179,6 @@ public class UserServiceImpl implements UserService {
         user.setEmail(Status.VISITOR_EMAIL.getMessage());
         if(userDao.addUser(user)){
             User visitor = userDao.getVisitor(wechatId, Status.VISITOR_EMAIL.getMessage());
-            System.out.println(visitor.getId());
             return new ServiceResult(true,Status.WELCOME_VISITOR.getMessage(), visitor);
         }
         return new ServiceResult(Status.SYSTEM_ERROR.getMessage(),false);

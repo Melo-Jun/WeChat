@@ -35,7 +35,6 @@ public class LikeListDaoImpl extends BaseDaoImpl implements LikeListDao {
     @Override
     public boolean everLike(LikeList likeList){
         StringBuilder sql = appendSelect(new Object[]{"id"}, likeList, "AND");
-        System.out.println(queryList(sql.toString(),likeList).getFirst());
         return !queryList(sql.toString(),likeList).isEmpty();
     }
 

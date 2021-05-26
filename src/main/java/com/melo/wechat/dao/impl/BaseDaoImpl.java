@@ -88,7 +88,6 @@ public class BaseDaoImpl implements BaseDao {
             if (obj != null) {
                 setParams(ps, obj);
             }
-            System.out.println(sql);
             rs = ps.executeQuery();
             return  resultMapper.doMap(rs);
         } catch (SQLException throwables) {

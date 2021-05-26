@@ -163,7 +163,8 @@
      */
     function initNewMoment(){
         document.getElementById("momentBox").innerHTML='';
-        $("#remarkList").html('');
+        $("#remarkBox").html('');
+        $("#left").html('');
         var html=
             '<div class="back" onclick="reloadMoment()"  ></div>'+
             '<div class="icon" style="right: 25px;background-image: url(img/发布.png);"  onclick="newMoment()" ></div>'+
@@ -217,6 +218,7 @@
     function showRemark(momentId){
 
         $.post("moment?method=showRemark",{momentId:momentId},function (result){
+                $("#remarkBox").html("");
                 $("#left").html("");
                 var remarkVOs=result.data;
                 for(var i=0;i<remarkVOs.length;i++){
