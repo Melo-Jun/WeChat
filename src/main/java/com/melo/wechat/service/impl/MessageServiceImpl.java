@@ -56,7 +56,7 @@ public class MessageServiceImpl implements MessageService {
         messageVo.setRows(rows);
 
         //查询总条数
-        Integer totalCount = messageDao.getMessageCount(chatId);
+        Long totalCount = messageDao.getMessageCount(chatId);
         messageVo.setTotalCount(totalCount);
        /*
        查询每页的记录
@@ -66,9 +66,13 @@ public class MessageServiceImpl implements MessageService {
         List<Message> list = messageDao.listMessageByPage(start,rows,chatId);
         messageVo.setList(list);
 
+
         //计算总页码
-        int totalPage = (totalCount % rows)  == 0 ? totalCount/rows : (totalCount/rows) + (totalCount % rows);
+        Long totalPage = (totalCount % rows)  == 0 ? totalCount/rows : (totalCount/rows) + 1;
         messageVo.setTotalPage(totalPage);
+
+        System.out.println(totalCount+"tiao");
+        System.out.println(totalPage+"ye");
 
         return new ServiceResult(messageVo);
 

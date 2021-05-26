@@ -34,11 +34,13 @@ public class MessageDaoImpl extends BaseDaoImpl implements MessageDao {
     }
 
     @Override
-    public Integer getMessageCount(Integer chatId) {
+    public Long getMessageCount(Integer chatId) {
         Message message = new Message();
         message.setChatId(chatId);
         StringBuilder sql = appendSelect(new Object[]{"count(*)"}, message, "AND");
-        return (Integer) queryList(sql.toString(),message).getFirst();
+        LinkedList<Object> objects = queryList(sql.toString(), message);
+        return  (Long) objects.getFirst();
+//        return (Integer) queryList(sql.toString(),message).getFirst();
     }
 
     @Override
@@ -46,6 +48,8 @@ public class MessageDaoImpl extends BaseDaoImpl implements MessageDao {
         Message message = new Message();
         message.setChatId(chatId);
         StringBuilder sql = appendSelect(ALL_FIELD_NAME, message, "AND");
+        System.out.println(start);
+        System.out.println(rows);
         sql.append("limit ").append(start).append(" , ").append(rows);
         return queryAll(sql.toString(),message,Message.class);
     }

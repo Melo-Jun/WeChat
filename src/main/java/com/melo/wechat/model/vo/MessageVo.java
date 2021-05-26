@@ -13,11 +13,11 @@ public class MessageVo {
     /**
      * 总聊天记录条数
      */
-    private int totalCount;
+    private Long totalCount;
     /**
      * 总页码
      */
-    private int totalPage;
+    private Long totalPage;
     /**
      * 每页数据
      */
@@ -31,19 +31,19 @@ public class MessageVo {
      */
     private int rows;
 
-    public int getTotalCount() {
+    public Long getTotalCount() {
         return totalCount;
     }
 
-    public void setTotalCount(int totalCount) {
+    public void setTotalCount(Long totalCount) {
         this.totalCount = totalCount;
     }
 
-    public int getTotalPage() {
+    public Long getTotalPage() {
         return totalPage;
     }
 
-    public void setTotalPage(int totalPage) {
+    public void setTotalPage(Long totalPage) {
         this.totalPage = totalPage;
     }
 
@@ -71,6 +71,16 @@ public class MessageVo {
         this.rows = rows;
     }
 
+    @Override
+    public String toString() {
+        return "MessageVo{" +
+                "totalCount=" + totalCount +
+                ", totalPage=" + totalPage +
+                ", list=" + list +
+                ", currentPage=" + currentPage +
+                ", rows=" + rows +
+                '}';
+    }
 }
 
 

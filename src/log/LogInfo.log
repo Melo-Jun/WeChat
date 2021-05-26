@@ -490,3 +490,81 @@
 信息: Wed May 26 11:36:48 CST 2021 ---> 新用户登录->com.melo.wechat.model.entity.User@38f9d920
 五月 26, 2021 11:36:50 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
 信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 11:42:03 上午 com.melo.wechat.controller.websocket.WebSocket onMessage
+信息: 收到新消息--->*
+五月 26, 2021 1:11:13 下午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 13:11:13 CST 2021 ---> 新用户登录->com.melo.wechat.model.entity.User@6beb5c7f
+五月 26, 2021 1:11:13 下午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 13:11:13 CST 2021 ---> 新用户登录->com.melo.wechat.model.entity.User@72036074
+五月 26, 2021 1:11:16 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 1:14:08 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 1:14:56 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 1:15:17 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 1:23:19 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 1:24:00 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 1:30:03 下午 org.apache.catalina.core.StandardWrapper unload
+信息: 正在等待为Servlet[com.melo.wechat.controller.MessageServlet]释放[1]实例
+五月 26, 2021 1:30:04 下午 org.apache.catalina.core.StandardWrapper unload
+信息: 正在等待为Servlet[com.melo.wechat.controller.MessageServlet]释放[1]实例
+五月 26, 2021 1:30:05 下午 org.apache.catalina.core.StandardWrapper unload
+信息: 正在等待为Servlet[com.melo.wechat.controller.MessageServlet]释放[1]实例
+五月 26, 2021 1:30:25 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 1:30:49 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 1:36:20 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 1:36:50 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 1:38:39 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 1:39:30 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 1:42:57 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 1:43:00 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 1:44:24 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 1:44:28 下午 com.melo.wechat.controller.websocket.WebSocket onMessage
+信息: 收到新消息--->1
+五月 26, 2021 1:45:28 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 1:46:05 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 1:55:06 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 1:56:16 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 1:58:53 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 2:00:16 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 2:03:38 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 2:04:12 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 2:05:23 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 2:09:25 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 2:10:31 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 2:11:58 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 2:12:19 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 2:13:02 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 2:16:31 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 2:17:51 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 2:18:14 下午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49

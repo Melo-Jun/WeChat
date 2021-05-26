@@ -49,11 +49,10 @@ public class MessageServlet extends BaseServlet {
      * @date: 18:31 2021/5/25
      * @return: void
      */
-    public void listMessageByPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void listMessageByPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 
         Integer chatId = Integer.valueOf(request.getParameter("chatId"));
         Integer currentPage = Integer.valueOf(request.getParameter("currentPage"));
-
         ServiceResult result = messageService.listMessageByPage(chatId,currentPage);
         sendJsonObject(response, result);
     }

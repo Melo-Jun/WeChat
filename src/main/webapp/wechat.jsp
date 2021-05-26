@@ -748,8 +748,8 @@
                 '<div id=' + chat.id + '>\n' +
                 '<div class="chat active-chat" data-chat="person2" id="chatBox">' +
                 '</div>' +
-                '<div class="write" style="bottom: 0">\n' +
-                '                <a class="write-link attach"  ></a>\n' +
+                '<div id="write"  class="write" style="bottom: 0">\n' +
+                '                <a class="write-link attach" onclick="initGroupMessageRecord('+chatId+')"  ></a>\n' +
                 '                <input type="text" id="content" />\n' +
                 '                <a  class="write-link smiley" onclick="loadGroupEmoji('+chat.id+')"></a>\n' +
                 '                <a  class="write-link send" onclick="sendGroupMessage(' + chat.id + ')"></a>\n' +
@@ -787,7 +787,7 @@
                 '<div class="chat active-chat" data-chat="person2" id="chatBox">' +
                 '</div>' +
                 '<div id="write"  class="write" style="bottom: 0">\n' +
-                '                <a class="write-link attach"></a>\n' +
+                '                <a class="write-link attach" onclick="initFriendMessageRecord(\''+friend.chatId+'\',\''+id+'\')" ></a>\n' +
                 '                <input type="text" id="content" />\n' +
                 '                <a  class="write-link smiley" onclick="loadFriendEmoji(\''+friend.friendId+'\',\''+friend.chatId+'\',\''+friend.isBlock+'\')"></a>\n' +
                 '                <a  class="write-link send" onclick="sendFriendMessage(\''+friend.friendId+'\',\''+friend.chatId+'\',\''+friend.isBlock+'\')"></a>\n' +
@@ -801,7 +801,11 @@
 
     }
 
-    function initListMessageByPage(chatId){
+    /**
+     * @Description: 初始化查看好友聊天记录分页
+     * @date: 14:13 2021/5/26
+     */
+    function initFriendMessageRecord(chatId,id){
 
         var html = '<nav aria-label="Page navigation" style="bottom: 15px;position: relative;margin-left: 120px;">\n' +
             '  <ul id="page" class="pagination">\n' +
@@ -812,32 +816,65 @@
 
         var currentPage=1;
 
-        var returnData;
         $.ajax({
             url: "message?method=listMessageByPage" ,
             type: "POST",
             data:{chatId:chatId,currentPage:currentPage},
             dataType: "json",
-            async: false,
+            async: true,
             success: function (result) {
-                for(var i=1;i<result.totalPage;i++){
-                    alert(i);
-                    document.getElementById("page").innerHTML +=  '<li><a ><p>1</p></a></li>\n' ;
-
+                var messageVo=result.data;
+                for( i=1;i<messageVo.totalPage+1;i++){
+                    document.getElementById("page").innerHTML +=  '<li><a ><p onclick="listMessageByPage(\''+chatId+'\',\''+i+'\')">'+i+'</p></a></li>\n' ;
                 }
+                document.getElementById("page").innerHTML+=  '<span style="width:20px;height: 20px;position: unset;" class="icon" onclick="showFriendChat('+id+')"></span>\n';
             }
         });
-        // return returnData;
+    }
 
+    /**
+     * @Description: 初始化查看群聊聊天记录分页
+     * @date: 14:13 2021/5/26
+     */
+    function initGroupMessageRecord(chatId){
 
-        // $.post("message?method=listMessageByPage",{chatId:chatId,currentPage:currentPage},function (result) {
-        //
-        //     for(var i=1;i<result.totalPage;i++){
-        //         alert(i);
-        //        document.getElementById("page").innerHTML +=  '<li><a ><p>1</p></a></li>\n' ;
-        //
-        //     }
-        // });
+        var html = '<nav aria-label="Page navigation" style="bottom: 15px;position: relative;margin-left: 120px;">\n' +
+            '  <ul id="page" class="pagination">\n' +
+            '  </ul>\n' +
+            '</nav>';
+        document.getElementById("write").innerHTML = '';
+        document.getElementById("write").innerHTML += html;
+
+        var currentPage=1;
+
+        $.ajax({
+            url: "message?method=listMessageByPage" ,
+            type: "POST",
+            data:{chatId:chatId,currentPage:currentPage},
+            dataType: "json",
+            async: true,
+            success: function (result) {
+                var messageVo=result.data;
+                for( i=1;i<messageVo.totalPage+1;i++){
+                    document.getElementById("page").innerHTML +=  '<li><a ><p onclick="listMessageByPage(\''+chatId+'\',\''+i+'\')">'+i+'</p></a></li>\n' ;
+                }
+                document.getElementById("page").innerHTML+=  '<span style="width:20px;height: 20px;position: unset;" class="icon" onclick="showGroupChat('+chatId+')"></span>\n';
+            }
+        });
+    }
+
+    /**
+     * @Description: 根据页码数展示聊天记录
+     * @date: 13:48 2021/5/26
+     */
+    function listMessageByPage(chatId,currentPage){
+        document.getElementById("chatBox").innerHTML='';
+        $.post("message?method=listMessageByPage",{chatId:chatId,currentPage:currentPage},function (result){
+            var messages=result.data.list;
+            for(var i=0;i<messages.length;i++){
+                showMessage(messages[i]);
+            }
+        })
     }
 
     /**

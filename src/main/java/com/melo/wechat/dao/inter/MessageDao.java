@@ -26,7 +26,7 @@ public interface MessageDao extends BaseDao {
      * @date: 18:33 2021/5/25
      * @return: java.lang.Integer
      */
-    Integer getMessageCount(Integer chatId);
+     Long getMessageCount(Integer chatId);
 
     /**
      * @Description: 根据前台页码展示特定页
