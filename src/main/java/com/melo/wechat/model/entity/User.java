@@ -134,4 +134,18 @@ public class User extends BaseEntity {
     public void setValidity(Integer validity) {
         this.validity = validity;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", wechatId='" + wechatId + '\'' +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", status=" + status +
+                ", validity=" + validity +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }

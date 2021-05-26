@@ -1,5 +1,3 @@
-
-
 package com.melo.wechat.utils;
 
 
@@ -14,30 +12,18 @@ import java.util.regex.Pattern;
  */
 public class StringUtils {
 
-    // 定义script的正则表达式
-    private static final String REG_EX_SCRIPT = "<script[^>]*?>[\\s\\S]*?<\\/script>";
-    // 定义style的正则表达式
-    private static final String REG_EX_STYLE = "<style[^>]*?>[\\s\\S]*?<\\/style>";
-    // 定义HTML标签的正则表达式
-    private static final String REG_EX_HTML = "<[^>]+>";
-    //定义空格回车换行符
-    private static final String REG_EX_SPACE = "\\s*|\t|\r|\n";
-
     /**
-     * 将属性名转化为数据库字段名
-     * @param fieldName 属性名
-     * @return String  数据库字段名
+     *  定义script的正则表达式
      */
-    public static String toColumnName(String fieldName){
-
-        StringBuilder columnName=new StringBuilder(fieldName);
-        for(int i=0;i<columnName.length();i++){
-            if(columnName.charAt(i)>='A'&&columnName.charAt(i)<='Z'){
-                columnName.insert(i,'_');
-                columnName.setCharAt(i+1, (char) (columnName.charAt(i+1)+32));
-            }
-        }return columnName.toString();
-    }
+    private static final String REG_EX_SCRIPT = "<script[^>]*?>[\\s\\S]*?<\\/script>";
+    /**
+     * 定义style的正则表达式
+     */
+    private static final String REG_EX_STYLE = "<style[^>]*?>[\\s\\S]*?<\\/style>";
+    /**
+     * 定义HTML标签的正则表达式
+     */
+    private static final String REG_EX_HTML = "<[^>]+>";
 
     /**
      * 将数据库字段名转化为属性名
@@ -87,6 +73,12 @@ public class StringUtils {
     };
 
 
+    /**
+     * @Description: 过滤script标签(用于图片和表情包文件等)
+     * @param htmlStr
+     * @date: 15:34 2021/5/26
+     * @return: java.lang.String
+     */
     public static String delScriptTag(String htmlStr) {
         if(htmlStr!=null) {
             // 过滤script标签

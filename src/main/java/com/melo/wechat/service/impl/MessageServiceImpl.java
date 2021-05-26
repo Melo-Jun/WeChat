@@ -71,9 +71,6 @@ public class MessageServiceImpl implements MessageService {
         Long totalPage = (totalCount % rows)  == 0 ? totalCount/rows : (totalCount/rows) + 1;
         messageVo.setTotalPage(totalPage);
 
-        System.out.println(totalCount+"tiao");
-        System.out.println(totalPage+"ye");
-
         return new ServiceResult(messageVo);
 
     }

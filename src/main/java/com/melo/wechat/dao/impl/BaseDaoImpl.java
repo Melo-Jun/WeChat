@@ -291,11 +291,14 @@ public class BaseDaoImpl implements BaseDao {
         LinkedList<Field> fields = getFields(obj);
         for (Field field : fields) {
             /*
-              获取get方法并invoke执行取得属性值
+              根据属性创建相应get方法名称
              */
             String methodName = "get" + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
             Object value = null;
             try {
+                /*
+                根据构造的方法名找到方法,并invoke执行取得属性值
+                 */
                 Method method = obj.getClass().getMethod(methodName);
                 value = method.invoke(obj);
             } catch (Exception e) {

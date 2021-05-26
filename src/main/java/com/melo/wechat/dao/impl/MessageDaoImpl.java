@@ -48,8 +48,6 @@ public class MessageDaoImpl extends BaseDaoImpl implements MessageDao {
         Message message = new Message();
         message.setChatId(chatId);
         StringBuilder sql = appendSelect(ALL_FIELD_NAME, message, "AND");
-        System.out.println(start);
-        System.out.println(rows);
         sql.append("limit ").append(start).append(" , ").append(rows);
         return queryAll(sql.toString(),message,Message.class);
     }
