@@ -11,7 +11,7 @@
  Target Server Version : 80023
  File Encoding         : 65001
 
- Date: 26/05/2021 10:37:10
+ Date: 26/05/2021 14:21:19
 */
 
 SET NAMES utf8mb4;
@@ -38,10 +38,11 @@ CREATE TABLE `chat`  (
 -- ----------------------------
 -- Records of chat
 -- ----------------------------
-INSERT INTO `chat` VALUES (16, '好友间私聊', '8fca155284', '群组.png', 'friend', NULL, '2021-05-26 09:21:15', '2021-05-26 09:21:15');
 INSERT INTO `chat` VALUES (17, '好友间私聊', '41d3552088', '群组.png', 'friend', NULL, '2021-05-26 09:21:55', '2021-05-26 09:21:55');
-INSERT INTO `chat` VALUES (18, '好友间私聊', '7781225071', '群组.png', 'friend', NULL, '2021-05-26 09:25:22', '2021-05-26 09:25:22');
-INSERT INTO `chat` VALUES (27, '好友间私聊', '70b7531063', '群组.png', 'friend', NULL, '2021-05-26 10:30:53', '2021-05-26 10:30:53');
+INSERT INTO `chat` VALUES (33, '好友间私聊', '81d0589144', '群组.png', 'friend', NULL, '2021-05-26 11:25:58', '2021-05-26 11:25:58');
+INSERT INTO `chat` VALUES (34, '好友间私聊', '5d74313116', '群组.png', 'friend', NULL, '2021-05-26 11:28:31', '2021-05-26 11:28:31');
+INSERT INTO `chat` VALUES (35, '不凑字', 'a945582383', 'ba187f37-1526-4c41-b082-43202eb182b8.png', 'group', 41, '2021-05-26 11:32:58', '2021-05-26 11:33:36');
+INSERT INTO `chat` VALUES (36, '好友间私聊', 'e928457322', '群组.png', 'friend', NULL, '2021-05-26 11:34:45', '2021-05-26 11:34:45');
 
 -- ----------------------------
 -- Table structure for emoji
@@ -69,6 +70,8 @@ INSERT INTO `emoji` VALUES (8, 0, '3110a691-69c1-46d9-a54b-220b2b7b8829.png', '2
 INSERT INTO `emoji` VALUES (9, 0, 'fc2607d3-b46b-4694-b91c-7a92c3fe3805.gif', '2021-05-24 09:01:51', '2021-05-24 09:01:51');
 INSERT INTO `emoji` VALUES (10, 0, '583ebb64-7d84-41a1-935b-69c3ca859647.gif', '2021-05-24 09:30:34', '2021-05-24 09:30:34');
 INSERT INTO `emoji` VALUES (16, 0, '9288c539-8a33-4525-9fc3-b2bbd3b1f406.png', '2021-05-26 00:17:56', '2021-05-26 00:17:56');
+INSERT INTO `emoji` VALUES (19, 41, '396d272d-8d41-4ab7-8f08-f6f90c63141c.png', '2021-05-26 11:04:53', '2021-05-26 11:04:53');
+INSERT INTO `emoji` VALUES (20, 49, '66382417-73c2-4599-aae1-120aff95f128.png', '2021-05-26 11:29:22', '2021-05-26 11:29:22');
 
 -- ----------------------------
 -- Table structure for file
@@ -115,14 +118,14 @@ CREATE TABLE `friend`  (
 -- ----------------------------
 -- Records of friend
 -- ----------------------------
-INSERT INTO `friend` VALUES (25, 0, 40, 16, '未设置', '未设置', NULL, NULL, 0, '2021-05-26 09:21:15', '2021-05-26 09:21:15');
-INSERT INTO `friend` VALUES (26, 40, 0, 16, '微信团队', '未设置', '9ebc8732-608b-44c1-b177-a308a213e65d.png', NULL, 0, '2021-05-26 09:21:15', '2021-05-26 09:21:26');
-INSERT INTO `friend` VALUES (27, 0, 41, 17, '未设置', '未设置', NULL, NULL, 0, '2021-05-26 09:21:55', '2021-05-26 09:21:55');
+INSERT INTO `friend` VALUES (27, 0, 41, 17, '小号', '未设置', 'fa65abc4-cce2-48ae-87df-0558091a2fdb.png', NULL, 0, '2021-05-26 09:21:55', '2021-05-26 11:11:23');
 INSERT INTO `friend` VALUES (28, 41, 0, 17, '微信团队', '未设置', '9ebc8732-608b-44c1-b177-a308a213e65d.png', NULL, 0, '2021-05-26 09:21:55', '2021-05-26 09:22:03');
-INSERT INTO `friend` VALUES (29, 40, 41, 18, '', '', 'fa65abc4-cce2-48ae-87df-0558091a2fdb.png', NULL, 0, '2021-05-26 09:24:24', '2021-05-26 09:26:28');
-INSERT INTO `friend` VALUES (30, 41, 40, 18, 'melo', '....', 'fa65abc4-cce2-48ae-87df-0558091a2fdb.png', NULL, 0, '2021-05-26 09:25:22', '2021-05-26 09:25:23');
-INSERT INTO `friend` VALUES (39, 41, 45, 27, '游客', '....', '游客.png', NULL, 0, '2021-05-26 10:30:46', '2021-05-26 10:30:58');
-INSERT INTO `friend` VALUES (40, 45, 41, 27, '小号', '....', 'fa65abc4-cce2-48ae-87df-0558091a2fdb.png', NULL, 0, '2021-05-26 10:30:53', '2021-05-26 10:30:54');
+INSERT INTO `friend` VALUES (49, 0, 49, 33, 'melo', '未设置', 'e5c881eb-8464-439c-8faf-e53e543b46bc.png', NULL, 0, '2021-05-26 11:25:58', '2021-05-26 11:35:35');
+INSERT INTO `friend` VALUES (50, 49, 0, 33, '微信团队', '未设置', '9ebc8732-608b-44c1-b177-a308a213e65d.png', NULL, 0, '2021-05-26 11:25:58', '2021-05-26 11:27:24');
+INSERT INTO `friend` VALUES (51, 49, 41, 34, '工具人', '....', 'fa65abc4-cce2-48ae-87df-0558091a2fdb.png', NULL, 0, '2021-05-26 11:28:10', '2021-05-26 11:28:43');
+INSERT INTO `friend` VALUES (52, 41, 49, 34, '大号', '....', 'e5c881eb-8464-439c-8faf-e53e543b46bc.png', NULL, 1, '2021-05-26 11:28:31', '2021-05-26 11:30:36');
+INSERT INTO `friend` VALUES (53, 50, 41, 36, '小号', '....', 'fa65abc4-cce2-48ae-87df-0558091a2fdb.png', NULL, 0, '2021-05-26 11:34:39', '2021-05-26 11:35:03');
+INSERT INTO `friend` VALUES (54, 41, 50, 36, '游客', '....', '游客.png', NULL, 0, '2021-05-26 11:34:45', '2021-05-26 11:34:47');
 
 -- ----------------------------
 -- Table structure for like_list
@@ -165,13 +168,20 @@ CREATE TABLE `message`  (
 -- ----------------------------
 -- Records of message
 -- ----------------------------
-INSERT INTO `message` VALUES (143, '2', 'text', 41, 27, '2021-05-26 10:31:01', '2021-05-26 10:31:01');
-INSERT INTO `message` VALUES (144, '3', 'text', 41, 27, '2021-05-26 10:31:09', '2021-05-26 10:31:09');
-INSERT INTO `message` VALUES (145, '1', 'text', 45, 27, '2021-05-26 10:31:22', '2021-05-26 10:31:22');
-INSERT INTO `message` VALUES (146, '1', 'text', 45, 27, '2021-05-26 10:32:25', '2021-05-26 10:32:25');
-INSERT INTO `message` VALUES (147, '1', 'text', 41, 27, '2021-05-26 10:32:34', '2021-05-26 10:32:34');
-INSERT INTO `message` VALUES (148, '1', 'text', 41, 27, '2021-05-26 10:33:24', '2021-05-26 10:33:24');
-INSERT INTO `message` VALUES (149, '1', 'text', 41, 27, '2021-05-26 10:33:48', '2021-05-26 10:33:48');
+INSERT INTO `message` VALUES (158, '不错', 'text', 41, 34, '2021-05-26 11:28:48', '2021-05-26 11:28:48');
+INSERT INTO `message` VALUES (159, '<img class=\"emoji\" src=\"upload/emoji/66382417-73c2-4599-aae1-120aff95f128.png\" alt=\"\">', 'photo', 49, 34, '2021-05-26 11:29:24', '2021-05-26 11:29:24');
+INSERT INTO `message` VALUES (160, '<img class=\"emoji\" src=\"upload/emoji/66382417-73c2-4599-aae1-120aff95f128.png\" alt=\"\">', 'photo', 49, 34, '2021-05-26 11:29:27', '2021-05-26 11:29:27');
+INSERT INTO `message` VALUES (161, '<img class=\"emoji\" src=\"upload/emoji/396d272d-8d41-4ab7-8f08-f6f90c63141c.png\" alt=\"\">', 'photo', 41, 34, '2021-05-26 11:29:33', '2021-05-26 11:29:33');
+INSERT INTO `message` VALUES (162, '<a href=\"download?method=downloadFile&&path=upload/file/34/&&fileName=9d19cbf6-b995-4d38-af7e-c08519fc0b2e.xmind\"  class=\"emoji\" >文件名:<br> 不错</a>', 'file', 41, 34, '2021-05-26 11:29:57', '2021-05-26 11:29:57');
+INSERT INTO `message` VALUES (163, '1', 'text', 49, 33, '2021-05-26 11:42:03', '2021-05-26 13:58:38');
+INSERT INTO `message` VALUES (164, '2', 'text', 49, 33, '2021-05-26 11:42:03', '2021-05-26 13:58:39');
+INSERT INTO `message` VALUES (165, '3', 'text', 49, 33, '2021-05-26 13:53:59', '2021-05-26 13:58:40');
+INSERT INTO `message` VALUES (166, '4', 'text', 49, 33, '2021-05-26 13:54:04', '2021-05-26 13:58:41');
+INSERT INTO `message` VALUES (167, '5', 'text', 49, 33, '2021-05-26 13:54:08', '2021-05-26 13:58:43');
+INSERT INTO `message` VALUES (168, '6', 'text', 49, 33, '2021-05-26 13:54:20', '2021-05-26 13:58:44');
+INSERT INTO `message` VALUES (169, '7', 'text', 49, 33, '2021-05-26 13:54:20', '2021-05-26 13:58:45');
+INSERT INTO `message` VALUES (170, '8', 'text', 49, 33, '2021-05-26 13:54:20', '2021-05-26 13:58:46');
+INSERT INTO `message` VALUES (171, '9', 'text', 49, 33, '2021-05-26 13:54:48', '2021-05-26 13:58:48');
 
 -- ----------------------------
 -- Table structure for moment
@@ -193,7 +203,9 @@ CREATE TABLE `moment`  (
 -- ----------------------------
 -- Records of moment
 -- ----------------------------
-INSERT INTO `moment` VALUES (18, '<div style=\"text-align: center;\"><b>好爽阿</b>,不<strike>错不错不错不错,</strike><u>但是<i>好像<font color=\"#00b050\">没意思</font></i></u><img src=\"http://img.baidu.com/hi/jx2/j_0004.gif\" style=\"max-width: 100%; max-height: 100%;\"></div>', 'a111d921-5aa1-4027-a139-391b8a4ff9e4.png', 0, 0, '2021-05-23 16:31:51', '2021-05-26 10:36:29');
+INSERT INTO `moment` VALUES (18, '<div style=\"text-align: center;\"><b>好爽阿</b>,不<strike>错不错不错不错,</strike><u>但是<i>好像<font color=\"#00b050\">没意思</font></i></u><img src=\"http://img.baidu.com/hi/jx2/j_0004.gif\" style=\"max-width: 100%; max-height: 100%;\"></div>', 'b260d473-cbcc-4332-a2da-17741c50df70.png', 0, 0, '2021-05-23 16:31:51', '2021-05-26 11:21:54');
+INSERT INTO `moment` VALUES (27, '<img src=\"http://img.baidu.com/hi/jx2/j_0002.gif\"><u>不<font color=\"#00b0f0\">错子</font></u>', 'efb3ea08-877a-4ac4-bc1b-8e1fdd3a035a.png', 41, 0, '2021-05-26 11:07:29', '2021-05-26 11:07:29');
+INSERT INTO `moment` VALUES (28, '<img src=\"http://img.baidu.com/hi/jx2/j_0013.gif\">啊<font color=\"#9bbb59\">啊<u>啊啊</u></font>', '259f86c0-6cd8-4cf3-9992-645c1dc0381a.png', 41, 0, '2021-05-26 11:32:09', '2021-05-26 11:32:09');
 
 -- ----------------------------
 -- Table structure for notice
@@ -217,13 +229,8 @@ CREATE TABLE `notice`  (
 -- ----------------------------
 -- Records of notice
 -- ----------------------------
-INSERT INTO `notice` VALUES (2, '我是小号', 36, 37, NULL, 'friendNotice', 1, '2021-05-25 21:37:37', '2021-05-25 21:37:45');
-INSERT INTO `notice` VALUES (3, '', 40, 41, NULL, 'friendNotice', 1, '2021-05-26 09:24:24', '2021-05-26 09:25:21');
-INSERT INTO `notice` VALUES (4, '....', 42, 41, NULL, 'friendNotice', 1, '2021-05-26 10:21:54', '2021-05-26 10:22:00');
-INSERT INTO `notice` VALUES (5, '....', 43, 41, NULL, 'friendNotice', 1, '2021-05-26 10:25:04', '2021-05-26 10:25:09');
-INSERT INTO `notice` VALUES (6, '....', 44, 41, NULL, 'friendNotice', 1, '2021-05-26 10:27:16', '2021-05-26 10:27:23');
-INSERT INTO `notice` VALUES (7, '....', 41, 45, NULL, 'friendNotice', 1, '2021-05-26 10:28:24', '2021-05-26 10:28:30');
-INSERT INTO `notice` VALUES (8, '....', 41, 45, NULL, 'friendNotice', 1, '2021-05-26 10:30:46', '2021-05-26 10:30:51');
+INSERT INTO `notice` VALUES (11, '....', 49, 41, NULL, 'friendNotice', 1, '2021-05-26 11:28:10', '2021-05-26 11:28:29');
+INSERT INTO `notice` VALUES (12, '....', 50, 41, NULL, 'friendNotice', 1, '2021-05-26 11:34:39', '2021-05-26 11:34:44');
 
 -- ----------------------------
 -- Table structure for remark
@@ -270,9 +277,9 @@ CREATE TABLE `user`  (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES (0, 'admin@qq.com', '1', '微信团队', 'xMpCOKC5I4INzFCab3WEmw==', '9ebc8732-608b-44c1-b177-a308a213e65d.png', 1, 'admin', 0, '2021-05-23 09:11:47', '2021-05-25 23:56:52');
-INSERT INTO `user` VALUES (40, '1158280627@qq.com', '未设置', 'melo', 'xMpCOKC5I4INzFCab3WEmw==', 'fa65abc4-cce2-48ae-87df-0558091a2fdb.png', 1, 'user', 0, '2021-05-26 09:21:15', '2021-05-26 09:21:15');
-INSERT INTO `user` VALUES (41, '3509442374@qq.com', '未设置', '小号', 'xMpCOKC5I4INzFCab3WEmw==', 'fa65abc4-cce2-48ae-87df-0558091a2fdb.png', 1, 'user', 0, '2021-05-26 09:21:55', '2021-05-26 09:21:55');
-INSERT INTO `user` VALUES (45, 'visitor@qq.com', '1c8a151294', '游客', '', '游客.png', 1, 'user', 0, '2021-05-26 10:28:15', '2021-05-26 10:28:15');
+INSERT INTO `user` VALUES (41, '3509442374@qq.com', '未设置', '小号', 'xMpCOKC5I4INzFCab3WEmw==', 'fa65abc4-cce2-48ae-87df-0558091a2fdb.png', 1, 'user', 0, '2021-05-26 09:21:55', '2021-05-26 11:24:54');
+INSERT INTO `user` VALUES (49, '1158280627@qq.com', 'melo', 'melo', 'tZxnvxlqR1gZHkL3ZnDOug==', 'e5c881eb-8464-439c-8faf-e53e543b46bc.png', 1, 'user', 0, '2021-05-26 11:25:58', '2021-05-26 11:36:32');
+INSERT INTO `user` VALUES (50, 'visitor@qq.com', 'cb38184242', '游客', '', '游客.png', 1, 'user', 0, '2021-05-26 11:34:18', '2021-05-26 11:34:18');
 
 -- ----------------------------
 -- Table structure for user_chat
@@ -299,14 +306,16 @@ CREATE TABLE `user_chat`  (
 -- ----------------------------
 -- Records of user_chat
 -- ----------------------------
-INSERT INTO `user_chat` VALUES (19, 40, 16, '微信团队', 'fa65abc4-cce2-48ae-87df-0558091a2fdb.png', '普通成员', 0, 'friend', '2021-05-26 09:21:15', '2021-05-26 09:58:21');
-INSERT INTO `user_chat` VALUES (20, 0, 16, '微信团队', NULL, '普通成员', 0, 'friend', '2021-05-26 09:21:15', '2021-05-26 09:21:26');
 INSERT INTO `user_chat` VALUES (21, 41, 17, '小号', 'fa65abc4-cce2-48ae-87df-0558091a2fdb.png', '普通成员', 0, 'friend', '2021-05-26 09:21:55', '2021-05-26 09:54:35');
 INSERT INTO `user_chat` VALUES (22, 0, 17, '微信团队', NULL, '普通成员', 0, 'friend', '2021-05-26 09:21:55', '2021-05-26 09:22:03');
-INSERT INTO `user_chat` VALUES (23, 41, 18, '小号', 'fa65abc4-cce2-48ae-87df-0558091a2fdb.png', '普通成员', 0, 'friend', '2021-05-26 09:25:22', '2021-05-26 09:54:21');
-INSERT INTO `user_chat` VALUES (24, 40, 18, 'melo', 'fa65abc4-cce2-48ae-87df-0558091a2fdb.png', '普通成员', 0, 'friend', '2021-05-26 09:25:22', '2021-05-26 09:56:32');
-INSERT INTO `user_chat` VALUES (45, 45, 27, '游客', '游客.png', '普通成员', 0, 'friend', '2021-05-26 10:30:53', '2021-05-26 10:31:22');
-INSERT INTO `user_chat` VALUES (46, 41, 27, '小号', 'fa65abc4-cce2-48ae-87df-0558091a2fdb.png', '普通成员', 0, 'friend', '2021-05-26 10:30:53', '2021-05-26 10:31:01');
+INSERT INTO `user_chat` VALUES (57, 49, 33, 'melo', 'e5c881eb-8464-439c-8faf-e53e543b46bc.png', '普通成员', 0, 'friend', '2021-05-26 11:25:58', '2021-05-26 11:42:03');
+INSERT INTO `user_chat` VALUES (58, 0, 33, '微信团队', NULL, '普通成员', 0, 'friend', '2021-05-26 11:25:58', '2021-05-26 11:27:24');
+INSERT INTO `user_chat` VALUES (59, 41, 34, '小号', 'fa65abc4-cce2-48ae-87df-0558091a2fdb.png', '普通成员', 0, 'friend', '2021-05-26 11:28:31', '2021-05-26 11:28:48');
+INSERT INTO `user_chat` VALUES (60, 49, 34, '大号', 'e5c881eb-8464-439c-8faf-e53e543b46bc.png', '普通成员', 0, 'friend', '2021-05-26 11:28:31', '2021-05-26 11:30:30');
+INSERT INTO `user_chat` VALUES (61, 41, 35, '未设置', NULL, '群主', 0, 'group', '2021-05-26 11:32:58', '2021-05-26 11:32:58');
+INSERT INTO `user_chat` VALUES (62, 49, 35, '未设置', NULL, '普通成员', 0, 'group', '2021-05-26 11:32:58', '2021-05-26 11:33:27');
+INSERT INTO `user_chat` VALUES (63, 41, 36, '小号', NULL, '普通成员', 0, 'friend', '2021-05-26 11:34:45', '2021-05-26 11:35:03');
+INSERT INTO `user_chat` VALUES (64, 50, 36, '游客', NULL, '普通成员', 0, 'friend', '2021-05-26 11:34:45', '2021-05-26 11:34:47');
 
 -- ----------------------------
 -- Triggers structure for table friend
