@@ -390,3 +390,103 @@
 信息: Wed May 26 10:53:27 CST 2021 ---> 有新的朋友圈动态-->com.melo.wechat.model.entity.Moment@7984d8fd
 五月 26, 2021 10:59:52 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
 信息: Wed May 26 10:59:52 CST 2021 ---> 有新的朋友圈动态-->com.melo.wechat.model.entity.Moment@5bed024d
+五月 26, 2021 11:00:05 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->41
+五月 26, 2021 11:01:51 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 11:01:51 CST 2021 ---> 新用户注册->com.melo.wechat.model.entity.User@1e0a0410
+五月 26, 2021 11:01:51 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 11:01:51 CST 2021 ---> 建立新的好友聊天会话,用户id,好友id,聊天id分别为:->47,0,29
+五月 26, 2021 11:02:05 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 11:02:05 CST 2021 ---> 新用户登录->com.melo.wechat.model.entity.User@7be301b6
+五月 26, 2021 11:02:06 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->47
+五月 26, 2021 11:03:17 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->41
+五月 26, 2021 11:04:18 上午 com.melo.wechat.controller.websocket.WebSocket onMessage
+信息: 收到新消息--->是的呢
+五月 26, 2021 11:04:23 上午 com.melo.wechat.controller.websocket.WebSocket onMessage
+信息: 收到新消息--->不错
+五月 26, 2021 11:04:38 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 11:04:38 CST 2021 ---> 用户上传表情包com.melo.wechat.model.entity.Emoji@6d482dd1
+五月 26, 2021 11:04:42 上午 com.melo.wechat.controller.websocket.WebSocket onMessage
+信息: 收到新消息---><img class="emoji" src="upload/emoji/8f9a5e76-8656-4778-8dd9-938233b54a39.png" alt="">
+五月 26, 2021 11:04:53 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 11:04:53 CST 2021 ---> 用户上传表情包com.melo.wechat.model.entity.Emoji@4ead38b5
+五月 26, 2021 11:04:54 上午 com.melo.wechat.controller.websocket.WebSocket onMessage
+信息: 收到新消息---><img class="emoji" src="upload/emoji/396d272d-8d41-4ab7-8f08-f6f90c63141c.png" alt="">
+五月 26, 2021 11:05:16 上午 com.melo.wechat.controller.websocket.WebSocket onMessage
+信息: 收到新消息---><img class="emoji" src="upload/emoji/3de8b9e7-963e-4cf6-a48e-65f230b63415.png" alt="">
+五月 26, 2021 11:06:31 上午 com.melo.wechat.controller.websocket.WebSocket onMessage
+信息: 收到新消息---><a href="download?method=downloadFile&&path=upload/file/30/&&fileName=f6be98ad-d43d-4397-8e9b-90e2818a17c2.jpg"  class="emoji" >文件名:<br> 图片</a>
+五月 26, 2021 11:07:29 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 11:07:29 CST 2021 ---> 有新的朋友圈动态-->com.melo.wechat.model.entity.Moment@1985b659
+五月 26, 2021 11:08:25 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 11:08:25 CST 2021 ---> 创建了新的微信群,群主id,群名,群成员id分别为:->47,吹水小组,[Ljava.lang.String;@668d095d
+五月 26, 2021 11:09:51 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 11:09:51 CST 2021 ---> 新游客登录体验微信->
+五月 26, 2021 11:09:54 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->48
+五月 26, 2021 11:10:36 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->48
+五月 26, 2021 11:10:50 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->48
+五月 26, 2021 11:11:21 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 11:11:21 CST 2021 ---> 新用户登录->com.melo.wechat.model.entity.User@1dc36827
+五月 26, 2021 11:11:23 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->0
+五月 26, 2021 11:11:44 上午 com.melo.wechat.controller.websocket.WebSocket onMessage
+信息: 收到新消息--->你已被封号,未申请解封通过之前不得登录
+五月 26, 2021 11:11:46 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->0
+五月 26, 2021 11:20:06 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 11:20:06 CST 2021 ---> 新用户登录->com.melo.wechat.model.entity.User@2997de84
+五月 26, 2021 11:20:07 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->47
+五月 26, 2021 11:21:11 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->47
+五月 26, 2021 11:24:32 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->47
+五月 26, 2021 11:24:42 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 11:24:42 CST 2021 ---> 新用户登录->com.melo.wechat.model.entity.User@7c97e48b
+五月 26, 2021 11:24:55 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 11:24:55 CST 2021 ---> 新用户登录->com.melo.wechat.model.entity.User@56a8a34f
+五月 26, 2021 11:24:56 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->41
+五月 26, 2021 11:25:58 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 11:25:58 CST 2021 ---> 新用户注册->com.melo.wechat.model.entity.User@811e383
+五月 26, 2021 11:25:58 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 11:25:58 CST 2021 ---> 建立新的好友聊天会话,用户id,好友id,聊天id分别为:->49,0,33
+五月 26, 2021 11:26:12 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 11:26:12 CST 2021 ---> 新用户登录->com.melo.wechat.model.entity.User@79245300
+五月 26, 2021 11:26:14 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49
+五月 26, 2021 11:27:41 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->41
+五月 26, 2021 11:28:48 上午 com.melo.wechat.controller.websocket.WebSocket onMessage
+信息: 收到新消息--->不错
+五月 26, 2021 11:29:22 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 11:29:22 CST 2021 ---> 用户上传表情包com.melo.wechat.model.entity.Emoji@74478bfc
+五月 26, 2021 11:29:24 上午 com.melo.wechat.controller.websocket.WebSocket onMessage
+信息: 收到新消息---><img class="emoji" src="upload/emoji/66382417-73c2-4599-aae1-120aff95f128.png" alt="">
+五月 26, 2021 11:29:27 上午 com.melo.wechat.controller.websocket.WebSocket onMessage
+信息: 收到新消息---><img class="emoji" src="upload/emoji/66382417-73c2-4599-aae1-120aff95f128.png" alt="">
+五月 26, 2021 11:29:33 上午 com.melo.wechat.controller.websocket.WebSocket onMessage
+信息: 收到新消息---><img class="emoji" src="upload/emoji/396d272d-8d41-4ab7-8f08-f6f90c63141c.png" alt="">
+五月 26, 2021 11:29:58 上午 com.melo.wechat.controller.websocket.WebSocket onMessage
+信息: 收到新消息---><a href="download?method=downloadFile&&path=upload/file/34/&&fileName=9d19cbf6-b995-4d38-af7e-c08519fc0b2e.xmind"  class="emoji" >文件名:<br> 不错</a>
+五月 26, 2021 11:32:09 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 11:32:09 CST 2021 ---> 有新的朋友圈动态-->com.melo.wechat.model.entity.Moment@3360b063
+五月 26, 2021 11:32:58 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 11:32:58 CST 2021 ---> 创建了新的微信群,群主id,群名,群成员id分别为:->41,吹水小组,[Ljava.lang.String;@557f44e3
+五月 26, 2021 11:34:18 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 11:34:18 CST 2021 ---> 新游客登录体验微信->
+五月 26, 2021 11:34:24 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->50
+五月 26, 2021 11:35:32 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 11:35:32 CST 2021 ---> 新用户登录->com.melo.wechat.model.entity.User@7b20fac
+五月 26, 2021 11:35:33 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->0
+五月 26, 2021 11:36:48 上午 com.melo.wechat.utils.proxy.ServiceProxy invoke
+信息: Wed May 26 11:36:48 CST 2021 ---> 新用户登录->com.melo.wechat.model.entity.User@38f9d920
+五月 26, 2021 11:36:50 上午 com.melo.wechat.controller.websocket.WebSocket onOpen
+信息: 新用户连接上聊天服务器,用户id为--->49

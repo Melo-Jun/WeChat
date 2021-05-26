@@ -269,12 +269,9 @@ public class UserServlet extends BaseServlet {
         ServiceResult result = new ServiceResult();
         if (judgeCheckCode(request, response)) {
             String password = request.getParameter("password");
-            String oldPass = request.getParameter("oldPass");
             //根据绑定的邮箱找到该用户id来更新信息
             Integer id = userService.getIdByEmail(request.getParameter("email"));
-            User oldUser = new User(id, oldPass);
-            User newUser = new User(id, password);
-            result = userService.updateUser(oldUser, newUser);
+            result = userService.resetPass(id,password);
         } else {
             result.setMessage(Status.WRONG_CHECKCODE.getMessage());
         }

@@ -136,7 +136,7 @@
                         '<button class="option-btn" onclick="showRemark('+momentVOs[i].id+')" >评论</button>' +
                         '</div>'+
                         '<div  style="width: 100%">' +
-                        '<button onclick="deleteMoment('+momentVOs[i].id+')" id="delete"  class="option-btn"  style="background-color: #e4b9b9" >删除</button>' +
+                        '<button onclick="deleteMoment(\''+momentVOs[i].id+'\',\''+userId+'\')" id="delete"  class="option-btn"  style="background-color: #e4b9b9" >删除</button>' +
                         '</div>'+
                         '<div id="'+momentVOs[i].id+ "like"+'" style="width: 100%">' +
                         '<button  id="'+momentVOs[i].id+'"  class="option-btn" onclick="'+functionType+'(\''+momentVOs[i].id+'\',\''+userId+'\')" style="background-color: #e4b9b9" >'+functionName+'</button>' +
@@ -360,11 +360,11 @@
      * @Description: 删除朋友圈
      * @date: 23:05 2021/5/19
      */
-    function deleteMoment(momentId){
+    function deleteMoment(momentId,userId){
         $.post("moment?method=deleteMoment",{momentId:momentId},function (result){
            if(result.flag){
                alert(result.message);
-               reloadMoment();
+               reloadMoment(userId);
            }
         });
     }
@@ -386,7 +386,7 @@
      * @Description: 重载朋友圈内容
      * @date: 23:07 2021/5/19
      */
-    function reloadMoment(){
+    function reloadMoment(userId){
         document.getElementById("rightBox").innerHTML='';
         showMoment(${userId});
     }

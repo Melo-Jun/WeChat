@@ -97,13 +97,11 @@
              */
             $("#updatePass").click(function () {
 
-                oldPass=$("#oldPass").val();
-                alert(oldPass);
                 code=$("#code").val();
                 if(!checkPassword()||!checkEmail()||code==null){
                     alert("输入不正确,请按提示框要求输入,直至输入框转变为绿色");
                 }
-                $.post("user?method=resetPass",{email:email,password:password,code:code,oldPass:oldPass},function (result){
+                $.post("user?method=resetPass",{email:email,password:password,code:code},function (result){
                     alert(result.message);
                     //修改成功成功，跳转成功页面
                     if(result.flag){
@@ -130,9 +128,6 @@
             <div id="account">
                 <div class="input-box">
                     <input type="text"  placeholder="请输入你绑定的邮箱(QQ或163邮箱)" name="email" id="email" >
-                </div>
-                <div class="input-box">
-                    <input type="password"  placeholder="请输入旧密码(1-15位)" name="oldPass" id="oldPass">
                 </div>
                 <div class="input-box">
                     <input type="password"  placeholder="请输入新密码(1-15位)" name="password" id="password">

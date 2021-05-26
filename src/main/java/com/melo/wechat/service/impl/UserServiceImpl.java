@@ -194,6 +194,22 @@ public class UserServiceImpl implements UserService {
         return new ServiceResult(false);
     }
 
+    /**
+     * @Description: 重设密码
+     * @param id 用户id
+     * @param password 用户新密码
+     * @date: 11:18 2021/5/26
+     * @return: com.melo.wechat.model.dto.ServiceResult
+     */
+    @Override
+    public ServiceResult resetPass(Integer id, String password) {
+        User user = new User(id, getDigest(password));
+        if(userDao.update(user)==1){
+            return new ServiceResult(Status.SUCCESS.getMessage(),true);
+        }
+        return new ServiceResult(false);
+    }
+
 
 
 

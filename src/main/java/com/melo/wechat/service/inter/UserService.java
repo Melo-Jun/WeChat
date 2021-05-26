@@ -101,4 +101,6 @@ public interface UserService {
      * @return: com.melo.wechat.model.dto.ServiceResult
      */
     ServiceResult isVisitor(Integer id);
+
+    ServiceResult resetPass(Integer id, String password);
 }
